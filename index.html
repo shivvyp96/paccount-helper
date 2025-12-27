@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>P-Account Helper Prototype</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+        header { background: #2c3e50; color: white; padding: 10px; text-align: center; }
+        main { display: flex; }
+        nav { width: 250px; background: #34495e; color: white; padding: 10px; height: 100vh; overflow-y: auto; }
+        nav button { display: block; width: 100%; margin: 5px 0; padding: 8px; background: #3d566e; color: white; border: none; cursor: pointer; text-align: left; }
+        nav button:hover { background: #5a6b83; }
+        section { flex-grow: 1; padding: 20px; }
+        h2 { margin-top: 0; }
+        .task { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .copy-btn { margin-left: 10px; padding: 2px 5px; cursor: pointer; }
+        input[type="text"] { width: 100%; padding: 5px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>P-Account Helper Prototype</h1>
+</header>
+<main>
+    <nav>
+        <input type="text" id="search" placeholder="Search tasks..." onkeyup="filterTasks()">
+        <button onclick="showSection('quests')">Quests</button>
+        <button onclick="showSection('skills')">Skills</button>
+        <button onclick="showSection('diaries')">Diaries</button>
+        <button onclick="showSection('minigames')">Minigames</button>
+        <button onclick="showSection('repeating')">Repeating Tasks</button>
+    </nav>
+    <section id="content">
+        <!-- Quests Section -->
+        <div id="quests">
+            <h2>Quests</h2>
+            <div class="task">QUEST:IRON_STARTER_PART1 <button class="copy-btn" onclick="copyText('QUEST:IRON_STARTER_PART1')">Copy</button></div>
+            <div class="task">QUEST:DORICS_QUEST <button class="copy-btn" onclick="copyText('QUEST:DORICS_QUEST')">Copy</button></div>
+            <div class="task">QUEST:THE_TOURIST_TRAP <button class="copy-btn" onclick="copyText('QUEST:THE_TOURIST_TRAP')">Copy</button></div>
+        </div>
+        <!-- Skills Section -->
+        <div id="skills" style="display:none;">
+            <h2>Skills</h2>
+            <div class="task">SKILL:AGILITY:40 <button class="copy-btn" onclick="copyText('SKILL:AGILITY:40')">Copy</button></div>
+            <div class="task">SKILL:THIEVING:60 <button class="copy-btn" onclick="copyText('SKILL:THIEVING:60')">Copy</button></div>
+        </div>
+        <!-- Diaries Section -->
+        <div id="diaries" style="display:none;">
+            <h2>Diaries</h2>
+            <div class="task">DIARY:VARROCK_EASY <button class="copy-btn" onclick="copyText('DIARY:VARROCK_EASY')">Copy</button></div>
+            <div class="task">DIARY:ARDOUGNE_EASY <button class="copy-btn" onclick="copyText('DIARY:ARDOUGNE_EASY')">Copy</button></div>
+        </div>
+        <!-- Minigames Section -->
+        <div id="minigames" style="display:none;">
+            <h2>Minigames</h2>
+            <div class="task">MINIGAME:WINTERTODT:75 <button class="copy-btn" onclick="copyText('MINIGAME:WINTERTODT:75')">Copy</button></div>
+        </div>
+        <!-- Repeating Tasks Section -->
+        <div id="repeating" style="display:none;">
+            <h2>Repeating Tasks</h2>
+            <div class="task">REPEATING:BIRDHOUSES:126 <button class="copy-btn" onclick="copyText('REPEATING:BIRDHOUSES:126')">Copy</button></div>
+        </div>
+    </section>
+</main>
+<script>
+function showSection(id) {
+    const sections = ['quests','skills','diaries','minigames','repeating'];
+    sections.forEach(sec => document.getElementById(sec).style.display = (sec===id?'block':'none'));
+}
+
+function copyText(text) {
+    navigator.clipboard.writeText(text);
+    alert('Copied: ' + text);
+}
+
+function filterTasks() {
+    const input = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.task').forEach(task => {
+        task.style.display = task.textContent.toLowerCase().includes(input) ? '' : 'none';
+    });
+}
+</script>
+</body>
+</html>
