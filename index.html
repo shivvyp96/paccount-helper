@@ -2,83 +2,251 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>P-Account Helper Prototype</title>
+    <title>PAccount Helper - Full Integration</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
-        header { background: #2c3e50; color: white; padding: 10px; text-align: center; }
-        main { display: flex; }
-        nav { width: 250px; background: #34495e; color: white; padding: 10px; height: 100vh; overflow-y: auto; }
-        nav button { display: block; width: 100%; margin: 5px 0; padding: 8px; background: #3d566e; color: white; border: none; cursor: pointer; text-align: left; }
-        nav button:hover { background: #5a6b83; }
-        section { flex-grow: 1; padding: 20px; }
-        h2 { margin-top: 0; }
-        .task { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; }
-        .copy-btn { margin-left: 10px; padding: 2px 5px; cursor: pointer; }
-        input[type="text"] { width: 100%; padding: 5px; margin-bottom: 10px; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        h2 { margin-top: 40px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tbody tr:nth-child(odd) { background-color: #fafafa; }
     </style>
 </head>
 <body>
-<header>
-    <h1>P-Account Helper Prototype</h1>
-</header>
-<main>
-    <nav>
-        <input type="text" id="search" placeholder="Search tasks..." onkeyup="filterTasks()">
-        <button onclick="showSection('quests')">Quests</button>
-        <button onclick="showSection('skills')">Skills</button>
-        <button onclick="showSection('diaries')">Diaries</button>
-        <button onclick="showSection('minigames')">Minigames</button>
-        <button onclick="showSection('repeating')">Repeating Tasks</button>
-    </nav>
-    <section id="content">
-        <!-- Quests Section -->
-        <div id="quests">
-            <h2>Quests</h2>
-            <div class="task">QUEST:IRON_STARTER_PART1 <button class="copy-btn" onclick="copyText('QUEST:IRON_STARTER_PART1')">Copy</button></div>
-            <div class="task">QUEST:DORICS_QUEST <button class="copy-btn" onclick="copyText('QUEST:DORICS_QUEST')">Copy</button></div>
-            <div class="task">QUEST:THE_TOURIST_TRAP <button class="copy-btn" onclick="copyText('QUEST:THE_TOURIST_TRAP')">Copy</button></div>
-        </div>
-        <!-- Skills Section -->
-        <div id="skills" style="display:none;">
-            <h2>Skills</h2>
-            <div class="task">SKILL:AGILITY:40 <button class="copy-btn" onclick="copyText('SKILL:AGILITY:40')">Copy</button></div>
-            <div class="task">SKILL:THIEVING:60 <button class="copy-btn" onclick="copyText('SKILL:THIEVING:60')">Copy</button></div>
-        </div>
-        <!-- Diaries Section -->
-        <div id="diaries" style="display:none;">
-            <h2>Diaries</h2>
-            <div class="task">DIARY:VARROCK_EASY <button class="copy-btn" onclick="copyText('DIARY:VARROCK_EASY')">Copy</button></div>
-            <div class="task">DIARY:ARDOUGNE_EASY <button class="copy-btn" onclick="copyText('DIARY:ARDOUGNE_EASY')">Copy</button></div>
-        </div>
-        <!-- Minigames Section -->
-        <div id="minigames" style="display:none;">
-            <h2>Minigames</h2>
-            <div class="task">MINIGAME:WINTERTODT:75 <button class="copy-btn" onclick="copyText('MINIGAME:WINTERTODT:75')">Copy</button></div>
-        </div>
-        <!-- Repeating Tasks Section -->
-        <div id="repeating" style="display:none;">
-            <h2>Repeating Tasks</h2>
-            <div class="task">REPEATING:BIRDHOUSES:126 <button class="copy-btn" onclick="copyText('REPEATING:BIRDHOUSES:126')">Copy</button></div>
-        </div>
-    </section>
-</main>
+
+<h1>PAccount Helper</h1>
+
+<h2>Quests</h2>
+<table id="questsTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Requirements</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>Skills</h2>
+<table id="skillsTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Methods / Notes</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>Repeating Tasks</h2>
+<table id="repeatingTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Requirements / Notes</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>Milestones</h2>
+<table id="milestonesTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Requirements</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>Minigames</h2>
+<table id="minigamesTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Description / Options</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
 <script>
-function showSection(id) {
-    const sections = ['quests','skills','diaries','minigames','repeating'];
-    sections.forEach(sec => document.getElementById(sec).style.display = (sec===id?'block':'none'));
-}
+    // ----------------------------
+    // Quests
+    // ----------------------------
+    const quests = [
+        { name: "Ghosts Ahoy", id: "QUEST:GHOSTS_AHOY", requirements: ["Priest in Peril", "Restless Ghost", "25 Agility", "20 Cooking"] },
+        { name: "Making History", id: "QUEST:MAKING_HISTORY", requirements: ["Priest in Peril", "Restless Ghost"] },
+        { name: "Mountain Daughter", id: "QUEST:MOUNTAIN_DAUGHTER", requirements: ["9+ Magic", "20+ Agility"] },
+        { name: "Hazeel Cult", id: "QUEST:HAZEEL_CULT", requirements: [] },
+        { name: "Children of the Sun", id: "QUEST:CHILDREN_OF_THE_SUN", requirements: [] },
+        { name: "Prince Ali Rescue", id: "QUEST:PRINCE_ALI_RESCUE", requirements: [] },
+        { name: "Icthlarin's Little Helper", id: "QUEST:ICTHLARINS_LITTLE_HELPER", requirements: ["Gertrude's Cat", "Magic to kill bosses"] },
+        { name: "Enter the Abyss", id: "QUEST:ENTER_THE_ABYSS", requirements: ["Rune Mysteries"] },
+        { name: "Temple of the Eye", id: "QUEST:TEMPLE_OF_THE_EYE", requirements: ["Enter the Abyss"] },
+        { name: "Creature of Fenkenstrain", id: "QUEST:CREATURE_OF_FENKENSTRAIN", requirements: ["Priest in Peril", "Restless Ghost", "20 Crafting", "25 Thieving"] },
+        { name: "The Depths of Despair", id: "QUEST:THE_DEPTHS_OF_DESPAIR", requirements: ["Client of Kourend", "18 Agility"] },
+        { name: "The Queen of Thieves", id: "QUEST:THE_QUEEN_OF_THIEVES", requirements: ["Client of Kourend", "20 Thieving"] },
+        { name: "Enlightened Journey", id: "QUEST:ENLIGHTENED_JOURNEY", requirements: ["20 QP", "20 Firemaking", "30 Farming", "36 Crafting"] },
+        { name: "Sheep Herder", id: "QUEST:SHEEP_HERDER", requirements: [] },
+        { name: "Big Chompy Bird Hunting", id: "QUEST:BIG_CHOMPY_BIRD_HUNTING", requirements: ["30 Range", "30 Cooking", "5 Fletching"] },
+        { name: "RFD Ogre (Skrach Uglogwee)", id: "QUEST:RFD_OGRE", requirements: ["41 Cooking", "20 FM", "Big Chompy Bird Hunting"] },
+        { name: "RFD Evil Dave", id: "QUEST:RFD_EVIL_DAVE", requirements: ["25 Cooking", "Gertrude's Cat", "Shadow of the Storm", "RFD Cook"] },
+        { name: "RFD Pirate", id: "QUEST:RFD_PIRATE", requirements: ["31 Cooking", "RFD Cook"] },
+        { name: "RFD Lumbridge Guide", id: "QUEST:RFD_GUIDE", requirements: ["40 Cooking", "RFD Cook", "Biohazard", "Nature Spirit", "Murder Mystery", "Demon Slayer", "Witch's House", "Big Chompy Hunting"] },
+        { name: "RFD Monkey", id: "QUEST:RFD_MONKEY", requirements: ["70 Cooking", "48 Agility", "RFD Cook", "MM1", "55+ Magic recommended"] },
+        { name: "RFD Sir Amik Varze", id: "QUEST:RFD_AMIK_VARZE", requirements: ["All quest reqs except Legends Quest"] },
+        { name: "RFD Culinaromancer", id: "QUEST:RFD_CULINAROMANCER", requirements: ["175 QP", "RFD subquests"] },
+        { name: "Shield of Arrav", id: "QUEST:SHIELD_OF_ARRAV", requirements: ["Websocket matchmaking"] },
+        { name: "Heroes Quest", id: "QUEST:HEROES_QUEST", requirements: ["Heroes Quest reqs", "Websocket matchmaking"] },
+        { name: "Tower of Life", id: "QUEST:TOWER_OF_LIFE", requirements: ["10 Construction"] },
+        { name: "Clock Tower", id: "QUEST:CLOCK_TOWER", requirements: [] },
+        { name: "Tribal Totem", id: "QUEST:TRIBAL_TOTEM", requirements: ["21 Thieving"] },
+        { name: "Watchtower", id: "QUEST:WATCHTOWER", requirements: ["14 Magic", "15 Thieving", "25 Agility", "14 Herblore", "40 Mining"] },
+        { name: "Getting Ahead", id: "QUEST:GETTING_AHEAD", requirements: ["30 Crafting", "26 Construction"] },
+        { name: "Pirate's Treasure", id: "QUEST:PIRATES_TREASURE", requirements: [] },
+        { name: "Scorpion Catcher", id: "QUEST:SCORPION_CATCHER", requirements: ["Barcrawl Quest", "31 Prayer"] },
+        { name: "The Corsair Curse", id: "QUEST:THE_CORSAIR_CURSE", requirements: [] },
+        { name: "Family Crest", id: "QUEST:FAMILY_CREST", requirements: ["40 Mining", "40 Smithing", "59 Magic", "40 Crafting"] },
+        { name: "The Garden of Death", id: "QUEST:THE_GARDEN_OF_DEATH", requirements: ["20 Farming"] },
+        { name: "Monkey Madness I", id: "QUEST:MONKEY_MADNESS_I", requirements: ["43 Prayer", "The Grand Tree", "Tree Gnome Village"] },
+        { name: "The Forsaken Tower", id: "QUEST:THE_FORSAKEN_TOWER", requirements: ["Client of Kourend"] },
+        { name: "Haunted Mine", id: "QUEST:HAUNTED_MINE", requirements: ["Priest in Peril", "Restless Ghost", "39 Magic", "28+ HP", "35 Crafting"] },
+        { name: "Tale of the Righteous", id: "QUEST:TALE_OF_THE_RIGHTEOUS", requirements: ["Client of Kourend", "16 Strength", "10 Mining", "Mage a 46cb lizard"] },
+        { name: "Sleeping Giants", id: "QUEST:SLEEPING_GIANTS", requirements: ["15 Smithing"] },
+        { name: "Troll Romance", id: "QUEST:TROLL_ROMANCE", requirements: ["Troll Stronghold", "28 Agility", "43 Prayer"] },
+        { name: "The Lost Tribe", id: "QUEST:THE_LOST_TRIBE", requirements: ["Goblin Diplomacy", "Rune Mysteries", "13 Agility", "13 Thieving", "17 Mining"] },
+        { name: "Recruitment Drive", id: "QUEST:RECRUITMENT_DRIVE", requirements: ["Black Knight's Fortress", "Druidic Ritual", "5 Attack", "5 STR"] },
+        { name: "A Kingdom Divided", id: "QUEST:A_KINGDOM_DIVIDED", requirements: ["50+ ATT, STR, Magic, Range"] },
+        { name: "Death on the Isle", id: "QUEST:DEATH_ON_THE_ISLE", requirements: ["34 Thieving", "32 Agility"] },
+        { name: "Wanted!", id: "QUEST:WANTED", requirements: ["32 QP", "Recruitment Drive", "Lost Tribe", "Priest in Peril", "Enter the Abyss"] },
+        { name: "Twilights Promise", id: "QUEST:TWILIGHTS_PROMISE", requirements: ["Children of the Sun", "30+ Combat level"] },
+        { name: "Regicide", id: "QUEST:REGICIDE", requirements: ["Underground Pass", "56 Agility", "10 Crafting"] },
+        { name: "Roving Elves", id: "QUEST:ROVING_ELVES", requirements: ["Regicide"] },
+        { name: "Mournings End Part I", id: "QUEST:MOURNINGS_END_PART_I", requirements: ["Roving Elves", "60 Ranged", "50 Thieving"] },
+        { name: "Mournings End Part II", id: "QUEST:MOURNINGS_END_PART_II", requirements: ["Mournings End Part I", "65+ Agility recommended"] },
+        { name: "Ethically Acquired Antiquities", id: "QUEST:ETHICALLY_ACQUIRED_ANTIQUITIES", requirements: ["25 Thieving", "Children of the Sun", "Shield of Arrav"] },
+        { name: "Daddy's Home", id: "QUEST:DADDYS_HOME", requirements: [] },
+        { name: "Lunar Diplomacy", id: "QUEST:LUNAR_DIPLOMACY", requirements: ["14 Magic", "15 Thieving", "25 Agility", "14 Herblore", "40 Mining"] },
+        { name: "In Search of the Myreque", id: "QUEST:IN_SEARCH_OF_THE_MYREQUE", requirements: ["Nature Spirit", "25 Agility"] },
+        { name: "In Aid of the Myreque", id: "QUEST:IN_AID_OF_THE_MYREQUE", requirements: ["In Search of The Myreque", "25 Crafting", "15 Mining", "7 Magic"] },
+        { name: "Throne of Miscellania", id: "QUEST:THRONE_OF_MISCELLANIA", requirements: ["Fremennik Trials", "Heroes Quest", "45 Woodcutting", "10 Farming", "35 Herblore"] },
+        { name: "Royal Trouble", id: "QUEST:ROYAL_TROUBLE", requirements: ["Throne of Miscellania", "40 Agility", "40 Slayer"] },
+        { name: "The Hand in the Sand", id: "QUEST:THE_HAND_IN_THE_SAND", requirements: ["17 Thieving", "49 Crafting"] },
+        { name: "Zogre Flesh Eaters", id: "QUEST:ZOGRE_FLESH_EATERS", requirements: ["4 Smithing", "8 Herblore", "39 Magic", "Jungle Potion", "Big Chompy Bird Hunting"] },
+        { name: "Rum Deal", id: "QUEST:RUM_DEAL", requirements: ["42 Crafting", "50 Fishing", "40 Farming", "47 Prayer", "42 Slayer", "Priest in Peril", "Zogre Flesh Eaters"] },
+        { name: "Cabin Fever", id: "QUEST:CABIN_FEVER", requirements: ["42 Agility", "45 Crafting", "50 Smithing", "40 Ranged", "Pirates Treasure", "Rum Deal"] },
+        { name: "The Eyes of Glouphrie", id: "QUEST:THE_EYES_OF_GLOUPHRIE", requirements: ["The Grand Tree", "46 Magic", "5 Construction", "(13 RC if ironman)"] },
+        { name: "The Slug Menace", id: "QUEST:THE_SLUG_MENACE", requirements: ["30 Crafting", "30 Slayer", "30 Thieving", "30 RC", "Wanted!", "Sea Slug"] },
+        { name: "Below Ice Mountain", id: "QUEST:BELOW_ICE_MOUNTAIN", requirements: ["18 QP", "10 Mining"] },
+        { name: "Eadgars Ruse", id: "QUEST:EADGARS_RUSE", requirements: ["31 Herblore", "Troll Stronghold"] },
+        { name: "Garden of Tranquillity", id: "QUEST:GARDEN_OF_TRANQUILLITY", requirements: ["25 Farming", "Creature of Fenkenstrain"] },
+        { name: "A Soul's Bane", id: "QUEST:A_SOULS_BANE", requirements: ["Enough Ranged lvl for fights"] },
+        { name: "Shadows of Custodia", id: "QUEST:SHADOWS_OF_CUSTODIA", requirements: ["54 Slayer", "41 Construction", "45 Fishing", "36 Hunter", "Children of the Sun"] },
+        { name: "Monkey Madness II", id: "QUEST:MONKEY_MADNESS_II", requirements: ["Wiki requirements", "Final fight requirements"] },
+        { name: "Tai Bwo Wannai Trio", id: "QUEST:TAI_BWO_WANNAI_TRIO", requirements: ["15 Agility", "30 Cooking", "5 Fishing", "Jungle potion"] },
+        { name: "Barbarian Training", id: "QUEST:BARBARIAN_TRAINING", requirements: ["15 Agility", "35 Strength", "55 Fishing", "15 Farming", "5 Smithing", "Tai Bwo Wannai Trio"] },
+        { name: "The Fremennik Isles", id: "QUEST:THE_FREMENNIK_ISLES", requirements: ["The Fremennik Trials", "20 Construction", "43 Prayer", "High combat for end battles"] },
+        { name: "Pandemonium", id: "QUEST:PANDEMONIUM", requirements: [] },
+        { name: "Prying Times", id: "QUEST:PRYING_TIMES", requirements: ["12 Sailing", "30 Smithing", "Pandemonium", "The Knight's Sword"] },
+        { name: "Current Affairs", id: "QUEST:CURRENT_AFFAIRS", requirements: ["22 Sailing", "10 Fishing", "Pandemonium"] },
+        { name: "Mage Arena I", id: "QUEST:MA1", requirements: ["60 Magic", "43 Prayer"] },
+        { name: "Mage Arena II", id: "QUEST:MA2", requirements: ["75 Magic", "43 Prayer", "Mage Arena I"] },
+    ];
 
-function copyText(text) {
-    navigator.clipboard.writeText(text);
-    alert('Copied: ' + text);
-}
+    // ----------------------------
+    // Skills
+    // ----------------------------
+    const skills = [
+        { name: "Firemaking", id: "SKILL:FIREMAKING", methods: ["Burn logs 1-99", "Wintertodt after level 50"] },
+        { name: "Crafting", id: "SKILL:CRAFTING", methods: ["Glassblowing 1-20", "Cutting gems 20-99"] },
+        { name: "Fishing", id: "SKILL:FISHING", methods: ["Shrimps 1-20", "Trout & Salmon 20-99", "Barbarian Fishing 58-99"] },
+        { name: "Magic", id: "SKILL:MAGIC", methods: ["Enchant jewellery 7-55", "Tele-alching 55-99"] },
+        { name: "Prayer", id: "SKILL:PRAYER", methods: ["Dragon bones 1-99", "Blessed bone shards 30-99 ironman"] },
+        { name: "Herblore", id: "SKILL:HERBLORE", methods: ["Attack potions 3-26", "Energy 26-38", "Prayer 38-52", "Super energy 52-99"] },
+        { name: "Woodcutting", id: "SKILL:WOODCUTTING", methods: ["Oaks 1-35", "Teak 35-99", "Teak Fossil Island 35-99"] },
+        { name: "Mining", id: "SKILL:MINING", methods: ["Copper/Iron 1-60", "Granite 45-99", "Iron 60-99", "MLM optional"] },
+        { name: "Cooking", id: "SKILL:COOKING", methods: ["Fish 1-35", "Jugs of Wine 35-99", "Mess hall 25-99"] },
+        { name: "Agility", id: "SKILL:AGILITY", methods: ["Progressive courses 1-99", "Auto Graceful outfit"] },
+        { name: "Fletching", id: "SKILL:FLETCHING", methods: ["Arrows 1-10", "Bows 10-50", "Maple/Yew/Magic 50-99"] },
+        { name: "Runecrafting", id: "SKILL:RUNECRAFTING", methods: ["Air runes 1-10", "Tiara 1-27", "Guardians of the Rift 27-99"] },
+        { name: "Attack", id: "SKILL:ATTACK", methods: ["Crabs 1-99", "No HP mode optional"] },
+        { name: "Strength", id: "SKILL:STRENGTH", methods: ["Crabs 1-99", "No HP mode optional"] },
+        { name: "Defence", id: "SKILL:DEFENCE", methods: ["Crabs 1-99", "No HP mode optional"] },
+        { name: "Ranged", id: "SKILL:RANGED", methods: ["Crabs 1-99", "No HP mode optional"] },
+        { name: "Hunter", id: "SKILL:HUNTER", methods: ["Bird snaring 1-9", "Ruby harvest 15-43", "Falconry 43-99"] },
+        { name: "Smithing", id: "SKILL:SMITHING", methods: ["Anvil 1-40", "Steel BF 30-40", "Gold BF 40-99"] },
+        { name: "Construction", id: "SKILL:CONSTRUCTION", methods: ["Mahogany Homes 1-99"] },
+        { name: "Farming", id: "SKILL:FARMING", methods: ["Bagged plants 1-36", "Tree/herb/compost runs"] },
+        { name: "Thieving", id: "SKILL:THIEVING", methods: ["Men 1-5", "Cake 5-25", "Blackjacking 45-99", "Valuables 50-99"] },
+        { name: "Slayer", id: "SKILL:SLAYER", methods: ["Tasks, bursting, cannon, venator supported"] },
+        { name: "Sailing", id: "SKILL:SAILING", methods: ["Quests 1-5", "Sea charting 5-17", "Cargo 17-34", "Barracuda 34-99"] }
+    ];
 
-function filterTasks() {
-    const input = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('.task').forEach(task => {
-        task.style.display = task.textContent.toLowerCase().includes(input) ? '' : 'none';
-    });
-}
+    // ----------------------------
+    // Repeating Tasks
+    // ----------------------------
+    const repeatingTasks = [
+        { name: "Birdhouse Runs", id: "REPEATING:BIRDHOUSES", requirements: "9+ Hunter, Bone Voyage" },
+        { name: "Tree Runs", id: "REPEATING:TREE_RUNS", requirements: "15+ Farming" },
+        { name: "Herb Runs", id: "REPEATING:HERB_RUNS", requirements: "9+ Farming" },
+        { name: "Seaweed Runs", id: "REPEATING:SEAWEED_RUNS", requirements: "22+ Farming, Bone Voyage" },
+        { name: "Hop Runs", id: "REPEATING:HOP_RUNS", requirements: "13+ Farming" },
+        { name: "Compost Runs", id: "REPEATING:COMPOST_RUNS", requirements: "22+ Farming, Bone Voyage" },
+        { name: "Hespori", id: "REPEATING:HESPORI", requirements: "65+ Farming, 59+ Magic, Prayer potions" },
+        { name: "Kingdom of Miscellania", id: "REPEATING:KINGDOM", requirements: "Set workers HERB, WOOD, TEAK, etc." }
+    ];
+
+    // ----------------------------
+    // Milestones
+    // ----------------------------
+    const milestones = [
+        { name: "Dragon Defender", id: "MILESTONE:DRAGON_DEFENDER", requirements: "Attack+Str >= 130" },
+        { name: "Rune Defender", id: "MILESTONE:RUNE_DEFENDER", requirements: "Attack+Str >= 130" },
+        { name: "Fairy Rings", id: "MILESTONE:FAIRY_RINGS", requirements: "Fairytale I completed" },
+        { name: "Piety / Knight Waves Training Grounds", id: "MILESTONE:UNLOCK_PIETY", requirements: "King's Ransom completed, 60 ATT, 50 STR" },
+        { name: "Rogues Outfit", id: "MILESTONE:ROGUES_OUTFIT", requirements: "50 Agility, 50 Thieving" },
+        { name: "Rock Cake", id: "MILESTONE:ROCK_CAKE", requirements: "RFD_DWARF quest" },
+        { name: "Black Mask", id: "MILESTONE:BLACK_MASK", requirements: "58 Slayer, CABIN_FEVER quest" }
+    ];
+
+    // ----------------------------
+    // Minigames
+    // ----------------------------
+    const minigames = [
+        { name: "Guardians of the Rift", id: "MINIGAME:GUARDIANS_RIFT", description: "Used for RuneCrafting training" },
+        { name: "Vale Totems", id: "MINIGAME:VALE_TOTEMS", description: "Uses logs until target level" },
+        { name: "Mage Training Arena", id: "MINIGAME:MTA", description: "Multiple reward options (B2P, GreenLog, etc.)" },
+        { name: "Wintertodt", id: "MINIGAME:WINTERTODT", description: "Firemaking until target, pulls rewards if low GP" },
+        { name: "Motherlode Mine", id: "MINIGAME:MLM", description: "Mining level or set pieces" },
+        { name: "Giant's Foundry", id: "MINIGAME:GF", description: "Smithing minigame with alloys and rewards" }
+    ];
+
+    // ----------------------------
+    // Render tables
+    // ----------------------------
+    function renderTable(data, tableId, cols) {
+        const tbody = document.querySelector(`#${tableId} tbody`);
+        data.forEach(item => {
+            const row = document.createElement("tr");
+            row.innerHTML = cols.map(c => `<td>${item[c].join ? item[c].join(", ") : item[c]}</td>`).join("");
+            tbody.appendChild(row);
+        });
+    }
+
+    renderTable(quests, "questsTable", ["name","id","requirements"]);
+    renderTable(skills, "skillsTable", ["name","id","methods"]);
+    renderTable(repeatingTasks, "repeatingTable", ["name","id","requirements"]);
+    renderTable(milestones, "milestonesTable", ["name","id","requirements"]);
+    renderTable(minigames, "minigamesTable", ["name","id","description"]);
 </script>
+
 </body>
 </html>
