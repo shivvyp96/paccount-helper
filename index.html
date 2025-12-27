@@ -2,206 +2,248 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>P-Account Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSRS P-Account Helper</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-body { display: flex; font-family: sans-serif; margin: 20px; }
-#tasks, #stack { flex: 1; padding: 10px; height: 90vh; overflow-y: auto; }
-#tasks { border-right: 1px solid #ccc; }
-#stack { margin-left: 20px; background: #f9f9f9; padding: 10px; border-radius: 5px; }
-label { display: block; margin-bottom: 5px; }
-button { margin-top: 10px; padding: 5px 10px; }
-h2 { margin-top: 0; }
+  body {
+    font-family: 'Press Start 2P', cursive;
+    background: #1a1a1a;
+    color: #fff;
+    display: flex;
+    margin: 0;
+  }
+  .container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+  }
+  .tasks {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border-right: 2px solid #444;
+  }
+  .task-stack {
+    width: 400px;
+    background: #111;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  .category {
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .category h3 {
+    background: #222;
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .category-content {
+    display: none;
+    padding: 5px;
+  }
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  input[type="number"] {
+    width: 50px;
+    margin-left: 5px;
+  }
+  #search {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 5px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    border: 1px solid #444;
+    background: #222;
+    color: #fff;
+  }
+  button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    padding: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    background: #444;
+    border: none;
+    color: #fff;
+  }
 </style>
 </head>
 <body>
-
-<div id="tasks">
-  <h2>Available Tasks</h2>
-  <!-- Quests -->
-  <h3>Quests</h3>
-  <label><input type="checkbox" value="IRON_STARTER_PART1"> IRON_STARTER_PART1</label>
-  <label><input type="checkbox" value="QUEST:DORICS_QUEST"> QUEST:DORICS_QUEST</label>
-  <label><input type="checkbox" value="QUEST:THE_TOURIST_TRAP"> QUEST:THE_TOURIST_TRAP</label>
-  <label><input type="checkbox" value="QUEST:JUNGLE_POTION"> QUEST:JUNGLE_POTION</label>
-  <label><input type="checkbox" value="QUEST:DEMON_SLAYER"> QUEST:DEMON_SLAYER</label>
-  <label><input type="checkbox" value="QUEST:BIOHAZARD"> QUEST:BIOHAZARD</label>
-  <label><input type="checkbox" value="QUEST:THE_GRAND_TREE"> QUEST:THE_GRAND_TREE</label>
-  <label><input type="checkbox" value="QUEST:DEATH_PLATEAU"> QUEST:DEATH_PLATEAU</label>
-  <label><input type="checkbox" value="QUEST:THE_DEPTHS_OF_DESPAIR"> QUEST:THE_DEPTHS_OF_DESPAIR</label>
-  <label><input type="checkbox" value="QUEST:SHIELD_OF_ARRAV"> QUEST:SHIELD_OF_ARRAV</label>
-  <label><input type="checkbox" value="QUEST:VAMPYRE_SLAYER"> QUEST:VAMPYRE_SLAYER</label>
-  <label><input type="checkbox" value="QUEST:NATURAL_HISTORY_QUIZ"> QUEST:NATURAL_HISTORY_QUIZ</label>
-  <label><input type="checkbox" value="QUEST:ENTER_THE_ABYSS"> QUEST:ENTER_THE_ABYSS</label>
-  <label><input type="checkbox" value="QUEST:TEMPLE_OF_THE_EYE"> QUEST:TEMPLE_OF_THE_EYE</label>
-  <label><input type="checkbox" value="QUEST:RECRUITMENT_DRIVE"> QUEST:RECRUITMENT_DRIVE</label>
-  <label><input type="checkbox" value="QUEST:THE_DIG_SITE"> QUEST:THE_DIG_SITE</label>
-  <label><input type="checkbox" value="QUEST:ROMEO_AND_JULIET"> QUEST:ROMEO_AND_JULIET</label>
-  <label><input type="checkbox" value="QUEST:THE_LOST_TRIBE"> QUEST:THE_LOST_TRIBE</label>
-  <label><input type="checkbox" value="QUEST:PRINCE_ALI_RESCUE"> QUEST:PRINCE_ALI_RESCUE</label>
-  <label><input type="checkbox" value="QUEST:PRIEST_IN_PERIL"> QUEST:PRIEST_IN_PERIL</label>
-  <label><input type="checkbox" value="QUEST:MERLINS_CRYSTAL"> QUEST:MERLINS_CRYSTAL</label>
-  <label><input type="checkbox" value="QUEST:NATURE_SPIRIT"> QUEST:NATURE_SPIRIT</label>
-  <label><input type="checkbox" value="QUEST:SLEEPING_GIANTS"> QUEST:SLEEPING_GIANTS</label>
-  <label><input type="checkbox" value="QUEST:BONE_VOYAGE"> QUEST:BONE_VOYAGE</label>
-  <label><input type="checkbox" value="QUEST:RFD_PIRATE"> QUEST:RFD_PIRATE</label>
-  <label><input type="checkbox" value="QUEST:THE_HAND_IN_THE_SAND"> QUEST:THE_HAND_IN_THE_SAND</label>
-  <label><input type="checkbox" value="QUEST:HOLY_GRAIL"> QUEST:HOLY_GRAIL</label>
-  <label><input type="checkbox" value="QUEST:MAKING_HISTORY"> QUEST:MAKING_HISTORY</label>
-  <label><input type="checkbox" value="QUEST:GHOSTS_AHOY"> QUEST:GHOSTS_AHOY</label>
-  <label><input type="checkbox" value="QUEST:LOST_CITY"> QUEST:LOST_CITY</label>
-  <label><input type="checkbox" value="QUEST:SHILO_VILLAGE"> QUEST:SHILO_VILLAGE</label>
-  <label><input type="checkbox" value="QUEST:FAIRYTALE_I"> QUEST:FAIRYTALE_I</label>
-  <label><input type="checkbox" value="QUEST:TROLL_STRONGHOLD"> QUEST:TROLL_STRONGHOLD</label>
-  <label><input type="checkbox" value="QUEST:BARCRAWL"> QUEST:BARCRAWL</label>
-  <label><input type="checkbox" value="QUEST:HORROR_FROM_THE_DEEP"> QUEST:HORROR_FROM_THE_DEEP</label>
-  <label><input type="checkbox" value="QUEST:FAMILY_CREST"> QUEST:FAMILY_CREST</label>
-  <label><input type="checkbox" value="QUEST:EADGARS_RUSE"> QUEST:EADGARS_RUSE</label>
-  <label><input type="checkbox" value="QUEST:THE_GARDEN_OF_DEATH"> QUEST:THE_GARDEN_OF_DEATH</label>
-  <label><input type="checkbox" value="QUEST:DEATH_ON_THE_ISLE"> QUEST:DEATH_ON_THE_ISLE</label>
-  <label><input type="checkbox" value="QUEST:GETTING_AHEAD"> QUEST:GETTING_AHEAD</label>
-  <label><input type="checkbox" value="QUEST:A_PORCINE_OF_INTEREST"> QUEST:A_PORCINE_OF_INTEREST</label>
-  <label><input type="checkbox" value="QUEST:THE_GOLEM"> QUEST:THE_GOLEM</label>
-  <label><input type="checkbox" value="QUEST:SHADOW_OF_THE_STORM"> QUEST:SHADOW_OF_THE_STORM</label>
-  <label><input type="checkbox" value="QUEST:RFD_EVIL_DAVE"> QUEST:RFD_EVIL_DAVE</label>
-  <label><input type="checkbox" value="QUEST:TEMPLE_OF_IKOV"> QUEST:TEMPLE_OF_IKOV</label>
-  <label><input type="checkbox" value="QUEST:ANIMAL_MAGNETISM"> QUEST:ANIMAL_MAGNETISM</label>
-  <label><input type="checkbox" value="QUEST:BIG_CHOMPY_BIRD_HUNTING"> QUEST:BIG_CHOMPY_BIRD_HUNTING</label>
-  <label><input type="checkbox" value="QUEST:RFD_OGRE"> QUEST:RFD_OGRE</label>
-  <label><input type="checkbox" value="QUEST:RFD_GUIDE"> QUEST:RFD_GUIDE</label>
-  <label><input type="checkbox" value="QUEST:PIRATES_TREASURE"> QUEST:PIRATES_TREASURE</label>
-  <label><input type="checkbox" value="QUEST:THE_CORSAIR_CURSE"> QUEST:THE_CORSAIR_CURSE</label>
-  <label><input type="checkbox" value="QUEST:MONKEY_MADNESS_I:TAKEXP"> QUEST:MONKEY_MADNESS_I:TAKEXP</label>
-  <label><input type="checkbox" value="QUEST:UNDERGROUND_PASS"> QUEST:UNDERGROUND_PASS</label>
-  <label><input type="checkbox" value="QUEST:DRAGON_SLAYER_I"> QUEST:DRAGON_SLAYER_I</label>
-  <label><input type="checkbox" value="QUEST:TROLL_ROMANCE"> QUEST:TROLL_ROMANCE</label>
-  <label><input type="checkbox" value="QUEST:WATCHTOWER"> QUEST:WATCHTOWER</label>
-  <label><input type="checkbox" value="QUEST:DESERT_TREASURE_I"> QUEST:DESERT_TREASURE_I</label>
-  <label><input type="checkbox" value="QUEST:A_SOULS_BANE"> QUEST:A_SOULS_BANE</label>
-  <label><input type="checkbox" value="QUEST:HAUNTED_MINE"> QUEST:HAUNTED_MINE</label>
-  <label><input type="checkbox" value="QUEST:HEROES_QUEST"> QUEST:HEROES_QUEST</label>
-  <label><input type="checkbox" value="QUEST:RFD_AMIK_VARZE"> QUEST:RFD_AMIK_VARZE</label>
-  <label><input type="checkbox" value="QUEST:MOUNTAIN_DAUGHTER"> QUEST:MOUNTAIN_DAUGHTER</label>
-  <label><input type="checkbox" value="QUEST:RFD_MONKEY"> QUEST:RFD_MONKEY</label>
-  <label><input type="checkbox" value="QUEST:SHEEP_HERDER"> QUEST:SHEEP_HERDER</label>
-  <label><input type="checkbox" value="QUEST:REGICIDE"> QUEST:REGICIDE</label>
-  <label><input type="checkbox" value="QUEST:ROVING_ELVES"> QUEST:ROVING_ELVES</label>
-  <label><input type="checkbox" value="QUEST:THE_FREMENNIK_TRIALS"> QUEST:THE_FREMENNIK_TRIALS</label>
-  <label><input type="checkbox" value="QUEST:MOURNINGS_END_PART_I"> QUEST:MOURNINGS_END_PART_I</label>
-  <label><input type="checkbox" value="QUEST:RFD_CULINAROMANCER"> QUEST:RFD_CULINAROMANCER</label>
-  <label><input type="checkbox" value="QUEST:MOURNINGS_END_PART_II"> QUEST:MOURNINGS_END_PART_II</label>
-
-  <!-- Skills -->
-  <h3>Skills</h3>
-  <label><input type="checkbox" value="SKILL:THIEVING:60"> SKILL:THIEVING:60</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:40"> SKILL:AGILITY:40</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:50"> SKILL:AGILITY:50</label>
-  <label><input type="checkbox" value="SKILL:DEFENCE:30"> SKILL:DEFENCE:30</label>
-  <label><input type="checkbox" value="SKILL:MINING:41"> SKILL:MINING:41</label>
-  <label><input type="checkbox" value="SKILL:RUNECRAFTING:10"> SKILL:RUNECRAFTING:10</label>
-  <label><input type="checkbox" value="SKILL:RUNECRAFTING:50"> SKILL:RUNECRAFTING:50</label>
-  <label><input type="checkbox" value="SKILL:FISHING:40"> SKILL:FISHING:40</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:52"> SKILL:AGILITY:52</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:75"> SKILL:THIEVING:75</label>
-  <label><input type="checkbox" value="SKILL:FARMING:34"> SKILL:FARMING:34</label>
-  <label><input type="checkbox" value="SKILL:STRENGTH:55"> SKILL:STRENGTH:55</label>
-  <label><input type="checkbox" value="SKILL:ATTACK:55"> SKILL:ATTACK:55</label>
-  <label><input type="checkbox" value="SKILL:DEFENCE:40"> SKILL:DEFENCE:40</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:56"> SKILL:AGILITY:56</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:80"> SKILL:THIEVING:80</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:62"> SKILL:AGILITY:62</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:67"> SKILL:AGILITY:67</label>
-  <label><input type="checkbox" value="SKILL:FISHING:49"> SKILL:FISHING:49</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:83"> SKILL:THIEVING:83</label>
-  <label><input type="checkbox" value="SKILL:AGILITY:70"> SKILL:AGILITY:70</label>
-  <label><input type="checkbox" value="SKILL:PRAYER:45"> SKILL:PRAYER:45</label>
-  <label><input type="checkbox" value="SKILL:CONSTRUCTION:50"> SKILL:CONSTRUCTION:50</label>
-  <label><input type="checkbox" value="SKILL:RUNECRAFTING:55"> SKILL:RUNECRAFTING:55</label>
-  <label><input type="checkbox" value="SKILL:HERBLORE:40"> SKILL:HERBLORE:40</label>
-  <label><input type="checkbox" value="SKILL:FISHING:56"> SKILL:FISHING:56</label>
-  <label><input type="checkbox" value="SKILL:COOKING:70"> SKILL:COOKING:70</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:85"> SKILL:THIEVING:85</label>
-  <label><input type="checkbox" value="SKILL:CONSTRUCTION:70"> SKILL:CONSTRUCTION:70</label>
-  <label><input type="checkbox" value="SKILL:WOODCUTTING:70"> SKILL:WOODCUTTING:70</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:86"> SKILL:THIEVING:86</label>
-  <label><input type="checkbox" value="SKILL:FISHING:59"> SKILL:FISHING:59</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:88"> SKILL:THIEVING:88</label>
-  <label><input type="checkbox" value="SKILL:ATTACK:60"> SKILL:ATTACK:60</label>
-  <label><input type="checkbox" value="SKILL:RANGED:45"> SKILL:RANGED:45</label>
-  <label><input type="checkbox" value="SKILL:THIEVING:90"> SKILL:THIEVING:90</label>
-  <label><input type="checkbox" value="SKILL:FISHING:63"> SKILL:FISHING:63</label>
-  <label><input type="checkbox" value="SKILL:HERBLORE:60"> SKILL:HERBLORE:60</label>
-  <label><input type="checkbox" value="SKILL:STRENGTH:60"> SKILL:STRENGTH:60</label>
-  <label><input type="checkbox" value="SKILL:RANGED:55"> SKILL:RANGED:55</label>
-  <label><input type="checkbox" value="SKILL:HUNTER:70"> SKILL:HUNTER:70</label>
-  <label><input type="checkbox" value="SKILL:HERBLORE:70"> SKILL:HERBLORE:70</label>
-
-  <!-- Repeating tasks -->
-  <h3>Repeating Tasks</h3>
-  <label><input type="checkbox" value="REPEATING:BIRDHOUSES:126"> REPEATING:BIRDHOUSES:126</label>
-  <label><input type="checkbox" value="REPEATING:COMPOST_RUNS"> REPEATING:COMPOST_RUNS</label>
-  <label><input type="checkbox" value="REPEATING:HERB_RUNS:126"> REPEATING:HERB_RUNS:126</label>
-  <label><input type="checkbox" value="REPEATING:SEAWEED_RUNS:126"> REPEATING:SEAWEED_RUNS:126</label>
-
-  <!-- Minigames -->
-  <h3>Minigames</h3>
-  <label><input type="checkbox" value="MINIGAME:WINTERTODT:75"> MINIGAME:WINTERTODT:75</label>
-  <label><input type="checkbox" value="MINIGAME:WINTERTODT:80"> MINIGAME:WINTERTODT:80</label>
-  <label><input type="checkbox" value="MINIGAME:WINTERTODT:85"> MINIGAME:WINTERTODT:85</label>
-  <label><input type="checkbox" value="MINIGAME:MLM:62"> MINIGAME:MLM:62</label>
-  <label><input type="checkbox" value="MINIGAME:MLM:67"> MINIGAME:MLM:67</label>
-  <label><input type="checkbox" value="MINIGAME:MLM:70"> MINIGAME:MLM:70</label>
-  <label><input type="checkbox" value="MINIGAME:GF:60:STEEL_MITHRIL"> MINIGAME:GF:60:STEEL_MITHRIL</label>
-  <label><input type="checkbox" value="MINIGAME:GF:70:STEEL_MITHRIL"> MINIGAME:GF:70:STEEL_MITHRIL</label>
-
-  <!-- Diaries -->
-  <h3>Diaries</h3>
-  <label><input type="checkbox" value="DIARY:ARDOUGNE_EASY"> DIARY:ARDOUGNE_EASY</label>
-
-  <!-- Milestones -->
-  <h3>Milestones</h3>
-  <label><input type="checkbox" value="MILESTONE:ROGUES_OUTFIT"> MILESTONE:ROGUES_OUTFIT</label>
-  <label><input type="checkbox" value="MILESTONE:FAIRY_RINGS"> MILESTONE:FAIRY_RINGS</label>
-
-  <!-- Acquire tasks -->
-  <h3>Acquires</h3>
-  <label><input type="checkbox" value="ACQUIRE:Molten glass,2000"> ACQUIRE:Molten glass,2000</label>
-  <label><input type="checkbox" value="ACQUIRE:Unpowered orb,1000"> ACQUIRE:Unpowered orb,1000</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,1000"> ACQUIRE:Lantern lens,1000</label>
-  <label><input type="checkbox" value="ACQUIRE:Law rune,500"> ACQUIRE:Law rune,500</label>
-  <label><input type="checkbox" value="ACQUIRE:Oak plank,3450"> ACQUIRE:Oak plank,3450</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,2500"> ACQUIRE:Lantern lens,2500</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,4000"> ACQUIRE:Lantern lens,4000</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,6100"> ACQUIRE:Lantern lens,6100</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,8000"> ACQUIRE:Lantern lens,8000</label>
-  <label><input type="checkbox" value="ACQUIRE:Lantern lens,10000"> ACQUIRE:Lantern lens,10000</label>
-
-</div>
-
-<div id="stack">
-  <h2>Selected Tasks</h2>
-  <pre id="stackList"></pre>
-  <button onclick="copyStack()">Copy All</button>
+<div class="container">
+  <div class="tasks">
+    <input type="text" id="search" placeholder="Search tasks...">
+    <!-- Tasks will be injected here -->
+  </div>
+  <div class="task-stack">
+    <h3>Task Stack</h3>
+    <ul id="stack"></ul>
+    <button id="copyStack">Copy Stack</button>
+  </div>
 </div>
 
 <script>
-const stackList = document.getElementById('stackList');
-const checkboxes = document.querySelectorAll('#tasks input[type=checkbox]');
-let selected = [];
+const taskData = {
+  'Quests': [
+    'Animal Magnetism', 'Merlins Crystal', 'Holy Grail', 'Dragon Slayer I', 'Lost City', 'What Lies Below',
+    'The Dig Site', 'The Grand Tree', 'Goblin Diplomacy', 'RFD Goblins', 'Fairy Tale I', 'Bone Voyage',
+    'Jungle Potion', 'The Ascent of Arceuus', 'Shilo Village', 'One Small Favour', 'Murder Mystery',
+    'King\'s Ransom', 'The Tourist Trap', 'Temple of Ikov', 'Desert Treasure I', 'The Fremennik Trials',
+    'Observatory Quest', 'Demon Slayer', 'Underground Pass', 'The Golem', 'Shadow of the Storm',
+    'Ghosts Ahoy', 'Making History', 'Mountain Daughter', 'Hazeel Cult', 'Children of the Sun',
+    'Prince Ali Rescue', 'Icthlarin\'s Little Helper', 'Enter the Abyss', 'Temple of the Eye',
+    'Creature of Fenkenstrain', 'The Depths of Despair', 'The Queen of Thieves', 'Enlightened Journey',
+    'Sheep Herder', 'Big Chompy Bird Hunting', 'RFD Ogre (Skrach Uglogwee)', 'RFD Evil Dave', 'RFD Pirate',
+    'RFD Lumbridge Guide', 'RFD Monkey', 'RFD Sir Amik Varze', 'RFD Culinaromancer', 'Shield of Arrav',
+    'Heroes Quest', 'Tower of Life', 'Clock Tower', 'Tribal Totem', 'Watchtower', 'Getting Ahead',
+    'Pirate\'s Treasure', 'Scorpion Catcher', 'The Corsair Curse', 'Family Crest', 'The Garden of Death',
+    'Monkey Madness I', 'The Forsaken Tower', 'Haunted Mine', 'Tale of the Righteous', 'Sleeping Giants',
+    'Troll Romance', 'The Lost Tribe', 'Recruitment Drive', 'A Kingdom Divided', 'Death on the Isle',
+    'Wanted!', 'Twilights Promise', 'Regicide', 'Roving Elves', 'Mournings End Part I', 'Mournings End Part II',
+    'Ethically Acquired Antiquities', 'Daddy\'s Home', 'Lunar Diplomacy', 'In Search of the Myreque',
+    'In Aid of the Myreque', 'Throne of Miscellania', 'Royal Trouble', 'The Hand in the Sand',
+    'Zogre Flesh Eaters', 'Rum Deal', 'Cabin Fever', 'The Eyes of Glouphrie', 'The Slug Menace',
+    'Below Ice Mountain', 'Eadgars Ruse', 'Garden of Tranquillity', 'A Soul\'s Bane', 'Shadows of Custodia',
+    'Monkey Madness II', 'Tai Bwo Wannai Trio', 'Barbarian Training', 'The Fremennik Isles', 'Pandemonium',
+    'Prying Times', 'Current Affairs', 'Mage Arena I', 'Mage Arena II'
+  ],
+  'Skills': {
+    'Combat': ['Attack', 'Strength', 'Defence', 'Ranged', 'Magic', 'Prayer', 'Slayer'],
+    'Gathering': ['Mining', 'Woodcutting', 'Fishing', 'Hunter', 'Farming'],
+    'Artisan': ['Crafting', 'Smithing', 'Fletching', 'Herblore', 'Cooking', 'Firemaking', 'Construction'],
+    'Support': ['Agility', 'Runecrafting', 'Thieving', 'Sailing']
+  },
+  'Diaries': ['Varrock Easy', 'Varrock Medium', 'Ardougne Easy', 'Ardougne Medium', 'Lumbridge Easy', 'Lumbridge Medium', 'Karamja Easy', 'Kourend Easy'],
+  'Milestones': ['Dragon Defender', 'Rune Defender', 'Fairy Rings', 'Unlock Piety', 'Rogues Outfit', 'Rock Cake', 'Black Mask'],
+  'Repeating': ['Birdhouse Runs', 'Tree Runs', 'Herb Runs', 'Seaweed Runs', 'Hop Runs', 'Compost Runs', 'Hespori', 'Kingdom of Miscellania'],
+  'Minigames': ['Guardians of the Rift', 'Vale Totems', 'Mage Training Arena', 'Wintertodt', 'Motherlode Mine', 'Giant\'s Foundry'],
+  'Acquisition': ['Molten glass', 'Oak logs', 'Willow logs', 'Maple logs', 'Silver bar', 'Gold bar', 'Iron ore', 'Unpowered orb', 'Dragon bones']
+};
 
-checkboxes.forEach(cb => {
-  cb.addEventListener('change', () => {
-    if(cb.checked) selected.push(cb.value);
-    else selected = selected.filter(t => t !== cb.value);
-    stackList.textContent = selected.join('\n');
+const tasksDiv = document.querySelector('.tasks');
+const stack = document.getElementById('stack');
+const search = document.getElementById('search');
+
+function renderCategory(name, items, isSkill=false) {
+  const cat = document.createElement('div');
+  cat.className = 'category';
+  const header = document.createElement('h3');
+  header.textContent = name;
+  header.addEventListener('click', () => {
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
+  cat.appendChild(header);
+
+  const content = document.createElement('div');
+  content.className = 'category-content';
+
+  if(isSkill){
+    for(const group in items){
+      const groupDiv = document.createElement('div');
+      const groupHeader = document.createElement('strong');
+      groupHeader.textContent = group;
+      groupDiv.appendChild(groupHeader);
+      items[group].forEach(skill => {
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = skill;
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.placeholder = 'Lvl';
+        input.min = 1;
+        input.max = 99;
+        checkbox.addEventListener('change', ()=>{
+          if(checkbox.checked){
+            stackItem(skill + (input.value ? ' ' + input.value : ''));
+          } else {
+            removeStackItem(skill);
+          }
+        });
+        input.addEventListener('input', ()=>{
+          if(checkbox.checked){
+            updateStackItem(skill + ' ' + input.value);
+          }
+        });
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(skill));
+        label.appendChild(input);
+        groupDiv.appendChild(label);
+        groupDiv.appendChild(document.createElement('br'));
+      });
+      content.appendChild(groupDiv);
+    }
+  } else {
+    items.forEach(item => {
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = item;
+      checkbox.addEventListener('change', ()=>{
+        if(checkbox.checked){
+          stackItem(item);
+        } else {
+          removeStackItem(item);
+        }
+      });
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(item));
+      content.appendChild(label);
+      content.appendChild(document.createElement('br'));
+    });
+  }
+
+  cat.appendChild(content);
+  tasksDiv.appendChild(cat);
+}
+
+function stackItem(item){
+  const li = document.createElement('li');
+  li.textContent = item;
+  li.dataset.value = item;
+  stack.appendChild(li);
+}
+
+function removeStackItem(item){
+  const children = Array.from(stack.children);
+  children.forEach(li=>{if(li.dataset.value===item) li.remove()});
+}
+
+function updateStackItem(value){
+  const children = Array.from(stack.children);
+  children.forEach(li=>{
+    if(li.dataset.value.startsWith(value.split(' ')[0])){
+      li.textContent = value;
+      li.dataset.value = value;
+    }
+  });
+}
+
+// Render all categories
+for(const cat in taskData){
+  renderCategory(cat, taskData[cat], cat==='Skills');
+}
+
+// Search functionality
+search.addEventListener('input', ()=>{
+  const term = search.value.toLowerCase();
+  document.querySelectorAll('.category-content label').forEach(label=>{
+    label.style.display = label.textContent.toLowerCase().includes(term) ? 'block' : 'none';
   });
 });
 
-function copyStack() {
-  navigator.clipboard.writeText(selected.join('\n')).then(() => {
-    alert('Copied to clipboard!');
-  });
-}
+// Copy stack
+document.getElementById('copyStack').addEventListener('click', ()=>{
+  const text = Array.from(stack.children).map(li=>li.textContent).join('\n');
+  navigator.clipboard.writeText(text);
+  alert('Stack copied!');
+});
 </script>
-
 </body>
 </html>
