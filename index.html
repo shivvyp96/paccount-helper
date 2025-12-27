@@ -3,263 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P-Account Helper</title>
+<title>OSRS Account Builder Helper</title>
 <style>
   body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #1e1e2f;
-    color: #f5f5f5;
-  }
-  h1 {
-    text-align: center;
-    padding: 10px;
-    background-color: #2a2a3d;
-    margin: 0;
     font-family: 'Verdana', sans-serif;
-  }
-  #container {
+    background: #1b1b1b;
+    color: #e0e0e0;
     display: flex;
-    height: calc(100vh - 50px);
+    margin: 0;
+    height: 100vh;
   }
-  #left-panel, #right-panel {
+  .sidebar {
+    width: 350px;
+    background: #2e2e2e;
     padding: 10px;
     overflow-y: auto;
-  }
-  #left-panel {
-    width: 50%;
-    background-color: #2a2a3d;
     border-right: 2px solid #444;
   }
-  #right-panel {
-    width: 50%;
-    background-color: #272738;
-    display: flex;
-    flex-direction: column;
+  .content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
   }
-  .category {
-    margin-bottom: 10px;
-  }
-  .category-header {
+  h2 {
     cursor: pointer;
-    padding: 5px;
-    background-color: #3a3a5a;
-    font-weight: bold;
-    border-radius: 4px;
-    user-select: none;
+    margin-top: 10px;
+    background: #444;
+    padding: 5px 10px;
+    border-radius: 5px;
   }
-  .task-list {
-    padding-left: 15px;
+  .category-content {
+    margin-left: 10px;
     display: none;
-    margin-top: 5px;
   }
   .task {
-    padding: 3px 0;
     cursor: pointer;
+    padding: 3px 5px;
     border-radius: 3px;
+    margin: 2px 0;
   }
   .task:hover {
-    background-color: #444466;
+    background: #555;
   }
-  .selected {
-    background-color: #f4c430;
-    color: #000;
-  }
-  #search-bar {
-    margin-bottom: 10px;
-    width: 95%;
-    padding: 5px;
-    border-radius: 4px;
-    border: none;
-    font-size: 16px;
-  }
-  #task-output {
-    flex: 1;
-    background-color: #1e1e2f;
+  .stack {
+    background: #2e2e2e;
+    border: 2px solid #444;
     padding: 10px;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    overflow-y: auto;
-    white-space: pre-wrap;
+    border-radius: 5px;
+    min-height: 80vh;
+    white-space: pre-line;
+    overflow-x: auto;
   }
-  #copy-btn {
-    margin-top: 10px;
-    padding: 8px;
-    background-color: #f4c430;
-    color: #000;
-    font-weight: bold;
+  .search-input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  #copy-btn:hover {
-    background-color: #e6b800;
+    outline: none;
   }
   input.skill-input {
     width: 50px;
     margin-left: 5px;
     border-radius: 3px;
     border: none;
-    padding: 2px;
+    padding: 2px 4px;
     text-align: center;
+  }
+  .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .category-header button {
+    background: #666;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 2px 6px;
   }
 </style>
 </head>
 <body>
-<h1>P-Account Helper</h1>
-<div id="container">
-  <div id="left-panel">
-    <input type="text" id="search-bar" placeholder="Search tasks...">
-    <!-- Categories -->
-    <div class="category">
-      <div class="category-header">Quests</div>
-      <div class="task-list" id="quests-list"></div>
+
+<div class="sidebar">
+  <input type="text" id="search" class="search-input" placeholder="Search tasks...">
+  
+  <!-- Quest Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('quests')">Quests</h2>
+      <button onclick="selectAll('quests')">Select All</button>
     </div>
-    <div class="category">
-      <div class="category-header">Skills</div>
-      <div class="task-list" id="skills-list"></div>
-    </div>
-    <div class="category">
-      <div class="category-header">Repeating Tasks</div>
-      <div class="task-list" id="repeating-list"></div>
-    </div>
-    <div class="category">
-      <div class="category-header">Milestones</div>
-      <div class="task-list" id="milestones-list"></div>
-    </div>
-    <div class="category">
-      <div class="category-header">Minigames</div>
-      <div class="task-list" id="minigames-list"></div>
-    </div>
-    <div class="category">
-      <div class="category-header">Ironman Starter / Acquire Items</div>
-      <div class="task-list" id="iron-acquire-list"></div>
+    <div class="category-content" id="quests">
+      <!-- Quests inserted via JS -->
     </div>
   </div>
-  <div id="right-panel">
-    <div id="task-output"></div>
-    <button id="copy-btn">Copy All Tasks</button>
+
+  <!-- Skills Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('skills')">Skills</h2>
+      <button onclick="selectAll('skills')">Select All</button>
+    </div>
+    <div class="category-content" id="skills">
+      <!-- Skills inserted via JS -->
+    </div>
   </div>
+
+  <!-- Minigames Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('minigames')">Minigames</h2>
+      <button onclick="selectAll('minigames')">Select All</button>
+    </div>
+    <div class="category-content" id="minigames">
+      <!-- Minigames inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Diaries Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('diaries')">Achievement Diaries</h2>
+      <button onclick="selectAll('diaries')">Select All</button>
+    </div>
+    <div class="category-content" id="diaries">
+      <!-- Diaries inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Milestones Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('milestones')">Milestones</h2>
+      <button onclick="selectAll('milestones')">Select All</button>
+    </div>
+    <div class="category-content" id="milestones">
+      <!-- Milestones inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Repeating Tasks Category -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('repeating')">Repeating Tasks</h2>
+      <button onclick="selectAll('repeating')">Select All</button>
+    </div>
+    <div class="category-content" id="repeating">
+      <!-- Repeating inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Ironman Starter -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('ironman')">Ironman Starter</h2>
+      <button onclick="selectAll('ironman')">Select All</button>
+    </div>
+    <div class="category-content" id="ironman">
+      <!-- Ironman inserted via JS -->
+    </div>
+  </div>
+
+  <!-- Acquire Tasks -->
+  <div>
+    <div class="category-header">
+      <h2 onclick="toggleCategory('acquire')">Item Acquisition</h2>
+      <button onclick="selectAll('acquire')">Select All</button>
+    </div>
+    <div class="category-content" id="acquire">
+      <!-- Acquire inserted via JS -->
+    </div>
+  </div>
+
 </div>
+
+<div class="content">
+  <h2>Task Stack</h2>
+  <div class="stack" id="taskStack"></div>
+  <button onclick="clearStack()">Clear Stack</button>
+</div>
+
 <script>
-// ----- DATA -----
-const quests = [
-"QUEST:GHOSTS_AHOY","QUEST:MAKING_HISTORY","QUEST:MOUNTAIN_DAUGHTER","QUEST:HAZEEL_CULT","QUEST:CHILDREN_OF_THE_SUN",
-"QUEST:PRINCE_ALI_RESCUE","QUEST:ICTHLARINS_LITTLE_HELPER","QUEST:ENTER_THE_ABYSS","QUEST:TEMPLE_OF_THE_EYE","QUEST:CREATURE_OF_FENKENSTRAIN",
-"QUEST:THE_DEPTHS_OF_DESPAIR","QUEST:THE_QUEEN_OF_THIEVES","QUEST:ENLIGHTENED_JOURNEY","QUEST:SHEEP_HERDER","QUEST:BIG_CHOMPY_BIRD_HUNTING",
-"QUEST:RFD_OGRE","QUEST:RFD_EVIL_DAVE","QUEST:RFD_PIRATE","QUEST:RFD_GUIDE","QUEST:RFD_MONKEY","QUEST:RFD_AMIK_VARZE","QUEST:RFD_CULINAROMANCER",
-"QUEST:SHIELD_OF_ARRAV","QUEST:HEROES_QUEST","QUEST:TOWER_OF_LIFE","QUEST:CLOCK_TOWER","QUEST:TRIBAL_TOTEM","QUEST:WATCHTOWER","QUEST:GETTING_AHEAD",
-"QUEST:PIRATES_TREASURE","QUEST:SCORPION_CATCHER","QUEST:THE_CORSAIR_CURSE","QUEST:FAMILY_CREST","QUEST:THE_GARDEN_OF_DEATH","QUEST:MONKEY_MADNESS_I:TAKEXP",
-"QUEST:THE_FORSAKEN_TOWER","QUEST:HAUNTED_MINE","QUEST:TALE_OF_THE_RIGHTEOUS","QUEST:SLEEPING_GIANTS","QUEST:TROLL_ROMANCE","QUEST:THE_LOST_TRIBE",
-"QUEST:RECRUITMENT_DRIVE","QUEST:A_KINGDOM_DIVIDED","QUEST:DEATH_ON_THE_ISLE","QUEST:WANTED","QUEST:TWILIGHTS_PROMISE","QUEST:REGICIDE","QUEST:ROVING_ELVES",
-"QUEST:MOURNINGS_END_PART_I","QUEST:MOURNINGS_END_PART_II","QUEST:ETHICALLY_ACQUIRED_ANTIQUITIES","QUEST:DADDYS_HOME","QUEST:LUNAR_DIPLOMACY",
-"QUEST:IN_SEARCH_OF_THE_MYREQUE","QUEST:IN_AID_OF_THE_MYREQUE","QUEST:THRONE_OF_MISCELLANIA","QUEST:ROYAL_TROUBLE","QUEST:THE_HAND_IN_THE_SAND",
-"QUEST:ZOGRE_FLESH_EATERS","QUEST:RUM_DEAL","QUEST:CABIN_FEVER","QUEST:THE_EYES_OF_GLOUPHRIE","QUEST:THE_SLUG_MENACE","QUEST:BELOW_ICE_MOUNTAIN",
-"QUEST:EADGARS_RUSE","QUEST:GARDEN_OF_TRANQUILLITY","QUEST:A_SOULS_BANE","QUEST:SHADOWS_OF_CUSTODIA","QUEST:MONKEY_MADNESS_II","QUEST:TAI_BWO_WANNAI_TRIO",
-"QUEST:BARBARIAN_TRAINING","QUEST:THE_FREMENNIK_ISLES","QUEST:PANDEMONIUM","QUEST:PRYING_TIMES","QUEST:CURRENT_AFFAIRS","QUEST:MA1","QUEST:MA2"
-];
+const data = {
+  quests: [
+    "Monk’s Friend", "Clock Tower", "Hazeel Cult", "Sea Slug", "Tribal Totem",
+    "Ernest the Chicken", "Children of the Sun", "X Marks the Spot", "Witch’s Potion",
+    "Witch’s House", "Tree Gnome Village", "Waterfall Quest", "Gertrude’s Cat",
+    "Cook’s Assistant", "RFD: Cook", "Client of Kourend", "Observatory Quest",
+    "Plague City", "Murder Mystery", "Dwarf Cannon", "Sheep Shearer", "Druidic Ritual",
+    "Fishing Contest", "RFD: Dwarf", "Goblin Diplomacy", "RFD: Goblins", "Black Knights’ Fortress",
+    "The Forsaken Tower", "The Queen of Thieves", "Daddy's Home", "Fight Arena",
+    "Tale of the Righteous", "The Knight’s Sword", "The Feud",
+    "Doric's Quest", "The Tourist Trap", "Jungle Potion", "Demon Slayer", "Biohazard",
+    "The Grand Tree", "Death Plateau", "The Depths of Despair", "Shield of Arrav",
+    "Vampyre Slayer", "Natural History Quiz", "Enter the Abyss", "Temple of the Eye",
+    "Recruitment Drive", "The Dig Site", "Romeo and Juliet", "The Lost Tribe", "Prince Ali Rescue",
+    "Priest in Peril", "Merlin's Crystal", "Nature Spirit", "Sleeping Giants", "Bone Voyage",
+    "RFD: Pirate", "The Hand in the Sand", "Holy Grail", "Making History", "Ghosts Ahoy",
+    "Lost City", "Shilo Village", "Fairytale I", "Troll Stronghold", "Barcrawl",
+    "Horror from the Deep", "Family Crest", "The Garden of Death", "Death on the Isle",
+    "Getting Ahead", "A Porcine of Interest", "Scorpion Catcher", "The Golem", "Shadow of the Storm",
+    "RFD: Evil Dave", "Temple of Ikov", "Animal Magnetism", "Big Chompy Bird Hunting",
+    "RFD: Ogre", "RFD: Guide", "Pirates Treasure", "The Corsair Curse", "Monkey Madness I",
+    "Underground Pass", "Dragon Slayer I", "Troll Romance", "Watchtower", "Desert Treasure I",
+    "A Soul's Bane", "Haunted Mine", "Heroes Quest", "RFD: Amik Varze", "Mountain Daughter",
+    "RFD: Monkey", "Sheep Herder", "Regicide", "Roving Elves", "The Fremennik Trials",
+    "Mournings End Part I", "Mournings End Part II", "Pandemonium", "Prying Times", "Current Affairs",
+    "Mage Arena I", "Mage Arena II", "Cabin Fever", "The Eyes of Glouphrie", "The Slug Menace",
+    "Below Ice Mountain", "Eadgars Ruse", "Garden of Tranquillity", "Shadows of Custodia",
+    "Monkey Madness II", "Tai Bwo Wannai Trio", "Barbarian Training", "The Fremennik Isles"
+  ],
+  skills: [
+    "Attack","Strength","Defence","Ranged","Magic","Prayer",
+    "Cooking","Fishing","Woodcutting","Firemaking","Crafting",
+    "Smithing","Mining","Herblore","Agility","Thieving",
+    "Fletching","Runecrafting","Hunter","Construction","Farming","Sailing"
+  ],
+  minigames: [
+    "Guardians of the Rift","Vale Totems","Mage Training Arena",
+    "Wintertodt","Motherlode Mine","Giant's Foundry"
+  ],
+  diaries: [
+    "Varrock Easy","Varrock Medium","Ardougne Easy","Ardougne Medium",
+    "Lumbridge Easy","Lumbridge Medium","Karamja Easy","Kourend Easy"
+  ],
+  milestones: [
+    "Dragon Defender","Rune Defender","Fairy Rings","Unlock Piety",
+    "Rogues Outfit","Rock Cake","Black Mask"
+  ],
+  repeating: [
+    "Birdhouse Runs","Tree Runs","Herb Runs","Seaweed Runs",
+    "Hop Runs","Compost Runs","Hespori","Kingdom of Miscellania"
+  ],
+  ironman: [
+    "IRON_STARTER_PART1"
+  ],
+  acquire: [
+    "Potato seed","Hammerstone seed","Onion seed","Molten glass","Logs",
+    "Oak logs","Willow logs","Maple logs","Silver bar","Gold bar","Iron ore",
+    "Unpowered orb","Dragon bones","Willow longbow","Ring of dueling(8)",
+    "Ring of recoil","Games necklace(8)","Lantern lens","Law rune"
+  ]
+};
 
-const skills = [
-"SKILL:FIREMAKING","SKILL:CRAFTING","SKILL:FISHING","SKILL:MAGIC","SKILL:PRAYER","SKILL:HERBLORE",
-"SKILL:WOODCUTTING","SKILL:MINING","SKILL:COOKING","SKILL:AGILITY","SKILL:FLETCHING","SKILL:RUNECRAFTING",
-"SKILL:ATTACK","SKILL:STRENGTH","SKILL:DEFENCE","SKILL:RANGED","SKILL:HUNTER","SKILL:SLAYER","SKILL:CONSTRUCTION","SKILL:FARMING","SKILL:THIEVING","SKILL:SAILING","SKILL:SMITHING"
-];
+function renderCategory(categoryId, items, type) {
+  const container = document.getElementById(categoryId);
+  container.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "task";
 
-const repeating = [
-"REPEATING:BIRDHOUSES:HUNTERLVL","REPEATING:TREE_RUNS:FARMINGLVL","REPEATING:HERB_RUNS:FARMINGLVL",
-"REPEATING:SEAWEED_RUNS:FARMINGLVL","REPEATING:HOP_RUNS:FARMINGLVL","REPEATING:COMPOST_RUNS",
-"REPEATING:HESPORI","REPEATING:KINGDOM:HERB:WOOD"
-];
+    if (type === "skill") {
+      div.innerHTML = `${item} <input type="number" class="skill-input" min="1" placeholder="lvl">`;
+    } else {
+      div.textContent = item;
+    }
 
-const milestones = [
-"MILESTONE:DRAGON_DEFENDER","MILESTONE:RUNE_DEFENDER","MILESTONE:FAIRY_RINGS","MILESTONE:UNLOCK_PIETY",
-"MILESTONE:ROGUES_OUTFIT","MILESTONE:ROCK_CAKE","MILESTONE:BLACK_MASK"
-];
+    div.addEventListener("click", () => addTask(item, type, div));
+    container.appendChild(div);
+  });
+}
 
-const minigames = [
-"MINIGAME:VALE_TOTEMS","MINIGAME:MTA:GREENLOG","MINIGAME:MTA:EFFICIENT","MINIGAME:MTA:ROBES","MINIGAME:MTA:B2P","MINIGAME:MTA:WAND","MINIGAME:MTA:BOOK",
-"MINIGAME:MTA:TOP","MINIGAME:MTA:BOTTOM","MINIGAME:MTA:HAT","MINIGAME:MTA:BOOTS","MINIGAME:MTA:GLOVES","MINIGAME:MTA:POUCH",
-"MINIGAME:WINTERTODT:TARGETLVL","MINIGAME:MLM:TARGETLVL","MINIGAME:GF:TARGETLVL"
-];
-
-const ironAcquire = [
-"IRON_STARTER_PART1","ACQUIRE:Potato seed,40-400","ACQUIRE:Molten glass,2000","ACQUIRE:Oak plank,3450"
-];
-
-// ----- FUNCTIONS -----
-const outputArea = document.getElementById('task-output');
-
-function createTaskElement(task, isSkill=false) {
-  const div = document.createElement('div');
-  div.className = 'task';
-  div.textContent = task;
-  if(isSkill){
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.min = 1;
-    input.placeholder = 'Lvl';
-    input.className = 'skill-input';
-    input.addEventListener('input', e => {
-      if(input.value){
-        div.dataset.output = `${task}:${input.value}`;
-      } else {
-        div.dataset.output = task;
-      }
-      updateOutput();
-    });
-    div.appendChild(input);
+function addTask(item, type, div) {
+  let output = "";
+  if (type === "skill") {
+    const input = div.querySelector("input");
+    if (!input.value) return alert("Enter a level first!");
+    output = `SKILL:${item.toUpperCase()}:${input.value}`;
+  } else if (type === "quest") {
+    output = `QUEST:${item.toUpperCase().replace(/\s+/g,'_')}`;
+  } else if (type === "diary") {
+    output = `DIARY:${item.toUpperCase().replace(/\s+/g,'_')}`;
+  } else if (type === "milestone") {
+    output = `MILESTONE:${item.toUpperCase().replace(/\s+/g,'_')}`;
+  } else if (type === "repeating") {
+    output = `REPEATING:${item.toUpperCase().replace(/\s+/g,'_')}`;
+  } else if (type === "ironman") {
+    output = item.toUpperCase();
+  } else if (type === "acquire") {
+    output = `ACQUIRE:${item}`;
+  } else if (type === "minigame") {
+    output = `MINIGAME:${item.toUpperCase().replace(/\s+/g,'_')}`;
   }
-  div.dataset.output = task;
-  div.addEventListener('click', () => {
-    div.classList.toggle('selected');
-    updateOutput();
-  });
-  return div;
+
+  const stack = document.getElementById("taskStack");
+  stack.textContent += output + "\n";
 }
 
-function populateList(list, containerId, isSkill=false){
-  const container = document.getElementById(containerId);
-  list.forEach(task => {
-    const elem = createTaskElement(task, isSkill);
-    container.appendChild(elem);
+function toggleCategory(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+
+function selectAll(categoryId) {
+  const container = document.getElementById(categoryId);
+  const tasks = container.querySelectorAll(".task");
+  tasks.forEach(task => {
+    task.click();
   });
 }
 
-function updateOutput(){
-  const selected = document.querySelectorAll('.selected');
-  outputArea.textContent = Array.from(selected).map(e => e.dataset.output).join('\n');
+function clearStack() {
+  document.getElementById("taskStack").textContent = "";
 }
 
-// ----- INIT -----
-populateList(quests, 'quests-list');
-populateList(skills, 'skills-list', true);
-populateList(repeating, 'repeating-list');
-populateList(milestones, 'milestones-list');
-populateList(minigames, 'minigames-list');
-populateList(ironAcquire, 'iron-acquire-list');
-
-// ----- COLLAPSIBLE -----
-document.querySelectorAll('.category-header').forEach(header => {
-  header.addEventListener('click', () => {
-    const list = header.nextElementSibling;
-    list.style.display = list.style.display === 'none' ? 'block' : 'none';
+function searchTasks() {
+  const query = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".task").forEach(task => {
+    task.style.display = task.textContent.toLowerCase().includes(query) ? "block" : "none";
   });
-});
+}
 
-// ----- SEARCH -----
-document.getElementById('search-bar').addEventListener('input', e => {
-  const query = e.target.value.toLowerCase();
-  document.querySelectorAll('.task').forEach(task => {
-    task.style.display = task.textContent.toLowerCase().includes(query) ? 'block' : 'none';
-  });
-});
+document.getElementById("search").addEventListener("input", searchTasks);
 
-// ----- COPY -----
-document.getElementById('copy-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(outputArea.textContent).then(() => {
-    alert('Tasks copied to clipboard!');
-  });
-});
+// render all categories
+renderCategory("quests", data.quests, "quest");
+renderCategory("skills", data.skills, "skill");
+renderCategory("minigames", data.minigames, "minigame");
+renderCategory("diaries", data.diaries, "diary");
+renderCategory("milestones", data.milestones, "milestone");
+renderCategory("repeating", data.repeating, "repeating");
+renderCategory("ironman", data.ironman, "ironman");
+renderCategory("acquire", data.acquire, "acquire");
 </script>
+
 </body>
 </html>
