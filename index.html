@@ -2,88 +2,206 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>P-Account Helper</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
-h2 { background-color: #333; color: white; padding: 10px; cursor: pointer; }
-table { border-collapse: collapse; width: 100%; margin-bottom: 20px; display: none; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-th { background-color: #eee; }
-button.copy-btn { padding: 4px 8px; margin-left: 5px; cursor: pointer; }
+body { display: flex; font-family: sans-serif; margin: 20px; }
+#tasks, #stack { flex: 1; padding: 10px; height: 90vh; overflow-y: auto; }
+#tasks { border-right: 1px solid #ccc; }
+#stack { margin-left: 20px; background: #f9f9f9; padding: 10px; border-radius: 5px; }
+label { display: block; margin-bottom: 5px; }
+button { margin-top: 10px; padding: 5px 10px; }
+h2 { margin-top: 0; }
 </style>
 </head>
 <body>
-<h1>P-Account Helper</h1>
 
-<!-- Function to toggle table visibility -->
+<div id="tasks">
+  <h2>Available Tasks</h2>
+  <!-- Quests -->
+  <h3>Quests</h3>
+  <label><input type="checkbox" value="IRON_STARTER_PART1"> IRON_STARTER_PART1</label>
+  <label><input type="checkbox" value="QUEST:DORICS_QUEST"> QUEST:DORICS_QUEST</label>
+  <label><input type="checkbox" value="QUEST:THE_TOURIST_TRAP"> QUEST:THE_TOURIST_TRAP</label>
+  <label><input type="checkbox" value="QUEST:JUNGLE_POTION"> QUEST:JUNGLE_POTION</label>
+  <label><input type="checkbox" value="QUEST:DEMON_SLAYER"> QUEST:DEMON_SLAYER</label>
+  <label><input type="checkbox" value="QUEST:BIOHAZARD"> QUEST:BIOHAZARD</label>
+  <label><input type="checkbox" value="QUEST:THE_GRAND_TREE"> QUEST:THE_GRAND_TREE</label>
+  <label><input type="checkbox" value="QUEST:DEATH_PLATEAU"> QUEST:DEATH_PLATEAU</label>
+  <label><input type="checkbox" value="QUEST:THE_DEPTHS_OF_DESPAIR"> QUEST:THE_DEPTHS_OF_DESPAIR</label>
+  <label><input type="checkbox" value="QUEST:SHIELD_OF_ARRAV"> QUEST:SHIELD_OF_ARRAV</label>
+  <label><input type="checkbox" value="QUEST:VAMPYRE_SLAYER"> QUEST:VAMPYRE_SLAYER</label>
+  <label><input type="checkbox" value="QUEST:NATURAL_HISTORY_QUIZ"> QUEST:NATURAL_HISTORY_QUIZ</label>
+  <label><input type="checkbox" value="QUEST:ENTER_THE_ABYSS"> QUEST:ENTER_THE_ABYSS</label>
+  <label><input type="checkbox" value="QUEST:TEMPLE_OF_THE_EYE"> QUEST:TEMPLE_OF_THE_EYE</label>
+  <label><input type="checkbox" value="QUEST:RECRUITMENT_DRIVE"> QUEST:RECRUITMENT_DRIVE</label>
+  <label><input type="checkbox" value="QUEST:THE_DIG_SITE"> QUEST:THE_DIG_SITE</label>
+  <label><input type="checkbox" value="QUEST:ROMEO_AND_JULIET"> QUEST:ROMEO_AND_JULIET</label>
+  <label><input type="checkbox" value="QUEST:THE_LOST_TRIBE"> QUEST:THE_LOST_TRIBE</label>
+  <label><input type="checkbox" value="QUEST:PRINCE_ALI_RESCUE"> QUEST:PRINCE_ALI_RESCUE</label>
+  <label><input type="checkbox" value="QUEST:PRIEST_IN_PERIL"> QUEST:PRIEST_IN_PERIL</label>
+  <label><input type="checkbox" value="QUEST:MERLINS_CRYSTAL"> QUEST:MERLINS_CRYSTAL</label>
+  <label><input type="checkbox" value="QUEST:NATURE_SPIRIT"> QUEST:NATURE_SPIRIT</label>
+  <label><input type="checkbox" value="QUEST:SLEEPING_GIANTS"> QUEST:SLEEPING_GIANTS</label>
+  <label><input type="checkbox" value="QUEST:BONE_VOYAGE"> QUEST:BONE_VOYAGE</label>
+  <label><input type="checkbox" value="QUEST:RFD_PIRATE"> QUEST:RFD_PIRATE</label>
+  <label><input type="checkbox" value="QUEST:THE_HAND_IN_THE_SAND"> QUEST:THE_HAND_IN_THE_SAND</label>
+  <label><input type="checkbox" value="QUEST:HOLY_GRAIL"> QUEST:HOLY_GRAIL</label>
+  <label><input type="checkbox" value="QUEST:MAKING_HISTORY"> QUEST:MAKING_HISTORY</label>
+  <label><input type="checkbox" value="QUEST:GHOSTS_AHOY"> QUEST:GHOSTS_AHOY</label>
+  <label><input type="checkbox" value="QUEST:LOST_CITY"> QUEST:LOST_CITY</label>
+  <label><input type="checkbox" value="QUEST:SHILO_VILLAGE"> QUEST:SHILO_VILLAGE</label>
+  <label><input type="checkbox" value="QUEST:FAIRYTALE_I"> QUEST:FAIRYTALE_I</label>
+  <label><input type="checkbox" value="QUEST:TROLL_STRONGHOLD"> QUEST:TROLL_STRONGHOLD</label>
+  <label><input type="checkbox" value="QUEST:BARCRAWL"> QUEST:BARCRAWL</label>
+  <label><input type="checkbox" value="QUEST:HORROR_FROM_THE_DEEP"> QUEST:HORROR_FROM_THE_DEEP</label>
+  <label><input type="checkbox" value="QUEST:FAMILY_CREST"> QUEST:FAMILY_CREST</label>
+  <label><input type="checkbox" value="QUEST:EADGARS_RUSE"> QUEST:EADGARS_RUSE</label>
+  <label><input type="checkbox" value="QUEST:THE_GARDEN_OF_DEATH"> QUEST:THE_GARDEN_OF_DEATH</label>
+  <label><input type="checkbox" value="QUEST:DEATH_ON_THE_ISLE"> QUEST:DEATH_ON_THE_ISLE</label>
+  <label><input type="checkbox" value="QUEST:GETTING_AHEAD"> QUEST:GETTING_AHEAD</label>
+  <label><input type="checkbox" value="QUEST:A_PORCINE_OF_INTEREST"> QUEST:A_PORCINE_OF_INTEREST</label>
+  <label><input type="checkbox" value="QUEST:THE_GOLEM"> QUEST:THE_GOLEM</label>
+  <label><input type="checkbox" value="QUEST:SHADOW_OF_THE_STORM"> QUEST:SHADOW_OF_THE_STORM</label>
+  <label><input type="checkbox" value="QUEST:RFD_EVIL_DAVE"> QUEST:RFD_EVIL_DAVE</label>
+  <label><input type="checkbox" value="QUEST:TEMPLE_OF_IKOV"> QUEST:TEMPLE_OF_IKOV</label>
+  <label><input type="checkbox" value="QUEST:ANIMAL_MAGNETISM"> QUEST:ANIMAL_MAGNETISM</label>
+  <label><input type="checkbox" value="QUEST:BIG_CHOMPY_BIRD_HUNTING"> QUEST:BIG_CHOMPY_BIRD_HUNTING</label>
+  <label><input type="checkbox" value="QUEST:RFD_OGRE"> QUEST:RFD_OGRE</label>
+  <label><input type="checkbox" value="QUEST:RFD_GUIDE"> QUEST:RFD_GUIDE</label>
+  <label><input type="checkbox" value="QUEST:PIRATES_TREASURE"> QUEST:PIRATES_TREASURE</label>
+  <label><input type="checkbox" value="QUEST:THE_CORSAIR_CURSE"> QUEST:THE_CORSAIR_CURSE</label>
+  <label><input type="checkbox" value="QUEST:MONKEY_MADNESS_I:TAKEXP"> QUEST:MONKEY_MADNESS_I:TAKEXP</label>
+  <label><input type="checkbox" value="QUEST:UNDERGROUND_PASS"> QUEST:UNDERGROUND_PASS</label>
+  <label><input type="checkbox" value="QUEST:DRAGON_SLAYER_I"> QUEST:DRAGON_SLAYER_I</label>
+  <label><input type="checkbox" value="QUEST:TROLL_ROMANCE"> QUEST:TROLL_ROMANCE</label>
+  <label><input type="checkbox" value="QUEST:WATCHTOWER"> QUEST:WATCHTOWER</label>
+  <label><input type="checkbox" value="QUEST:DESERT_TREASURE_I"> QUEST:DESERT_TREASURE_I</label>
+  <label><input type="checkbox" value="QUEST:A_SOULS_BANE"> QUEST:A_SOULS_BANE</label>
+  <label><input type="checkbox" value="QUEST:HAUNTED_MINE"> QUEST:HAUNTED_MINE</label>
+  <label><input type="checkbox" value="QUEST:HEROES_QUEST"> QUEST:HEROES_QUEST</label>
+  <label><input type="checkbox" value="QUEST:RFD_AMIK_VARZE"> QUEST:RFD_AMIK_VARZE</label>
+  <label><input type="checkbox" value="QUEST:MOUNTAIN_DAUGHTER"> QUEST:MOUNTAIN_DAUGHTER</label>
+  <label><input type="checkbox" value="QUEST:RFD_MONKEY"> QUEST:RFD_MONKEY</label>
+  <label><input type="checkbox" value="QUEST:SHEEP_HERDER"> QUEST:SHEEP_HERDER</label>
+  <label><input type="checkbox" value="QUEST:REGICIDE"> QUEST:REGICIDE</label>
+  <label><input type="checkbox" value="QUEST:ROVING_ELVES"> QUEST:ROVING_ELVES</label>
+  <label><input type="checkbox" value="QUEST:THE_FREMENNIK_TRIALS"> QUEST:THE_FREMENNIK_TRIALS</label>
+  <label><input type="checkbox" value="QUEST:MOURNINGS_END_PART_I"> QUEST:MOURNINGS_END_PART_I</label>
+  <label><input type="checkbox" value="QUEST:RFD_CULINAROMANCER"> QUEST:RFD_CULINAROMANCER</label>
+  <label><input type="checkbox" value="QUEST:MOURNINGS_END_PART_II"> QUEST:MOURNINGS_END_PART_II</label>
+
+  <!-- Skills -->
+  <h3>Skills</h3>
+  <label><input type="checkbox" value="SKILL:THIEVING:60"> SKILL:THIEVING:60</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:40"> SKILL:AGILITY:40</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:50"> SKILL:AGILITY:50</label>
+  <label><input type="checkbox" value="SKILL:DEFENCE:30"> SKILL:DEFENCE:30</label>
+  <label><input type="checkbox" value="SKILL:MINING:41"> SKILL:MINING:41</label>
+  <label><input type="checkbox" value="SKILL:RUNECRAFTING:10"> SKILL:RUNECRAFTING:10</label>
+  <label><input type="checkbox" value="SKILL:RUNECRAFTING:50"> SKILL:RUNECRAFTING:50</label>
+  <label><input type="checkbox" value="SKILL:FISHING:40"> SKILL:FISHING:40</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:52"> SKILL:AGILITY:52</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:75"> SKILL:THIEVING:75</label>
+  <label><input type="checkbox" value="SKILL:FARMING:34"> SKILL:FARMING:34</label>
+  <label><input type="checkbox" value="SKILL:STRENGTH:55"> SKILL:STRENGTH:55</label>
+  <label><input type="checkbox" value="SKILL:ATTACK:55"> SKILL:ATTACK:55</label>
+  <label><input type="checkbox" value="SKILL:DEFENCE:40"> SKILL:DEFENCE:40</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:56"> SKILL:AGILITY:56</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:80"> SKILL:THIEVING:80</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:62"> SKILL:AGILITY:62</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:67"> SKILL:AGILITY:67</label>
+  <label><input type="checkbox" value="SKILL:FISHING:49"> SKILL:FISHING:49</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:83"> SKILL:THIEVING:83</label>
+  <label><input type="checkbox" value="SKILL:AGILITY:70"> SKILL:AGILITY:70</label>
+  <label><input type="checkbox" value="SKILL:PRAYER:45"> SKILL:PRAYER:45</label>
+  <label><input type="checkbox" value="SKILL:CONSTRUCTION:50"> SKILL:CONSTRUCTION:50</label>
+  <label><input type="checkbox" value="SKILL:RUNECRAFTING:55"> SKILL:RUNECRAFTING:55</label>
+  <label><input type="checkbox" value="SKILL:HERBLORE:40"> SKILL:HERBLORE:40</label>
+  <label><input type="checkbox" value="SKILL:FISHING:56"> SKILL:FISHING:56</label>
+  <label><input type="checkbox" value="SKILL:COOKING:70"> SKILL:COOKING:70</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:85"> SKILL:THIEVING:85</label>
+  <label><input type="checkbox" value="SKILL:CONSTRUCTION:70"> SKILL:CONSTRUCTION:70</label>
+  <label><input type="checkbox" value="SKILL:WOODCUTTING:70"> SKILL:WOODCUTTING:70</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:86"> SKILL:THIEVING:86</label>
+  <label><input type="checkbox" value="SKILL:FISHING:59"> SKILL:FISHING:59</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:88"> SKILL:THIEVING:88</label>
+  <label><input type="checkbox" value="SKILL:ATTACK:60"> SKILL:ATTACK:60</label>
+  <label><input type="checkbox" value="SKILL:RANGED:45"> SKILL:RANGED:45</label>
+  <label><input type="checkbox" value="SKILL:THIEVING:90"> SKILL:THIEVING:90</label>
+  <label><input type="checkbox" value="SKILL:FISHING:63"> SKILL:FISHING:63</label>
+  <label><input type="checkbox" value="SKILL:HERBLORE:60"> SKILL:HERBLORE:60</label>
+  <label><input type="checkbox" value="SKILL:STRENGTH:60"> SKILL:STRENGTH:60</label>
+  <label><input type="checkbox" value="SKILL:RANGED:55"> SKILL:RANGED:55</label>
+  <label><input type="checkbox" value="SKILL:HUNTER:70"> SKILL:HUNTER:70</label>
+  <label><input type="checkbox" value="SKILL:HERBLORE:70"> SKILL:HERBLORE:70</label>
+
+  <!-- Repeating tasks -->
+  <h3>Repeating Tasks</h3>
+  <label><input type="checkbox" value="REPEATING:BIRDHOUSES:126"> REPEATING:BIRDHOUSES:126</label>
+  <label><input type="checkbox" value="REPEATING:COMPOST_RUNS"> REPEATING:COMPOST_RUNS</label>
+  <label><input type="checkbox" value="REPEATING:HERB_RUNS:126"> REPEATING:HERB_RUNS:126</label>
+  <label><input type="checkbox" value="REPEATING:SEAWEED_RUNS:126"> REPEATING:SEAWEED_RUNS:126</label>
+
+  <!-- Minigames -->
+  <h3>Minigames</h3>
+  <label><input type="checkbox" value="MINIGAME:WINTERTODT:75"> MINIGAME:WINTERTODT:75</label>
+  <label><input type="checkbox" value="MINIGAME:WINTERTODT:80"> MINIGAME:WINTERTODT:80</label>
+  <label><input type="checkbox" value="MINIGAME:WINTERTODT:85"> MINIGAME:WINTERTODT:85</label>
+  <label><input type="checkbox" value="MINIGAME:MLM:62"> MINIGAME:MLM:62</label>
+  <label><input type="checkbox" value="MINIGAME:MLM:67"> MINIGAME:MLM:67</label>
+  <label><input type="checkbox" value="MINIGAME:MLM:70"> MINIGAME:MLM:70</label>
+  <label><input type="checkbox" value="MINIGAME:GF:60:STEEL_MITHRIL"> MINIGAME:GF:60:STEEL_MITHRIL</label>
+  <label><input type="checkbox" value="MINIGAME:GF:70:STEEL_MITHRIL"> MINIGAME:GF:70:STEEL_MITHRIL</label>
+
+  <!-- Diaries -->
+  <h3>Diaries</h3>
+  <label><input type="checkbox" value="DIARY:ARDOUGNE_EASY"> DIARY:ARDOUGNE_EASY</label>
+
+  <!-- Milestones -->
+  <h3>Milestones</h3>
+  <label><input type="checkbox" value="MILESTONE:ROGUES_OUTFIT"> MILESTONE:ROGUES_OUTFIT</label>
+  <label><input type="checkbox" value="MILESTONE:FAIRY_RINGS"> MILESTONE:FAIRY_RINGS</label>
+
+  <!-- Acquire tasks -->
+  <h3>Acquires</h3>
+  <label><input type="checkbox" value="ACQUIRE:Molten glass,2000"> ACQUIRE:Molten glass,2000</label>
+  <label><input type="checkbox" value="ACQUIRE:Unpowered orb,1000"> ACQUIRE:Unpowered orb,1000</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,1000"> ACQUIRE:Lantern lens,1000</label>
+  <label><input type="checkbox" value="ACQUIRE:Law rune,500"> ACQUIRE:Law rune,500</label>
+  <label><input type="checkbox" value="ACQUIRE:Oak plank,3450"> ACQUIRE:Oak plank,3450</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,2500"> ACQUIRE:Lantern lens,2500</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,4000"> ACQUIRE:Lantern lens,4000</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,6100"> ACQUIRE:Lantern lens,6100</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,8000"> ACQUIRE:Lantern lens,8000</label>
+  <label><input type="checkbox" value="ACQUIRE:Lantern lens,10000"> ACQUIRE:Lantern lens,10000</label>
+
+</div>
+
+<div id="stack">
+  <h2>Selected Tasks</h2>
+  <pre id="stackList"></pre>
+  <button onclick="copyStack()">Copy All</button>
+</div>
+
 <script>
-function toggleTable(id) {
-    const table = document.getElementById(id);
-    table.style.display = table.style.display === 'table' ? 'none' : 'table';
-}
+const stackList = document.getElementById('stackList');
+const checkboxes = document.querySelectorAll('#tasks input[type=checkbox]');
+let selected = [];
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => alert('Copied: ' + text));
+checkboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    if(cb.checked) selected.push(cb.value);
+    else selected = selected.filter(t => t !== cb.value);
+    stackList.textContent = selected.join('\n');
+  });
+});
+
+function copyStack() {
+  navigator.clipboard.writeText(selected.join('\n')).then(() => {
+    alert('Copied to clipboard!');
+  });
 }
 </script>
-
-<h2 onclick="toggleTable('quests')">Quests</h2>
-<table id="quests">
-<tr><th>Quest Name</th><th>ID</th><th>Requirements</th><th>Copy</th></tr>
-<tr><td>Ghosts Ahoy</td><td>QUEST:GHOSTS_AHOY</td><td>Priest in Peril, Restless Ghost, 25 Agility, 20 Cooking</td><td><button class="copy-btn" onclick="copyToClipboard('QUEST:GHOSTS_AHOY')">Copy</button></td></tr>
-<tr><td>Making History</td><td>QUEST:MAKING_HISTORY</td><td>Priest in Peril, Restless Ghost</td><td><button class="copy-btn" onclick="copyToClipboard('QUEST:MAKING_HISTORY')">Copy</button></td></tr>
-<tr><td>Mountain Daughter</td><td>QUEST:MOUNTAIN_DAUGHTER</td><td>9+ Magic, 20+ Agility</td><td><button class="copy-btn" onclick="copyToClipboard('QUEST:MOUNTAIN_DAUGHTER')">Copy</button></td></tr>
-<!-- Continue adding all quests similarly -->
-</table>
-
-<h2 onclick="toggleTable('skills')">Skills</h2>
-<table id="skills">
-<tr><th>Skill</th><th>Target Level</th><th>Method / Notes</th><th>Copy</th></tr>
-<tr><td>Firemaking</td><td>99</td><td>Burn logs (~5gp/xp), MINIGAME:WINTERTODT optional after 50</td><td><button class="copy-btn" onclick="copyToClipboard('SKILL:FIREMAKING:99')">Copy</button></td></tr>
-<tr><td>Crafting</td><td>99</td><td>Cut gems, glassblowing</td><td><button class="copy-btn" onclick="copyToClipboard('SKILL:CRAFTING:99')">Copy</button></td></tr>
-<tr><td>Fishing</td><td>99</td><td>Trout/Salmon, Barbarian Fishing after 58</td><td><button class="copy-btn" onclick="copyToClipboard('SKILL:FISHING:99')">Copy</button></td></tr>
-<!-- Continue adding all skills -->
-</table>
-
-<h2 onclick="toggleTable('repeating')">Repeating Tasks</h2>
-<table id="repeating">
-<tr><th>Task</th><th>Target / Notes</th><th>Copy</th></tr>
-<tr><td>Birdhouse Runs</td><td>Until Hunter 126, requires Bone Voyage</td><td><button class="copy-btn" onclick="copyToClipboard('REPEATING:BIRDHOUSES:126')">Copy</button></td></tr>
-<tr><td>Herb Runs</td><td>Until Farming 126</td><td><button class="copy-btn" onclick="copyToClipboard('REPEATING:HERB_RUNS:126')">Copy</button></td></tr>
-<tr><td>Seaweed Runs</td><td>Until Farming 126</td><td><button class="copy-btn" onclick="copyToClipboard('REPEATING:SEAWEED_RUNS:126')">Copy</button></td></tr>
-<tr><td>Compost Runs</td><td>Until Tool Leprechaun has 800+ ultra compost</td><td><button class="copy-btn" onclick="copyToClipboard('REPEATING:COMPOST_RUNS')">Copy</button></td></tr>
-</table>
-
-<h2 onclick="toggleTable('minigames')">Minigames</h2>
-<table id="minigames">
-<tr><th>Minigame</th><th>Target / Notes</th><th>Copy</th></tr>
-<tr><td>Wintertodt</td><td>MINIGAME:WINTERTODT:TARGETLVL</td><td><button class="copy-btn" onclick="copyToClipboard('MINIGAME:WINTERTODT:TARGETLVL')">Copy</button></td></tr>
-<tr><td>Motherlode Mine</td><td>MINIGAME:MLM:TARGETLVL / SET / HAT etc.</td><td><button class="copy-btn" onclick="copyToClipboard('MINIGAME:MLM:TARGETLVL')">Copy</button></td></tr>
-<tr><td>Giant's Foundry</td><td>MINIGAME:GF:LEVEL:ALLOY</td><td><button class="copy-btn" onclick="copyToClipboard('MINIGAME:GF:LEVEL:ALLOY')">Copy</button></td></tr>
-</table>
-
-<h2 onclick="toggleTable('milestones')">Milestones / Diaries</h2>
-<table id="milestones">
-<tr><th>Milestone / Diary</th><th>Requirements</th><th>Copy</th></tr>
-<tr><td>Dragon Defender</td><td>ATT+STR >= 130</td><td><button class="copy-btn" onclick="copyToClipboard('MILESTONE:DRAGON_DEFENDER')">Copy</button></td></tr>
-<tr><td>Rune Defender</td><td>ATT+STR >= 130</td><td><button class="copy-btn" onclick="copyToClipboard('MILESTONE:RUNE_DEFENDER')">Copy</button></td></tr>
-<tr><td>Fairy Rings</td><td>Fairytale I completed</td><td><button class="copy-btn" onclick="copyToClipboard('MILESTONE:FAIRY_RINGS')">Copy</button></td></tr>
-</table>
-
-<h2 onclick="toggleTable('ironstarter')">Ironman Starter Task</h2>
-<table id="ironstarter">
-<tr><th>Quest / Task</th><th>Ending Stats / Items</th><th>Copy</th></tr>
-<tr><td>IRON_STARTER_PART1</td><td>Ending Stats: 40 atk, 30 str, 9 pray, 20 mage, 14 slay, 8 con, 9 farm... Materials: ~50k gp, charged Kharedst’s Memoirs, etc.</td><td><button class="copy-btn" onclick="copyToClipboard('IRON_STARTER_PART1')">Copy</button></td></tr>
-</table>
-
-<h2 onclick="toggleTable('acquire')">Item Acquisition Tasks</h2>
-<table id="acquire">
-<tr><th>Item</th><th>Min-Max</th><th>Copy</th></tr>
-<tr><td>Molten glass</td><td>2000</td><td><button class="copy-btn" onclick="copyToClipboard('ACQUIRE:Molten glass,2000')">Copy</button></td></tr>
-<tr><td>Unpowered orb</td><td>1000</td><td><button class="copy-btn" onclick="copyToClipboard('ACQUIRE:Unpowered orb,1000')">Copy</button></td></tr>
-<tr><td>Lantern lens</td><td>10000</td><td><button class="copy-btn" onclick="copyToClipboard('ACQUIRE:Lantern lens,10000')">Copy</button></td></tr>
-</table>
 
 </body>
 </html>
