@@ -257,7 +257,66 @@
         <li>Construction <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('CONSTRUCTION', this.value)"></li>
         <li>Sailing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('SAILING', this.value)"></li>
     </ul>
+    <!-- Achievement Diaries -->
+<h2 onclick="toggleSection('diaries')">Achievement Diaries</h2>
+<ul id="diaries">
+<li onclick="addTask('DIARY:VARROCK_EASY')">Varrock Easy</li>
+<li onclick="addTask('DIARY:VARROCK_MEDIUM')">Varrock Medium</li>
+<li onclick="addTask('DIARY:ARDOUGNE_EASY')">Ardougne Easy</li>
+<li onclick="addTask('DIARY:ARDOUGNE_MEDIUM')">Ardougne Medium</li>
+<li onclick="addTask('DIARY:LUMBRIDGE_EASY')">Lumbridge Easy</li>
+<li onclick="addTask('DIARY:LUMBRIDGE_MEDIUM')">Lumbridge Medium</li>
+<li onclick="addTask('DIARY:KARAMJA_EASY')">Karamja Easy</li>
+<li onclick="addTask('DIARY:KOUREND_EASY')">Kourend Easy</li>
+</ul>
 
+
+<!-- Repeating Tasks -->
+<h2 onclick="toggleSection('repeating')">Repeating Tasks</h2>
+<ul id="repeating">
+<li onclick="addTask('REPEATING:BIRDHOUSES:HUNTERLVL')">Birdhouse Runs</li>
+<li onclick="addTask('REPEATING:TREE_RUNS:FARMINGLVL')">Tree Runs</li>
+<li onclick="addTask('REPEATING:HERB_RUNS:FARMINGLVL')">Herb Runs</li>
+<li onclick="addTask('REPEATING:SEAWEED_RUNS:FARMINGLVL')">Seaweed Runs</li>
+<li onclick="addTask('REPEATING:HOP_RUNS:FARMINGLVL')">Hop Runs</li>
+<li onclick="addTask('REPEATING:COMPOST_RUNS')">Compost Runs</li>
+<li onclick="addTask('REPEATING:HESPORI')">Hespori</li>
+<li onclick="addTask('REPEATING:KINGDOM:MAHOG:HERB')">Kingdom of Miscellania</li>
+</ul>
+
+
+<!-- Milestones -->
+<h2 onclick="toggleSection('milestones')">Milestones</h2>
+<ul id="milestones">
+<li onclick="addTask('MILESTONE:DRAGON_DEFENDER')">Dragon Defender</li>
+<li onclick="addTask('MILESTONE:RUNE_DEFENDER')">Rune Defender</li>
+<li onclick="addTask('MILESTONE:FAIRY_RINGS')">Fairy Rings</li>
+<li onclick="addTask('MILESTONE:UNLOCK_PIETY')">Piety / Knight Waves Training Grounds</li>
+<li onclick="addTask('MILESTONE:ROGUES_OUTFIT')">Rogues Outfit</li>
+<li onclick="addTask('MILESTONE:ROCK_CAKE')">Rock Cake</li>
+<li onclick="addTask('MILESTONE:BLACK_MASK')">Black Mask</li>
+</ul>
+
+
+<!-- Minigames -->
+<h2 onclick="toggleSection('minigames')">Minigames</h2>
+<ul id="minigames">
+<li onclick="addTask('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
+<li onclick="addTask('MINIGAME:MTA')">Mage Training Arena</li>
+<li onclick="addTask('MINIGAME:WINTERTODT:TARGETLVL')">Wintertodt</li>
+<li onclick="addTask('MINIGAME:MLM:TARGETLVL')">Motherlode Mine</li>
+<li onclick="addTask('MINIGAME:GF:TARGETLVL')">Giant's Foundry</li>
+</ul>
+
+
+<!-- Ironman Starter -->
+<h2 onclick="toggleSection('ironstarter')">Ironman Starter</h2>
+<ul id="ironstarter">
+<li onclick="addTask('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
+</ul>
+
+
+</ul>
 </div>
 
 <div id="right-panel">
@@ -319,4 +378,5 @@ searchInput.addEventListener('input', function() {
 
 </body>
 </html>
+
 
