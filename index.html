@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>P-Account Builder Helper</title>
-
 <style>
 body {
     font-family: "Trebuchet MS", sans-serif;
@@ -15,7 +14,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
 #left-panel {
     width: 360px;
     background: #1e293b;
@@ -23,25 +21,21 @@ body {
     display: flex;
     flex-direction: column;
 }
-
 #left-panel input, #left-panel button {
     margin: 6px 10px;
 }
-
-#search, #rsn-input {
+#search, #rsn-input, #wiki-username {
     padding: 6px;
     border-radius: 5px;
     border: 1px solid #3b82f6;
     background: #0f172a;
     color: #e2e8f0;
 }
-
 .scroll-container {
     overflow-y: auto;
     flex-grow: 1;
     padding: 10px;
 }
-
 h2 {
     color: #3b82f6;
     margin: 0;
@@ -54,28 +48,22 @@ h2 {
     top: 0;
     border-bottom: 1px solid #3b82f6;
 }
-
 .arrow { transition: transform 0.2s; }
-
 ul {
     list-style: none;
     padding-left: 10px;
     margin: 0 0 15px 0;
     display: none;
 }
-
 li {
     padding: 5px 0;
     cursor: pointer;
 }
-
 li:hover { color: #3b82f6; }
-
 li.completed {
     color: #22c55e;
     text-decoration: line-through;
 }
-
 .stacked-task {
     background: #1e293b;
     margin-bottom: 5px;
@@ -83,7 +71,6 @@ li.completed {
     border-radius: 5px;
     font-family: monospace;
 }
-
 input[type=number] {
     width: 60px;
     padding: 3px;
@@ -93,13 +80,11 @@ input[type=number] {
     background: #0f172a;
     color: #e2e8f0;
 }
-
 #right-panel {
     flex-grow: 1;
     padding: 15px;
     overflow-y: auto;
 }
-
 button {
     padding: 8px;
     border-radius: 5px;
@@ -108,24 +93,18 @@ button {
     color: #fff;
     cursor: pointer;
 }
-
 button.secondary {
     background: #475569;
 }
 </style>
 </head>
-
 <body>
 
 <div id="left-panel">
-
-    <!-- WikiSync Import -->
     <input id="rsn-input" placeholder="OSRS Username">
     <button onclick="importWikiSync()">Import Account (WikiSync)</button>
     <button class="secondary" onclick="resetAccount()">Reset / New Account</button>
-
     <input type="text" id="search" placeholder="Search tasks...">
-
     <div class="scroll-container">
 
         <!-- Quests -->
@@ -274,35 +253,35 @@ button.secondary {
             <li onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
             <li onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
         </ul>
-
         <!-- Skills -->
         <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
         <ul id="skills">
-            <li>Attack <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('ATTACK', this.value)"></li>
-            <li>Strength <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('STRENGTH', this.value)"></li>
-            <li>Defense <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('DEFENSE', this.value)"></li>
-            <li>Ranged <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('RANGED', this.value)"></li>
-            <li>Magic <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('MAGIC', this.value)"></li>
-            <li>Prayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('PRAYER', this.value)"></li>
-            <li>Hitpoints <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HITPOINTS', this.value)"></li>
-            <li>Cooking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('COOKING', this.value)"></li>
-            <li>Woodcutting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('WOODCUTTING', this.value)"></li>
-            <li>Fletching <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FLETCHING', this.value)"></li>
-            <li>Fishing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FISHING', this.value)"></li>
-            <li>Firemaking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FIREMAKING', this.value)"></li>
-            <li>Crafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('CRAFTING', this.value)"></li>
-            <li>Smithing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SMITHING', this.value)"></li>
-            <li>Mining <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('MINING', this.value)"></li>
-            <li>Herblore <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HERBLORE', this.value)"></li>
-            <li>Agility <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('AGILITY', this.value)"></li>
-            <li>Thieving <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('THIEVING', this.value)"></li>
-            <li>Slayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SLAYER', this.value)"></li>
-            <li>Farming <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FARMING', this.value)"></li>
-            <li>Runecrafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('RUNECRAFTING', this.value)"></li>
-            <li>Hunter <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HUNTER', this.value)"></li>
-            <li>Construction <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('CONSTRUCTION', this.value)"></li>
-            <li>Sailing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SAILING', this.value)"></li>
+            <li>Attack <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('ATTACK', this.value)"></li>
+            <li>Strength <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('STRENGTH', this.value)"></li>
+            <li>Defense <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('DEFENSE', this.value)"></li>
+            <li>Ranged <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('RANGED', this.value)"></li>
+            <li>Magic <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('MAGIC', this.value)"></li>
+            <li>Prayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('PRAYER', this.value)"></li>
+            <li>Hitpoints <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('HITPOINTS', this.value)"></li>
+            <li>Cooking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('COOKING', this.value)"></li>
+            <li>Woodcutting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('WOODCUTTING', this.value)"></li>
+            <li>Fletching <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('FLETCHING', this.value)"></li>
+            <li>Fishing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('FISHING', this.value)"></li>
+            <li>Firemaking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('FIREMAKING', this.value)"></li>
+            <li>Crafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('CRAFTING', this.value)"></li>
+            <li>Smithing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('SMITHING', this.value)"></li>
+            <li>Mining <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('MINING', this.value)"></li>
+            <li>Herblore <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('HERBLORE', this.value)"></li>
+            <li>Agility <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('AGILITY', this.value)"></li>
+            <li>Thieving <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('THIEVING', this.value)"></li>
+            <li>Slayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('SLAYER', this.value)"></li>
+            <li>Farming <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('FARMING', this.value)"></li>
+            <li>Runecrafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('RUNECRAFTING', this.value)"></li>
+            <li>Hunter <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('HUNTER', this.value)"></li>
+            <li>Construction <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('CONSTRUCTION', this.value)"></li>
+            <li>Sailing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkill('SAILING', this.value)"></li>
         </ul>
+
         <!-- Achievement Diaries -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
         <ul id="diaries">
@@ -367,9 +346,7 @@ button.secondary {
 </div>
 
 <script>
-/* ===============================
-   CORE BUILDER LOGIC
-================================ */
+// ======================= CORE FUNCTIONS =======================
 const addedTasks = new Set();
 
 function toggleSection(id) {
@@ -379,21 +356,17 @@ function toggleSection(id) {
     arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
 
-function addTask(task) {
+function addTaskSafe(task) {
+    if (addedTasks.has(task)) return;
+    addedTasks.add(task);
     const div = document.createElement('div');
     div.className = 'stacked-task';
     div.textContent = task;
     document.getElementById('stacked-tasks').appendChild(div);
 }
 
-function addTaskSafe(task) {
-    if (addedTasks.has(task)) return;
-    addedTasks.add(task);
-    addTask(task);
-}
-
-function addSkillSafe(skill, level) {
-    if (!level || isNaN(level)) return;
+function addSkill(skill, level) {
+    if (!level) return;
     addTaskSafe(`SKILL:${skill}:${level}`);
 }
 
@@ -401,18 +374,15 @@ function copyAll() {
     const text = [...document.querySelectorAll('.stacked-task')]
         .map(d => d.textContent).join('\n');
     navigator.clipboard.writeText(text);
-    alert('Full stack copied');
+    alert('Full stack copied!');
 }
 
 function resetAccount() {
     document.getElementById('stacked-tasks').innerHTML = '';
     addedTasks.clear();
-    document.getElementById('rsn-input').value = '';
 }
 
-/* ===============================
-   WikiSync Integration
-================================ */
+// ======================= WIKISYNC IMPORT =======================
 async function importWikiSync() {
     const username = document.getElementById('rsn-input').value.trim();
     if (!username) {
@@ -420,64 +390,48 @@ async function importWikiSync() {
         return;
     }
 
-    const apiBase = 'https://oldschool.runescape.wiki/api.php?action=parse&format=json&origin=*&page=User:' + encodeURIComponent(username) + '/';
+    const apiBase = `https://runescape.wiki/api.php?action=parse&format=json&origin=*&page=User:${encodeURIComponent(username)}/`;
 
     try {
         const parser = new DOMParser();
 
-        // -------- SKILLS --------
+        // ---- Skills ----
         const skillsRes = await fetch(apiBase + 'Skills');
-        if (!skillsRes.ok) throw new Error('No Skills page found');
         const skillsJson = await skillsRes.json();
-        if (skillsJson.error) throw new Error('No Skills data');
-        const skillsHtml = skillsJson.parse?.text?.['*'];
-        if (skillsHtml) {
-            const skillsDoc = parser.parseFromString(skillsHtml, 'text/html');
-            skillsDoc.querySelectorAll('tr').forEach(row => {
-                const tds = row.querySelectorAll('td');
-                if (tds.length >= 2) {
-                    const skillName = tds[0].textContent.trim().toUpperCase();
-                    const level = tds[1].textContent.trim();
-                    if (level && !isNaN(level)) addTaskSafe(`SKILL:${skillName}:${level}`);
-                }
-            });
-        }
+        const skillsDoc = parser.parseFromString(skillsJson.parse.text['*'], 'text/html');
+        skillsDoc.querySelectorAll('tr').forEach(row => {
+            const tds = row.querySelectorAll('td');
+            if (tds.length >= 2) {
+                const skillName = tds[0].textContent.trim().toUpperCase();
+                const level = tds[1].textContent.trim();
+                if (level && !isNaN(level)) addTaskSafe(`SKILL:${skillName}:${level}`);
+            }
+        });
 
-        // -------- QUESTS --------
+        // ---- Quests ----
         const questsRes = await fetch(apiBase + 'Quests');
-        if (questsRes.ok) {
-            const questsJson = await questsRes.json();
-            const questsHtml = questsJson.parse?.text?.['*'];
-            if (questsHtml) {
-                const questsDoc = parser.parseFromString(questsHtml, 'text/html');
-                questsDoc.querySelectorAll('li').forEach(li => {
-                    const quest = li.textContent.trim();
-                    if (quest) addTaskSafe('QUEST:' + quest.replace(/\s+/g, '_').toUpperCase());
-                });
-            }
-        }
+        const questsJson = await questsRes.json();
+        const questsDoc = parser.parseFromString(questsJson.parse.text['*'], 'text/html');
+        questsDoc.querySelectorAll('li').forEach(li => {
+            const quest = li.textContent.trim();
+            if (quest) addTaskSafe(`QUEST:${quest.replace(/\s+/g,'_').toUpperCase()}`);
+        });
 
-        // -------- ACHIEVEMENT DIARIES --------
+        // ---- Diaries ----
         const diariesRes = await fetch(apiBase + 'Achievement_diaries');
-        if (diariesRes.ok) {
-            const diariesJson = await diariesRes.json();
-            const diariesHtml = diariesJson.parse?.text?.['*'];
-            if (diariesHtml) {
-                const diariesDoc = parser.parseFromString(diariesHtml, 'text/html');
-                diariesDoc.querySelectorAll('li').forEach(li => {
-                    const diary = li.textContent.trim();
-                    if (diary) addTaskSafe('DIARY:' + diary.replace(/\s+/g, '_').toUpperCase());
-                });
-            }
-        }
+        const diariesJson = await diariesRes.json();
+        const diariesDoc = parser.parseFromString(diariesJson.parse.text['*'], 'text/html');
+        diariesDoc.querySelectorAll('li').forEach(li => {
+            const diary = li.textContent.trim();
+            if (diary) addTaskSafe(`DIARY:${diary.replace(/\s+/g,'_').toUpperCase()}`);
+        });
 
         alert('WikiSync data imported successfully!');
-    } catch (err) {
-        console.error('WikiSync Import Error:', err);
+    } catch(err) {
+        console.error(err);
         alert('Failed to import WikiSync data. Ensure the username is correct and the account has WikiSync pushed data.');
     }
 }
 </script>
 </body>
 </html>
-
