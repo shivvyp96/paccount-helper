@@ -408,60 +408,44 @@ function copyAll() {
 
 /* ========== WikiSync IMPORT ========== */
 async function importWikiSync() {
-    const username = document.getElementById('rsn-input').value.trim();
+    const username = document.getElementById('wiki-username').value.trim();
     if (!username) {
         alert('Please enter a WikiSync username!');
         return;
     }
-    console.log('Attempting WikiSync import for:', username);
-
-    const apiBase = `https://runescape.wiki/api.php?action=parse&format=json&page=User:${encodeURIComponent(username)}/`;
 
     try {
-        // --- Skills ---
-        const skillsRes = await fetch(apiBase + 'Skills');
-        const skillsJson = await skillsRes.json();
-        console.log('Skills JSON fetched:', skillsJson);
-        const skillsHtml = skillsJson.parse.text['*'];
-        const parser = new DOMParser();
-        const skillsDoc = parser.parseFromString(skillsHtml, 'text/html');
-        skillsDoc.querySelectorAll('tr').forEach(row => {
-            const tds = row.querySelectorAll('td');
-            if (tds.length >= 2) {
-                const skillName = tds[0].textContent.trim().toUpperCase();
-                const level = tds[1].textContent.trim();
-                if (level && !isNaN(level)) addTaskSafe(`SKILL:${skillName}:${level}`);
-            }
-        });
+        const res = await fetch(`http://localhost:3000/wikisync?username=${encodeURIComponent(username)}`);
+        if (!res.ok) throw new Error('Failed to fetch data from backend');
 
-        // --- Quests ---
-        const questsRes = await fetch(apiBase + 'Quests');
-        const questsJson = await questsRes.json();
-        const questsHtml = questsJson.parse.text['*'];
-        const questsDoc = parser.parseFromString(questsHtml, 'text/html');
-        questsDoc.querySelectorAll('li').forEach(li => {
-            const quest = li.textContent.trim();
-            if (quest) addTaskSafe('QUEST:' + quest.replace(/\s+/g, '_').toUpperCase());
-        });
+        const data = await res.json();
 
-        // --- Achievement Diaries ---
-        const diariesRes = await fetch(apiBase + 'Achievement_diaries');
-        const diariesJson = await diariesRes.json();
-        const diariesHtml = diariesJson.parse.text['*'];
-        const diariesDoc = parser.parseFromString(diariesHtml, 'text/html');
-        diariesDoc.querySelectorAll('li').forEach(li => {
-            const diary = li.textContent.trim();
-            if (diary) addTaskSafe('DIARY:' + diary.replace(/\s+/g, '_').toUpperCase());
-        });
+        // Clear previous tasks
+        resetStack();
 
-        console.log('WikiSync import completed successfully');
+        // Add skills
+        for (const skill of data.skills) {
+            addTaskSafe(`SKILL:${skill.name}:${skill.level}`);
+        }
+
+        // Add quests
+        for (const quest of data.quests) {
+            addTaskSafe(`QUEST:${quest}`);
+        }
+
+        // Add diaries
+        for (const diary of data.diaries) {
+            addTaskSafe(`DIARY:${diary}`);
+        }
+
         alert('WikiSync data imported successfully!');
 
     } catch (err) {
-        console.error('WikiSync import error:', err);
+        console.error(err);
         alert('Failed to import WikiSync data. Ensure the username is correct and the account has WikiSync pushed data.');
     }
 }
 </script>
 </body>
 </html>
+
