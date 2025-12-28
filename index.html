@@ -4,103 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>P-Account Builder Helper</title>
+
 <style>
-    body {
-        font-family: "Trebuchet MS", sans-serif;
-        background: #0f172a;
-        color: #e2e8f0;
-        margin: 0;
-        display: flex;
-        height: 100vh;
-        overflow: hidden;
-    }
-    #left-panel {
-        width: 350px;
-        background: #1e293b;
-        border-right: 2px solid #3b82f6;
-        display: flex;
-        flex-direction: column;
-    }
-    #left-panel input#search {
-        margin: 10px;
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid #3b82f6;
-        background: #0f172a;
-        color: #e2e8f0;
-    }
-    #left-panel .scroll-container {
-        overflow-y: auto;
-        flex-grow: 1;
-        padding: 10px;
-    }
-    h2 {
-        color: #3b82f6;
-        margin: 0;
-        padding: 10px 5px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #1e293b;
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        border-bottom: 1px solid #3b82f6;
-    }
-    .arrow {
-        transition: transform 0.3s ease;
-    }
-    ul {
-        list-style: none;
-        padding-left: 10px;
-        margin: 0 0 15px 0;
-        display: none; /* collapsed by default */
-    }
-    li {
-        padding: 5px 0;
-        cursor: pointer;
-    }
-    li:hover {
-        color: #3b82f6;
-    }
-    .stacked-task {
-        background: #1e293b;
-        margin-bottom: 5px;
-        padding: 5px;
-        border-radius: 5px;
-        font-family: monospace;
-    }
-    input[type=number] {
-        width: 60px;
-        padding: 3px;
-        margin-left: 5px;
-        border-radius: 4px;
-        border: 1px solid #3b82f6;
-        background: #0f172a;
-        color: #e2e8f0;
-    }
-    #right-panel {
-        flex-grow: 1;
-        padding: 15px;
-        overflow-y: auto;
-        background: #0f172a;
-    }
-    button {
-        margin-top: 10px;
-        padding: 8px 12px;
-        border-radius: 5px;
-        border: none;
-        background: #3b82f6;
-        color: #fff;
-        cursor: pointer;
-    }
+body {
+    font-family: "Trebuchet MS", sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#left-panel {
+    width: 360px;
+    background: #1e293b;
+    border-right: 2px solid #3b82f6;
+    display: flex;
+    flex-direction: column;
+}
+
+#left-panel input, #left-panel button {
+    margin: 6px 10px;
+}
+
+#search, #rsn-input {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #3b82f6;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.scroll-container {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+h2 {
+    color: #3b82f6;
+    margin: 0;
+    padding: 10px 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    background: #1e293b;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #3b82f6;
+}
+
+.arrow { transition: transform 0.2s; }
+
+ul {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0 0 15px 0;
+    display: none;
+}
+
+li {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+li:hover { color: #3b82f6; }
+
+li.completed {
+    color: #22c55e;
+    text-decoration: line-through;
+}
+
+.stacked-task {
+    background: #1e293b;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+input[type=number] {
+    width: 60px;
+    padding: 3px;
+    margin-left: 5px;
+    border-radius: 4px;
+    border: 1px solid #3b82f6;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+#right-panel {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+button {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background: #3b82f6;
+    color: #fff;
+    cursor: pointer;
+}
+
+button.secondary {
+    background: #475569;
+}
 </style>
 </head>
+
 <body>
 
 <div id="left-panel">
+
+    <!-- WikiSync Import -->
+    <input id="rsn-input" placeholder="OSRS Username">
+    <button onclick="importWikiSync()">Import Account (WikiSync)</button>
+    <button class="secondary" onclick="resetAccount()">Reset / New Account</button>
+
     <input type="text" id="search" placeholder="Search tasks...">
+
     <div class="scroll-container">
 
         <!-- Quests -->
@@ -333,7 +358,7 @@
         <ul id="ironstarter">
             <li onclick="addTask('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
         </ul>
-    </div>
+   </div>
 </div>
 
 <div id="right-panel">
@@ -343,51 +368,113 @@
 </div>
 
 <script>
+/* ===============================
+   CORE BUILDER (UNCHANGED)
+================================ */
+
 function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
-    if(el.style.display === 'block') {
-        el.style.display = 'none';
-        arrow.style.transform = 'rotate(0deg)';
-    } else {
-        el.style.display = 'block';
-        arrow.style.transform = 'rotate(90deg)';
-    }
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
 
 function addTask(task) {
-    const container = document.getElementById('stacked-tasks');
     const div = document.createElement('div');
     div.className = 'stacked-task';
     div.textContent = task;
-    container.appendChild(div);
+    document.getElementById('stacked-tasks').appendChild(div);
 }
 
 function addSkill(skill, level) {
-    if(!level) return;
-    const container = document.getElementById('stacked-tasks');
+    if (!level) return;
     const div = document.createElement('div');
     div.className = 'stacked-task';
     div.textContent = `SKILL:${skill}:${level}`;
-    container.appendChild(div);
+    document.getElementById('stacked-tasks').appendChild(div);
 }
 
 function copyAll() {
-    const container = document.getElementById('stacked-tasks');
-    const text = Array.from(container.children).map(c => c.textContent).join('\n');
+    const text = [...document.querySelectorAll('.stacked-task')]
+        .map(d => d.textContent).join('\n');
     navigator.clipboard.writeText(text);
-    alert('Full stack copied!');
+    alert('Full stack copied');
 }
 
-// Search functionality
-const searchInput = document.getElementById('search');
-searchInput.addEventListener('input', function() {
-    const filter = this.value.toLowerCase();
-    const lists = document.querySelectorAll('#left-panel ul');
-    lists.forEach(list => {
-        Array.from(list.children).forEach(li => {
-            li.style.display = li.textContent.toLowerCase().includes(filter) ? '' : 'none';
-        });
+/* ===============================
+   WIKISYNC INTEGRATION
+================================ */
+
+let currentAccountData = null;
+
+async function importWikiSync() {
+    const rsn = document.getElementById('rsn-input').value.trim();
+    if (!rsn) return alert('Enter a username');
+
+    resetAccount(false);
+
+    try {
+        const url = `https://sync.runescape.wiki/runelite/player/${encodeURIComponent(rsn)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('No WikiSync data found');
+
+        const data = await res.json();
+        currentAccountData = data;
+
+        applySkills(data.skills);
+        applyCompletedQuests(data.quests);
+
+        alert(`Imported WikiSync data for ${rsn}`);
+    } catch (e) {
+        alert('WikiSync import failed.\nEnsure plugin is enabled.');
+        console.error(e);
+    }
+}
+
+function applySkills(skills) {
+    if (!skills) return;
+    Object.entries(skills).forEach(([skill, obj]) => {
+        const input = document.querySelector(
+            `li input[onchange*="${skill.toUpperCase()}"]`
+        );
+        if (input) input.value = obj.level;
+    });
+}
+
+function applyCompletedQuests(quests) {
+    if (!quests) return;
+    document.querySelectorAll('#quests li').forEach(li => {
+        const key = li.getAttribute('onclick')?.match(/QUEST:([A-Z0-9_]+)/);
+        if (!key) return;
+        if (quests[key[1]] === true) {
+            li.classList.add('completed');
+        }
+    });
+}
+
+function resetAccount(clearStack = true) {
+    currentAccountData = null;
+    document.getElementById('rsn-input').value = '';
+
+    if (clearStack) {
+        document.getElementById('stacked-tasks').innerHTML = '';
+    }
+
+    document.querySelectorAll('li.completed').forEach(li => {
+        li.classList.remove('completed');
+    });
+
+    document.querySelectorAll('#skills input').forEach(i => i.value = '');
+}
+
+/* ===============================
+   SEARCH
+================================ */
+
+document.getElementById('search').addEventListener('input', function () {
+    const f = this.value.toLowerCase();
+    document.querySelectorAll('#left-panel ul li').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(f) ? '' : 'none';
     });
 });
 </script>
