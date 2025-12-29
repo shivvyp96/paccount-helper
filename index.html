@@ -375,6 +375,10 @@ button.debug {
 </div>
 
 <div id="right-panel">
+    <h2>Imported Tasks (WikiSync)</h2>
+<div id="imported-tasks" style="max-height: 300px; overflow-y: auto; border: 1px solid #3b82f6; padding: 5px; border-radius: 5px; background: #1e293b;"></div>
+<button onclick="copyImported()" style="margin-bottom:10px;">Copy Imported Tasks</button>
+
     <h2>Selected Tasks</h2>
     <div id="stacked-tasks"></div>
     <button onclick="copyAll()">Copy Full Stack</button>
@@ -421,6 +425,14 @@ function resetAccount() {
     }
 }
 
+function copyImported() {
+    const text = [...document.querySelectorAll('#imported-tasks .stacked-task')]
+        .map(d => d.textContent)
+        .join('\n');
+    navigator.clipboard.writeText(text);
+    alert('Imported tasks copied!');
+}
+
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
     if (!username) {
@@ -434,12 +446,16 @@ async function importWikiSync() {
 
         const data = await res.json();
 
-        resetStack(); // Remove previously stacked tasks
+        const importedDiv = document.getElementById('imported-tasks');
+        importedDiv.innerHTML = ''; // clear previous import
 
         // Add skills
         if (data.levels) {
             for (const [skill, level] of Object.entries(data.levels)) {
-                addTask(`SKILL:${skill.toUpperCase()}:${level}`);
+                const div = document.createElement('div');
+                div.className = 'stacked-task';
+                div.textContent = `SKILL:${skill.toUpperCase()}:${level}`;
+                importedDiv.appendChild(div);
             }
         }
 
@@ -447,15 +463,22 @@ async function importWikiSync() {
         if (data.quests) {
             Object.keys(data.quests).forEach(q => {
                 const status = data.quests[q];
-                // Only include completed (2) quests
-                if (status === 2) addTask(`QUEST:${q.toUpperCase().replace(/ /g, '_')}`);
+                if (status === 2) {
+                    const div = document.createElement('div');
+                    div.className = 'stacked-task';
+                    div.textContent = `QUEST:${q.toUpperCase().replace(/ /g, '_')}`;
+                    importedDiv.appendChild(div);
+                }
             });
         }
 
         // Add achievement diaries
         if (data.achievement_diaries) {
             for (const diary of Object.keys(data.achievement_diaries)) {
-                addTask(`DIARY:${diary.toUpperCase().replace(/ & /g, '_AND_').replace(/ /g, '_')}`);
+                const div = document.createElement('div');
+                div.className = 'stacked-task';
+                div.textContent = `DIARY:${diary.toUpperCase().replace(/ & /g, '_AND_').replace(/ /g, '_')}`;
+                importedDiv.appendChild(div);
             }
         }
 
