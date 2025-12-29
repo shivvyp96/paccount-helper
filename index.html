@@ -474,40 +474,41 @@ function normalizeName(name) {
         .trim();
 }
 
+/* ===== UPDATE QUESTS & DIARIES WITH NORMALIZATION ===== */
 function updateQuestsAndDiaries(data) {
-    // === QUESTS ===
+    // Helper function to normalize names
+    function normalizeName(name) {
+        return name
+            .toLowerCase()                    // lowercase everything
+            .trim()                            // remove leading/trailing whitespace
+            .replace(/['!]/g, '')             // remove apostrophes and exclamation marks
+            .replace(/&/g, 'and')             // convert & to 'and'
+            .replace(/[\s_-]+/g, '_')         // spaces, hyphens, underscores -> single underscore
+            .replace(/_growing_pains$/, '')   // remove trailing "_growing_pains" for Fairy Tale I
+            .replace(/^rfd_/, 'rfd_');        // ensure RFD prefix remains consistent
+    }
+
+    // Quests
     if (data.quests) {
-        document.querySelectorAll('#quests li').forEach(el => {
-            let htmlNorm = normalizeName(el.textContent);
-            let matchedKey = Object.keys(data.quests).find(k => {
-                let wikiNorm = normalizeName(k);
-                // Special handling for RFD quests: match prefix
-                if (htmlNorm.startsWith('rfd') && wikiNorm.startsWith('recipe_for_disaster')) {
-                    return true;
-                }
-                return htmlNorm === wikiNorm;
-            });
-            if (matchedKey) {
-                el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = ''; // leave white if not found
-            }
+        Object.values(document.querySelectorAll('#quests li')).forEach(el => {
+            const questId = QUEST_NAME_MAP[normalizeName(el.textContent)] 
+                            || normalizeName(el.id.replace("QUEST:", ""));
+            const completed = !!data.quests[questId];
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
 
-    // === DIARIES ===
+    // Diaries
     if (data.diaries) {
-        document.querySelectorAll('#diaries li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.diaries).find(k => normalizeName(k) === htmlNorm);
-            if (matchedKey) {
-                el.className = data.diaries[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = ''; // leave white if not found
-            }
+        Object.values(document.querySelectorAll('#diaries li')).forEach(el => {
+            const diaryId = DIARY_NAME_MAP[normalizeName(el.textContent)] 
+                            || normalizeName(el.id.replace("DIARY:", ""));
+            const completed = !!data.diaries[diaryId];
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
 }
+
 
 /* ===== WIKISYNC ===== */
 async function importWikiSync() {
@@ -557,6 +558,7 @@ updateQuestsAndDiaries(data);
 </script>
 </body>
 </html>
+
 
 
 
