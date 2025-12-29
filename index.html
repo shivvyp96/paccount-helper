@@ -423,37 +423,51 @@ function resetAccount() {
 
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
-    if (!username) { alert('Please enter a WikiSync username!'); return; }
+    if (!username) {
+        alert('Please enter a WikiSync username!');
+        return;
+    }
 
     try {
-        const res = await fetch(`http://localhost:3000/wikisync/${encodeURIComponent(username)}`);
+        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
         if (!res.ok) throw new Error('Failed fetching data');
+
         const data = await res.json();
 
-        resetStack();
+        resetStack(); // Remove previously stacked tasks
 
-        for (const [skill, level] of Object.entries(data.skills || {})) {
-            addTask(`SKILL:${skill.toUpperCase()}:${level}`);
+        // Add skills
+        if (data.levels) {
+            for (const [skill, level] of Object.entries(data.levels)) {
+                addTask(`SKILL:${skill.toUpperCase()}:${level}`);
+            }
         }
 
-        (data.quests || []).forEach(q => addTask('QUEST:' + q.toUpperCase()));
-        (data.diaries || []).forEach(d => addTask('DIARY:' + d.toUpperCase()));
+        // Add quests
+        if (data.quests) {
+            Object.keys(data.quests).forEach(q => {
+                const status = data.quests[q];
+                // Only include completed (2) quests
+                if (status === 2) addTask(`QUEST:${q.toUpperCase().replace(/ /g, '_')}`);
+            });
+        }
+
+        // Add achievement diaries
+        if (data.achievement_diaries) {
+            for (const diary of Object.keys(data.achievement_diaries)) {
+                addTask(`DIARY:${diary.toUpperCase().replace(/ & /g, '_AND_').replace(/ /g, '_')}`);
+            }
+        }
 
         alert('WikiSync data imported successfully!');
     } catch (err) {
         console.error(err);
-        alert('Failed to import WikiSync data.');
+        alert('Failed to import WikiSync data. Make sure the username is correct.');
     }
-}
-
-function filterTasks() {
-    const search = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('#left-panel ul li').forEach(li => {
-        li.style.display = li.textContent.toLowerCase().includes(search) ? '' : 'none';
-    });
 }
 
 </script>
 </body>
 </html>
+
 
