@@ -399,7 +399,10 @@ function copyAll() {
 function resetStack() { document.getElementById('stacked-tasks').innerHTML = ''; }
 
 /* ===== SKILLS ===== */
-const ALL_SKILLS = ["attack","strength","defence","ranged","prayer","magic","hitpoints"];
+const ALL_SKILLS = ["attack","strength","defence","ranged","prayer","magic","hitpoints",
+"cooking","woodcutting","fletching","fishing","firemaking","crafting",
+"smithing","mining","herblore","agility","thieving","slayer","farming",
+"runecrafting","hunter","construction","sailing"];
 let wikiSkills = {};
 let skillClicks = {};
 function renderSkillsGrid() {
@@ -451,6 +454,7 @@ async function importWikiSync() {
 </script>
 </body>
 </html>
+
 
 
 
