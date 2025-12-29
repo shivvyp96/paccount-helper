@@ -449,15 +449,17 @@ function updateQuestsAndDiaries(data) {
 
     // Apply colours
     document.querySelectorAll('#quests li').forEach(li => {
-    const rawId = li.id.replace("QUEST:", "");
-    let normId = normalizeName(rawId);
+    // Use displayed quest name, not internal ID
+    let displayName = li.textContent.trim();
 
-    // Map UI → WikiSync name if needed
-    if (QUEST_UI_TO_WIKI[normId]) {
-        normId = normalizeName(QUEST_UI_TO_WIKI[normId]);
+    let norm = normalizeName(displayName);
+
+    // Special-case mappings (Mage Arena, RFD, Fairy Tale)
+    if (QUEST_UI_TO_WIKI[norm]) {
+        norm = normalizeName(QUEST_UI_TO_WIKI[norm]);
     }
 
-    const completed = questLookup[normId] === true;
+    const completed = questLookup[norm] === true;
 
     li.classList.remove('completed', 'incomplete');
     li.classList.add(completed ? 'completed' : 'incomplete');
@@ -506,5 +508,6 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
