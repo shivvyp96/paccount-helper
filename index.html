@@ -435,11 +435,9 @@ function renderSkillsGrid() {
     grid.innerHTML = "";
 
     ALL_SKILLS.forEach(skill => {
-        // Handle special cases
-        let wikiKey = skill;
-        if (skill === 'runecrafting') wikiKey = 'runecraft';
-        let baseLevel = wikiSkills[wikiKey] || (skill === 'sailing' ? 1 : 1);
-        skillClicks[skill] ??= baseLevel;
+        let wikiKey = skill === 'runecrafting' ? 'runecraft' : skill;
+        const baseLevel = wikiSkills[wikiKey] || (skill === 'sailing' ? 1 : 1);
+        skillClicks[skill] = baseLevel;
 
         const tile = document.createElement("div");
         tile.className = "skill-tile";
@@ -449,6 +447,7 @@ function renderSkillsGrid() {
             skillClicks[skill]++;
             addTaskSafe(`SKILL:${skill.toUpperCase()}:${skillClicks[skill]}`);
             tile.querySelector('.tooltip').textContent = `Current: ${baseLevel} → Target: ${skillClicks[skill]}`;
+            tile.querySelector('.skill-level').textContent = `Lvl ${skillClicks[skill]}`;
         };
 
         tile.innerHTML = `
@@ -463,19 +462,21 @@ function renderSkillsGrid() {
 }
 
 /* ===== AUTO-COLOUR QUESTS/DIARIES ===== */
+function normalizeId(id) {
+    return id.toUpperCase().replace(/[^A-Z0-9_]/g, '_');
+}
+
 function updateQuestsAndDiaries(data) {
-    // Quests: data.quests[questId] = completed (true/false)
     if (data.quests) {
         Object.entries(data.quests).forEach(([id, completed]) => {
-            const el = document.getElementById(`QUEST:${id.toUpperCase()}`);
+            const el = document.getElementById(`QUEST:${normalizeId(id)}`);
             if (el) el.className = completed ? 'completed' : 'incomplete';
         });
     }
 
-    // Diaries: data.diaries[diaryId] = completed (true/false)
     if (data.diaries) {
         Object.entries(data.diaries).forEach(([id, completed]) => {
-            const el = document.getElementById(`DIARY:${id.toUpperCase()}`);
+            const el = document.getElementById(`DIARY:${normalizeId(id)}`);
             if (el) el.className = completed ? 'completed' : 'incomplete';
         });
     }
@@ -507,8 +508,6 @@ async function importWikiSync() {
         }
 
         renderSkillsGrid();
-
-        // Auto-colour quests and diaries
         updateQuestsAndDiaries(data);
 
         // Auto-expand all sections
@@ -530,5 +529,6 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
