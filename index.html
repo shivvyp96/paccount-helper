@@ -123,7 +123,6 @@ button.debug {
 
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('quests')">Debug</button>
         </h2>
         <ul id="quests">
             <!-- FULL QUEST LIST (copied exactly from your HTML) -->
@@ -273,7 +272,6 @@ button.debug {
 
         <!-- Skills -->
         <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('skills')">Debug</button>
         </h2>
         <ul id="skills">
             <li>Attack <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('ATTACK', this.value)"></li>
@@ -304,7 +302,6 @@ button.debug {
 
         <!-- Diaries -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('diaries')">Debug</button>
         </h2>
         <ul id="diaries">
             <li onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
@@ -319,7 +316,6 @@ button.debug {
 
         <!-- Repeating Tasks -->
         <h2 onclick="toggleSection('repeating')">Repeating Tasks <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('repeating')">Debug</button>
         </h2>
         <ul id="repeating">
             <li onclick="addTaskSafe('REPEATING:BIRDHOUSES:HUNTERLVL')">Birdhouse Runs</li>
@@ -334,7 +330,6 @@ button.debug {
 
         <!-- Milestones -->
         <h2 onclick="toggleSection('milestones')">Milestones <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('milestones')">Debug</button>
         </h2>
         <ul id="milestones">
             <li onclick="addTaskSafe('MILESTONE:DRAGON_DEFENDER')">Dragon Defender</li>
@@ -348,7 +343,6 @@ button.debug {
 
         <!-- Minigames -->
         <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('minigames')">Debug</button>
         </h2>
         <ul id="minigames">
             <li onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
@@ -372,7 +366,6 @@ button.debug {
 
         <!-- Ironman Starter -->
         <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span>
-            <button class="debug" onclick="debugSection('ironstarter')">Debug</button>
         </h2>
         <ul id="ironstarter">
             <li onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
@@ -460,10 +453,7 @@ function filterTasks() {
     });
 }
 
-function debugSection(id) {
-    const items = [...document.getElementById(id).querySelectorAll('li')].map(li => li.textContent);
-    alert(`Debug ${id}:\n` + items.join('\n'));
-}
 </script>
 </body>
 </html>
+
