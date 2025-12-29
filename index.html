@@ -420,7 +420,7 @@ function normalizeName(name) {
         .replace(/_ii$/, '_2')
         .replace(/_iii$/, '_3')
         .replace(/_part_\d+$/, '')        // strip trailing part numbers
-        .replace(/- growing pains$/i, '')   // strip Fairy Tale growing pains from WikiSync
+        .replace(/_+growing_pains$/, '')   // strip Fairy Tale growing pains from WikiSync
         .replace(/fairy_tale/, 'fairytale')   // fix Fairy Tale I normalization
         .trim();
 }
@@ -493,6 +493,7 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
