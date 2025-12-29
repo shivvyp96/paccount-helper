@@ -476,35 +476,49 @@ function normalizeName(name) {
 
 /* ===== UPDATE QUESTS & DIARIES WITH NORMALIZATION ===== */
 function updateQuestsAndDiaries(data) {
-    // Helper function to normalize names
+
     function normalizeName(name) {
-        return name
-            .toLowerCase()                    // lowercase everything
-            .trim()                            // remove leading/trailing whitespace
-            .replace(/['!]/g, '')             // remove apostrophes and exclamation marks
-            .replace(/&/g, 'and')             // convert & to 'and'
-            .replace(/[\s_-]+/g, '_')         // spaces, hyphens, underscores -> single underscore
-            .replace(/_growing_pains$/, '')   // remove trailing "_growing_pains" for Fairy Tale I
-            .replace(/^rfd_/, 'rfd_');        // ensure RFD prefix remains consistent
+        return name.toLowerCase()
+            .replace(/&/g, 'and')            // convert & to "and"
+            .replace(/[^\w\s]/g, '')         // remove punctuation
+            .replace(/\s+/g, '_')            // spaces → _
+            .replace(/_growing_pains$/, '')  // strip Fairy Tale suffix
+            .replace(/_part_\d+$/, '')       // strip any trailing "part" numbers
+            .replace(/_i$/, '_1')            // roman → numeric
+            .replace(/_ii$/, '_2')
+            .replace(/_iii$/, '_3')
+            .trim();
     }
 
-    // Quests
+    // === QUESTS ===
     if (data.quests) {
-        Object.values(document.querySelectorAll('#quests li')).forEach(el => {
-            const questId = QUEST_NAME_MAP[normalizeName(el.textContent)] 
-                            || normalizeName(el.id.replace("QUEST:", ""));
-            const completed = !!data.quests[questId];
-            el.className = completed ? 'completed' : 'incomplete';
+        document.querySelectorAll('#quests li').forEach(el => {
+            const htmlNorm = normalizeName(el.textContent);
+            const matchedKey = Object.keys(data.quests).find(k =>
+                normalizeName(k) === htmlNorm
+            );
+
+            if (matchedKey) {
+                el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
+            } else {
+                el.className = ''; // leave white if not found
+            }
         });
     }
 
-    // Diaries
+    // === DIARIES ===
     if (data.diaries) {
-        Object.values(document.querySelectorAll('#diaries li')).forEach(el => {
-            const diaryId = DIARY_NAME_MAP[normalizeName(el.textContent)] 
-                            || normalizeName(el.id.replace("DIARY:", ""));
-            const completed = !!data.diaries[diaryId];
-            el.className = completed ? 'completed' : 'incomplete';
+        document.querySelectorAll('#diaries li').forEach(el => {
+            const htmlNorm = normalizeName(el.textContent);
+            const matchedKey = Object.keys(data.diaries).find(k =>
+                normalizeName(k) === htmlNorm
+            );
+
+            if (matchedKey) {
+                el.className = data.diaries[matchedKey] ? 'completed' : 'incomplete';
+            } else {
+                el.className = '';
+            }
         });
     }
 }
@@ -536,7 +550,7 @@ async function importWikiSync() {
         }
 
         renderSkillsGrid();
-        updateQuestsAndDiaries(data);
+        updateQuestsAndDiaries(data);  // <-- correct place
 
         // Auto-expand all sections
         document.querySelectorAll('ul').forEach(ul => {
@@ -553,11 +567,11 @@ async function importWikiSync() {
     }
 }
 
-renderSkillsGrid();
-updateQuestsAndDiaries(data);
+renderSkillsGrid();  // only this on initial load
 </script>
 </body>
 </html>
+
 
 
 
