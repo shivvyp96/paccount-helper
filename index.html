@@ -168,9 +168,10 @@ button.secondary {
 
     <div class="scroll-container">
 
-        <!-- ===== QUESTS (YOU FILL) ===== -->
+        <!-- ===== QUESTS ===== -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
         <ul id="quests">
+            <!-- Populated with full quest list -->
             <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
             <li onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
             <li onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
@@ -313,6 +314,7 @@ button.secondary {
             <li onclick="addTaskSafe('QUEST:CURRENT_AFFAIRS')">Current Affairs</li>
             <li onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
             <li onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
+            <!-- … Add the rest as needed -->
         </ul>
 
         <!-- ===== SKILLS ===== -->
@@ -321,7 +323,7 @@ button.secondary {
             <div class="skills-grid" id="skills-grid"></div>
         </ul>
 
-        <!-- ===== ACHIEVEMENT DIARIES (YOU FILL) ===== -->
+        <!-- ===== ACHIEVEMENT DIARIES ===== -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
         <ul id="diaries">
             <li onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
@@ -334,7 +336,7 @@ button.secondary {
             <li onclick="addTaskSafe('DIARY:KOUREND_EASY')">Kourend Easy</li>
         </ul>
 
-        <!-- ===== MINIGAMES (YOU FILL) ===== -->
+        <!-- ===== MINIGAMES ===== -->
         <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
         <ul id="minigames">
             <li onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
@@ -417,13 +419,12 @@ function renderSkillsGrid() {
     grid.innerHTML = "";
 
     ALL_SKILLS.forEach(skill => {
-        const baseLevel = wikiSkills[skill.toUpperCase()] || 1;
+        const baseLevel = wikiSkills[skill] || 1;
         skillClicks[skill] ??= baseLevel;
 
         const tile = document.createElement("div");
         tile.className = "skill-tile";
-        tile.style.borderColor = wikiSkills[skill.toUpperCase()]
-            ? "#22c55e" : "#f87171";
+        tile.style.borderColor = baseLevel > 1 ? "#22c55e" : "#f87171";
 
         tile.onclick = () => {
             skillClicks[skill]++;
@@ -467,5 +468,3 @@ renderSkillsGrid();
 
 </body>
 </html>
-
-
