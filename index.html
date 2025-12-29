@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P-Account Builder Helper</title>
+<title>P‑Account Builder Helper</title>
 <style>
 body {
     font-family: "Trebuchet MS", sans-serif;
@@ -24,7 +24,15 @@ body {
 #left-panel input, #left-panel button {
     margin: 6px 10px;
 }
-#search, #rsn-input {
+#wiki-username {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #3b82f6;
+    background: #0f172a;
+    color: #e2e8f0;
+    width: calc(100% - 32px);
+}
+#search {
     padding: 6px;
     border-radius: 5px;
     border: 1px solid #3b82f6;
@@ -60,28 +68,14 @@ li {
     padding: 5px 0;
     cursor: pointer;
 }
-li.completed {
-    color: #22c55e;
-    text-decoration: line-through;
-}
-li.incomplete {
-    color: #ef4444;
-}
+li.completed { color: #22c55e; text-decoration: line-through; }
+li.incomplete { color: #f87171; }
 .stacked-task {
     background: #1e293b;
     margin-bottom: 5px;
     padding: 5px;
     border-radius: 5px;
     font-family: monospace;
-}
-input[type=number] {
-    width: 60px;
-    padding: 3px;
-    margin-left: 5px;
-    border-radius: 4px;
-    border: 1px solid #3b82f6;
-    background: #0f172a;
-    color: #e2e8f0;
 }
 #right-panel {
     flex-grow: 1;
@@ -97,273 +91,49 @@ button {
     cursor: pointer;
     margin: 3px 0;
 }
-button.secondary {
-    background: #475569;
-}
-button.debug {
-    background: #facc15;
-    color: #000;
-    margin-left: 5px;
-}
-#stacked-tasks {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    border: 1px solid #3b82f6;
-    padding: 5px;
-    border-radius: 5px;
-    background: #1e293b;
-}
+button.secondary { background: #475569; }
+
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    margin-bottom: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 8px;
 }
-.skill-block {
+
+.skill-tile {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px;
     text-align: center;
     cursor: pointer;
-    padding: 5px;
-    border-radius: 5px;
-    background: #1e293b;
-    border: 1px solid #3b82f6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: all 0.15s ease;
 }
-.skill-block img {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 3px;
-}
-.skill-level {
-    font-size: 12px;
-}
+.skill-tile:hover { border-color: #3b82f6; background: #1e293b; }
+.skill-tile img { width: 32px; height: 32px; }
+.skill-name { font-size: 11px; margin-top: 4px; color: #cbd5f5; }
+.skill-level { font-size: 12px; color: #94a3b8; }
 </style>
 </head>
 <body>
-<div id="left-panel">
-    <input id="rsn-input" placeholder="OSRS Username">
-    <button onclick="resetAccount()" class="secondary">Reset / New Account</button>
-    <input type="text" id="search" placeholder="Search tasks..." oninput="filterTasks()">
-    <div class="scroll-container">
 
-        <!-- Skills Grid -->
-        <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
-        <div id="skills" class="skills-grid"></div>
+<div id="left-panel">
+    <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
+    <button onclick="importWikiSync()">Import WikiSync</button>
+    <input type="text" id="search" placeholder="Filter quests & diaries..." oninput="filterLists()">
+    <div class="scroll-container">
 
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
-        <ul id="quests">
-            <li data-id="COOKS_ASSISTANT">Cooks Assistant</li>
-            <li data-id="DORICS_QUEST">Doric's Quest</li>
-            <li data-id="DRUIDIC_RITUAL">Druidic Ritual</li>
-            <li data-id="IMP_CATCHER">Imp Catcher</li>
-            <li data-id="DWARF_CANNON">Dwarf Cannon</li>
-            <li data-id="NATURAL_HISTORY_QUIZ">Natural History Quiz</li>
-            <li data-id="ROMEO_AND_JULIET">Romeo and Juliet</li>
-            <li data-id="SEA_SLUG">Sea Slug</li>
-            <li data-id="SHEEP_SHEARER">Sheep Shearer</li>
-            <li data-id="THE_FEUD">The Feud</li>
-            <li data-id="WITCHS_HOUSE">Witch's House</li>
-            <li data-id="WITCHS_POTION">Witch's Potion</li>
-            <li data-id="BLACK_KNIGHTS_FORTRESS">Black Knights' Fortress</li>
-            <li data-id="GERTRUDES_CAT">Gertrude's Cat</li>
-            <li data-id="HORROR_FROM_THE_DEEP">Horror from the Deep</li>
-            <li data-id="ELEMENTAL_WORKSHOP_I">Elemental Workshop I</li>
-            <li data-id="DEATH_PLATEAU">Death Plateau</li>
-            <li data-id="TROLL_STRONGHOLD">Troll Stronghold</li>
-            <li data-id="X_MARKS_THE_SPOT">X Marks the Spot</li>
-            <li data-id="BARCRAWL">Alfred Grimhands Barcrawl</li>
-            <li data-id="CLIENT_OF_KOUREND">Client of Kourend</li>
-            <li data-id="THE_RESTLESS_GHOST">The Restless Ghost</li>
-            <li data-id="RUNE_MYSTERIES">Rune Mysteries</li>
-            <li data-id="VAMPYRE_SLAYER">Vampyre Slayer</li>
-            <li data-id="WATERFALL_QUEST">Waterfall Quest</li>
-            <li data-id="PLAGUE_CITY">Plague City</li>
-            <li data-id="BIOHAZARD">Biohazard</li>
-            <li data-id="THE_KNIGHTS_SWORD">The Knight's Sword</li>
-            <li data-id="ERNEST_THE_CHICKEN">Ernest the Chicken</li>
-            <li data-id="MONKS_FRIEND">Monk's Friend</li>
-            <li data-id="FIGHT_ARENA">Fight Arena</li>
-            <li data-id="TREE_GNOME_VILLAGE">Tree Gnome Village</li>
-            <li data-id="PRIEST_IN_PERIL">Priest in Peril</li>
-            <li data-id="NATURE_SPIRIT">Nature Spirit</li>
-            <li data-id="RFD_COOK">RFD Cook</li>
-            <li data-id="RFD_DWARF">RFD Dwarf</li>
-            <li data-id="FISHING_CONTEST">Fishing Contest</li>
-            <li data-id="A_PORCINE_OF_INTEREST">A Porcine of Interest</li>
-            <li data-id="ANIMAL_MAGNETISM">Animal Magnetism</li>
-            <li data-id="MERLINS_CRYSTAL">Merlins Crystal</li>
-            <li data-id="HOLY_GRAIL">Holy Grail</li>
-            <li data-id="DRAGON_SLAYER_I">Dragon Slayer I</li>
-            <li data-id="LOST_CITY">Lost City</li>
-            <li data-id="WHAT_LIES_BELOW">What Lies Below</li>
-            <li data-id="THE_DIG_SITE">The Dig Site</li>
-            <li data-id="THE_GRAND_TREE">The Grand Tree</li>
-            <li data-id="GOBLIN_DIPLOMACY">Goblin Diplomacy</li>
-            <li data-id="RFD_GOBLINS">RFD Goblins</li>
-            <li data-id="FAIRYTALE_I">Fairy Tale I</li>
-            <li data-id="BONE_VOYAGE">Bone Voyage</li>
-            <li data-id="JUNGLE_POTION">Jungle Potion</li>
-            <li data-id="THE_ASCENT_OF_ARCEUUS">The Ascent of Arceuus</li>
-            <li data-id="SHILO_VILLAGE">Shilo Village</li>
-            <li data-id="ONE_SMALL_FAVOUR">One Small Favour</li>
-            <li data-id="MURDER_MYSTERY">Murder Mystery</li>
-            <li data-id="KINGS_RANSOM">King's Ransom</li>
-            <li data-id="THE_TOURIST_TRAP">The Tourist Trap</li>
-            <li data-id="TEMPLE_OF_IKOV">Temple of Ikov</li>
-            <li data-id="DESERT_TREASURE_I">Desert Treasure I</li>
-            <li data-id="THE_FREMENNIK_TRIALS">The Fremennik Trials</li>
-            <li data-id="OBSERVATORY_QUEST">Observatory Quest</li>
-            <li data-id="DEMON_SLAYER">Demon Slayer</li>
-            <li data-id="UNDERGROUND_PASS">Underground Pass</li>
-            <li data-id="THE_GOLEM">The Golem</li>
-            <li data-id="SHADOW_OF_THE_STORM">Shadow of the Storm</li>
-            <li data-id="GHOSTS_AHOY">Ghosts Ahoy</li>
-            <li data-id="MAKING_HISTORY">Making History</li>
-            <li data-id="MOUNTAIN_DAUGHTER">Mountain Daughter</li>
-            <li data-id="HAZEEL_CULT">Hazeel Cult</li>
-            <li data-id="CHILDREN_OF_THE_SUN">Children of the Sun</li>
-            <li data-id="PRINCE_ALI_RESCUE">Prince Ali Rescue</li>
-            <li data-id="ICTHLARINS_LITTLE_HELPER">Icthlarin's Little Helper</li>
-            <li data-id="ENTER_THE_ABYSS">Enter the Abyss</li>
-            <li data-id="TEMPLE_OF_THE_EYE">Temple of the Eye</li>
-            <li data-id="CREATURE_OF_FENKENSTRAIN">Creature of Fenkenstrain</li>
-            <li data-id="THE_DEPTHS_OF_DESPAIR">The Depths of Despair</li>
-            <li data-id="THE_QUEEN_OF_THIEVES">The Queen of Thieves</li>
-            <li data-id="ENLIGHTENED_JOURNEY">Enlightened Journey</li>
-            <li data-id="SHEEP_HERDER">Sheep Herder</li>
-            <li data-id="BIG_CHOMPY_BIRD_HUNTING">Big Chompy Bird Hunting</li>
-            <li data-id="RFD_OGRE">RFD Ogre</li>
-            <li data-id="RFD_EVIL_DAVE">RFD Evil Dave</li>
-            <li data-id="RFD_PIRATE">RFD Pirate</li>
-            <li data-id="RFD_GUIDE">RFD Lumbridge Guide</li>
-            <li data-id="RFD_MONKEY">RFD Monkey</li>
-            <li data-id="RFD_AMIK_VARZE">RFD Sir Amik Varze</li>
-            <li data-id="RFD_CULINAROMANCER">RFD Culinaromancer</li>
-            <li data-id="SHIELD_OF_ARRAV">Shield of Arrav</li>
-            <li data-id="HEROES_QUEST">Heroes Quest</li>
-            <li data-id="TOWER_OF_LIFE">Tower of Life</li>
-            <li data-id="CLOCK_TOWER">Clock Tower</li>
-            <li data-id="TRIBAL_TOTEM">Tribal Totem</li>
-            <li data-id="WATCHTOWER">Watchtower</li>
-            <li data-id="GETTING_AHEAD">Getting Ahead</li>
-            <li data-id="PIRATES_TREASURE">Pirate's Treasure</li>
-            <li data-id="SCORPION_CATCHER">Scorpion Catcher</li>
-            <li data-id="THE_CORSAIR_CURSE">The Corsair Curse</li>
-            <li data-id="FAMILY_CREST">Family Crest</li>
-            <li data-id="THE_GARDEN_OF_DEATH">The Garden of Death</li>
-            <li data-id="MONKEY_MADNESS_I">Monkey Madness I</li>
-            <li data-id="THE_FORSAKEN_TOWER">The Forsaken Tower</li>
-            <li data-id="HAUNTED_MINE">Haunted Mine</li>
-            <li data-id="TALE_OF_THE_RIGHTEOUS">Tale of the Righteous</li>
-            <li data-id="SLEEPING_GIANTS">Sleeping Giants</li>
-            <li data-id="TROLL_ROMANCE">Troll Romance</li>
-            <li data-id="THE_LOST_TRIBE">The Lost Tribe</li>
-            <li data-id="RECRUITMENT_DRIVE">Recruitment Drive</li>
-            <li data-id="A_KINGDOM_DIVIDED">A Kingdom Divided</li>
-            <li data-id="DEATH_ON_THE_ISLE">Death on the Isle</li>
-            <li data-id="WANTED">Wanted!</li>
-            <li data-id="TWILIGHTS_PROMISE">Twilights Promise</li>
-            <li data-id="REGICIDE">Regicide</li>
-            <li data-id="ROVING_ELVES">Roving Elves</li>
-            <li data-id="MOURNINGS_END_PART_I">Mournings End Part I</li>
-            <li data-id="MOURNINGS_END_PART_II">Mournings End Part II</li>
-            <li data-id="ETHICALLY_ACQUIRED_ANTIQUITIES">Ethically Acquired Antiquities</li>
-            <li data-id="DADDYS_HOME">Daddy's Home</li>
-            <li data-id="LUNAR_DIPLOMACY">Lunar Diplomacy</li>
-            <li data-id="IN_SEARCH_OF_THE_MYREQUE">In Search of the Myreque</li>
-            <li data-id="IN_AID_OF_THE_MYREQUE">In Aid of the Myreque</li>
-            <li data-id="THRONE_OF_MISCELLANIA">Throne of Miscellania</li>
-            <li data-id="ROYAL_TROUBLE">Royal Trouble</li>
-            <li data-id="THE_HAND_IN_THE_SAND">The Hand in the Sand</li>
-            <li data-id="ZOGRE_FLESH_EATERS">Zogre Flesh Eaters</li>
-            <li data-id="RUM_DEAL">Rum Deal</li>
-            <li data-id="CABIN_FEVER">Cabin Fever</li>
-            <li data-id="THE_EYES_OF_GLOUPHRIE">The Eyes of Glouphrie</li>
-            <li data-id="THE_SLUG_MENACE">The Slug Menace</li>
-            <li data-id="BELOW_ICE_MOUNTAIN">Below Ice Mountain</li>
-            <li data-id="EADGARS_RUSE">Eadgars Ruse</li>
-            <li data-id="GARDEN_OF_TRANQUILLITY">Garden of Tranquillity</li>
-            <li data-id="A_SOULS_BANE">A Soul's Bane</li>
-            <li data-id="SHADOWS_OF_CUSTODIA">Shadows of Custodia</li>
-            <li data-id="MONKEY_MADNESS_II">Monkey Madness II</li>
-            <li data-id="TAI_BWO_WANNAI_TRIO">Tai Bwo Wannai Trio</li>
-            <li data-id="BARBARIAN_TRAINING">Barbarian Training</li>
-            <li data-id="THE_FREMENNIK_ISLES">The Fremennik Isles</li>
-            <li data-id="PANDEMONIUM">Pandemonium</li>
-            <li data-id="PRYING_TIMES">Prying Times</li>
-            <li data-id="CURRENT_AFFAIRS">Current Affairs</li>
-            <li data-id="MA1">Mage Arena I</li>
-            <li data-id="MA2">Mage Arena II</li>
-        </ul>
+        <ul id="quests"></ul>
 
-        <!-- Diaries -->
+        <!-- Skills -->
+        <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
+        <div class="skills-grid" id="skills-grid"></div>
+
+        <!-- Achievement Diaries -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
-        <ul id="diaries">
-            <li data-id="VARROCK_EASY">Varrock Easy</li>
-            <li data-id="VARROCK_MEDIUM">Varrock Medium</li>
-            <li data-id="ARDOUGNE_EASY">Ardougne Easy</li>
-            <li data-id="ARDOUGNE_MEDIUM">Ardougne Medium</li>
-            <li data-id="LUMBRIDGE_EASY">Lumbridge Easy</li>
-            <li data-id="LUMBRIDGE_MEDIUM">Lumbridge Medium</li>
-            <li data-id="KARAMJA_EASY">Karamja Easy</li>
-            <li data-id="KOUREND_EASY">Kourend Easy</li>
-        </ul>
-
-        <!-- Repeating Tasks -->
-        <h2 onclick="toggleSection('repeating')">Repeating Tasks <span class="arrow">▶</span></h2>
-        <ul id="repeating">
-            <li data-id="BIRDHOUSES:HUNTERLVL">Birdhouse Runs</li>
-            <li data-id="TREE_RUNS:FARMINGLVL">Tree Runs</li>
-            <li data-id="HERB_RUNS:FARMINGLVL">Herb Runs</li>
-            <li data-id="SEAWEED_RUNS:FARMINGLVL">Seaweed Runs</li>
-            <li data-id="HOP_RUNS:FARMINGLVL">Hop Runs</li>
-            <li data-id="COMPOST_RUNS">Compost Runs</li>
-            <li data-id="HESPORI">Hespori</li>
-            <li data-id="KINGDOM:MAHOG:HERB">Kingdom of Miscellania</li>
-        </ul>
-
-        <!-- Milestones -->
-        <h2 onclick="toggleSection('milestones')">Milestones <span class="arrow">▶</span></h2>
-        <ul id="milestones">
-            <li data-id="DRAGON_DEFENDER">Dragon Defender</li>
-            <li data-id="RUNE_DEFENDER">Rune Defender</li>
-            <li data-id="FAIRY_RINGS">Fairy Rings</li>
-            <li data-id="UNLOCK_PIETY">Piety / Knight Waves Training Grounds</li>
-            <li data-id="ROGUES_OUTFIT">Rogues Outfit</li>
-            <li data-id="ROCK_CAKE">Rock Cake</li>
-            <li data-id="BLACK_MASK">Black Mask</li>
-        </ul>
-
-        <!-- Minigames -->
-        <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
-        <ul id="minigames">
-            <li data-id="VALE_TOTEMS:TARGETLVL">Vale Totems</li>
-            <li data-id="MTA">Mage Training Arena</li>
-            <li data-id="MTA:GREENLOG">Mage Training Arena Greenlog</li>
-            <li data-id="MTA:EFFICIENT">Mage Training Arena Efficient</li>
-            <li data-id="MTA:ROBES">Mage Training Arena Robes</li>
-            <li data-id="MTA:B2P">Mage Training Arena B2P</li>
-            <li data-id="MTA:WAND">Mage Training Arena Wand</li>
-            <li data-id="MTA:BOOK">Mage Training Arena Book</li>
-            <li data-id="MTA:TOP">Mage Training Arena Top</li>
-            <li data-id="MTA:BOTTOM">Mage Training Arena Bottom</li>
-            <li data-id="MTA:HAT">Mage Training Arena Hat</li>
-            <li data-id="MTA:BOOTS">Mage Training Arena Boots</li>
-            <li data-id="MTA:GLOVES">Mage Training Arena Gloves</li>
-            <li data-id="MTA:POUCH">Mage Training Arena Pouch</li>
-            <li data-id="WINTERTODT:TARGETLVL">Wintertodt</li>
-            <li data-id="MLM:TARGETLVL">Motherlode Mine</li>
-            <li data-id="GF:TARGETLVL">Giant's Foundry</li>
-        </ul>
-
-        <!-- Ironman Starter -->
-        <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
-        <ul id="ironstarter">
-            <li data-id="IRON_STARTER_PART1">Ironman Starter Part 1</li>
-        </ul>
+        <ul id="diaries"></ul>
 
     </div>
 </div>
@@ -376,114 +146,165 @@ button.debug {
 </div>
 
 <script>
-// ===== Section Toggle =====
+
+// ===== DATA LISTS =====
+const ALL_SKILLS = [
+    "attack","strength","defence","ranged","prayer","magic","hitpoints",
+    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
+    "smithing","mining","herblore","agility","thieving","slayer","farming",
+    "runecrafting","hunter","construction","sailing"
+];
+
+const ALL_QUESTS = [
+"Cooks Assistant","Doric's Quest","Druidic Ritual","Imp Catcher","Dwarf Cannon",
+"Natural History Quiz","Romeo and Juliet","Sea Slug","Sheep Shearer","The Feud",
+"Witch's House","Witch's Potion","Black Knights' Fortress","Gertrude's Cat",
+"Horror from the Deep","Elemental Workshop I","Death Plateau","Troll Stronghold",
+"X Marks the Spot","Alfred Grimhands Barcrawl","Client of Kourend","The Restless Ghost",
+"Rune Mysteries","Vampyre Slayer","Waterfall Quest","Plague City","Biohazard",
+"The Knight's Sword","Ernest the Chicken","Monk's Friend","Fight Arena","Tree Gnome Village",
+"Priest in Peril","Nature Spirit","RFD Cook","RFD Dwarf","Fishing Contest","A Porcine of Interest",
+"Animal Magnetism","Merlins Crystal","Holy Grail","Dragon Slayer I","Lost City","What Lies Below",
+"The Dig Site","The Grand Tree","Goblin Diplomacy","RFD Goblins","Fairy Tale I","Bone Voyage",
+"Jungle Potion","The Ascent of Arceuus","Shilo Village","One Small Favour","Murder Mystery",
+"King's Ransom","The Tourist Trap","Temple of Ikov","Desert Treasure I","The Fremennik Trials",
+"Observatory Quest","Demon Slayer","Underground Pass","The Golem","Shadow of the Storm",
+"Ghosts Ahoy","Making History","Mountain Daughter","Hazeel Cult","Children of the Sun",
+"Prince Ali Rescue","Icthlarin's Little Helper","Enter the Abyss","Temple of the Eye",
+"Creature of Fenkenstrain","The Depths of Despair","The Queen of Thieves","Enlightened Journey",
+"Sheep Herder","Big Chompy Bird Hunting","RFD Ogre","RFD Evil Dave","RFD Pirate",
+"RFD Lumbridge Guide","RFD Monkey","RFD Sir Amik Varze","RFD Culinaromancer","Shield of Arrav",
+"Heroes Quest","Tower of Life","Clock Tower","Tribal Totem","Watchtower","Getting Ahead",
+"Pirate's Treasure","Scorpion Catcher","The Corsair Curse","Family Crest","The Garden of Death",
+"Monkey Madness I","The Forsaken Tower","Haunted Mine","Tale of the Righteous","Sleeping Giants",
+"Troll Romance","The Lost Tribe","Recruitment Drive","A Kingdom Divided","Death on the Isle",
+"Wanted!","Twilights Promise","Regicide","Roving Elves","Mournings End Part I","Mournings End Part II",
+"Ethically Acquired Antiquities","Daddy's Home","Lunar Diplomacy","In Search of the Myreque",
+"In Aid of the Myreque","Throne of Miscellania","Royal Trouble","The Hand in the Sand",
+"Zogre Flesh Eaters","Rum Deal","Cabin Fever","The Eyes of Glouphrie","The Slug Menace",
+"Below Ice Mountain","Eadgars Ruse","Garden of Tranquillity","A Soul's Bane","Shadows of Custodia",
+"Monkey Madness II","Tai Bwo Wannai Trio","Barbarian Training","The Fremennik Isles","Pandemonium",
+"Prying Times","Current Affairs","Mage Arena I","Mage Arena II"
+];
+
+const ALL_DIARIES = [
+"Varrock Easy","Varrock Medium","Ardougne Easy","Ardougne Medium","Lumbridge Easy",
+"Lumbridge Medium","Karamja Easy","Kourend Easy"
+];
+
+// ===== STATE =====
+let wikiSkills = {};
+let wikiQuests = {};
+let wikiDiaries = {};
+
+// ===== UI HELPERS =====
+function addTask(task) {
+    const div = document.createElement('div');
+    div.className = 'stacked-task';
+    div.textContent = task;
+    document.getElementById('stacked-tasks').appendChild(div);
+}
+
+function copyAll() {
+    const text = [...document.querySelectorAll('.stacked-task')]
+        .map(d => d.textContent).join('\n');
+    navigator.clipboard.writeText(text);
+    alert('Copied Selected Tasks');
+}
+
+function resetStack() {
+    document.getElementById('stacked-tasks').innerHTML = '';
+}
+
+// ===== IMPORT WIKISYNC =====
+async function importWikiSync() {
+    const username = document.getElementById('wiki-username').value.trim();
+    if (!username) { alert('Enter WikiSync username'); return; }
+
+    try {
+        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
+        if (!res.ok) throw new Error('Fetch failed');
+        const data = await res.json();
+
+        wikiSkills = data.levels || {};
+        wikiQuests = data.quests || {};
+        wikiDiaries = data.achievement_diaries || {};
+
+        renderSkills();
+        renderQuests();
+        renderDiaries();
+
+        alert('WikiSync Imported!');
+    } catch(e) {
+        console.error(e);
+        alert('Failed to import WikiSync.');
+    }
+}
+
+// ===== RENDER SKILLS =====
+function renderSkills() {
+    const grid = document.getElementById('skills-grid');
+    grid.innerHTML = '';
+    ALL_SKILLS.forEach(skill => {
+        const lvl = wikiSkills[skill.toUpperCase()] || 1;
+        const tile = document.createElement('div');
+        tile.className = 'skill-tile';
+        tile.onclick = () => addTask(`SKILL:${skill.toUpperCase()}:${lvl+1}`);
+        tile.innerHTML = `
+            <img src="icons/skills/${skill}.png" alt="${skill}">
+            <div class="skill-name">${skill.toUpperCase()}</div>
+            <div class="skill-level">Lvl ${lvl}</div>
+        `;
+        grid.appendChild(tile);
+    });
+}
+
+// ===== RENDER QUESTS =====
+function renderQuests() {
+    const ul = document.getElementById('quests');
+    ul.innerHTML = '';
+    ALL_QUESTS.forEach(q => {
+        const key = q.toUpperCase().replace(/ /g,'_').replace(/'|!/g,'');
+        const status = wikiQuests[key];
+        const li = document.createElement('li');
+        li.className = (status === 2 ? 'completed' : 'incomplete');
+        li.textContent = q;
+        li.onclick = () => addTask(`QUEST:${key}`);
+        ul.appendChild(li);
+    });
+}
+
+// ===== RENDER DIARIES =====
+function renderDiaries() {
+    const ul = document.getElementById('diaries');
+    ul.innerHTML = '';
+    ALL_DIARIES.forEach(d => {
+        const key = d.toUpperCase().replace(/ /g,'_');
+        const complete = wikiDiaries[key];
+        const li = document.createElement('li');
+        li.className = complete ? 'completed' : 'incomplete';
+        li.textContent = d;
+        li.onclick = () => addTask(`DIARY:${key}`);
+        ul.appendChild(li);
+    });
+}
+
+// ===== FILTER LISTS =====
+function filterLists() {
+    const search = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('#quests li, #diaries li').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(search) ? '' : 'none';
+    });
+}
+
+// ===== SECTION TOGGLE =====
 function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
     arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
-
-// ===== Selected Tasks =====
-function addTask(task) {
-    const existing = [...document.querySelectorAll('.stacked-task')]
-        .find(d => d.textContent.startsWith(task.split(':')[0]+':'));
-    if(existing && task.startsWith('SKILL:')) {
-        // Update level in same line
-        existing.textContent = task;
-    } else {
-        const div = document.createElement('div');
-        div.className = 'stacked-task';
-        div.textContent = task;
-        document.getElementById('stacked-tasks').appendChild(div);
-    }
-}
-function addTaskSafe(task) { addTask(task); }
-function addSkillSafe(skill, level) { if(level) addTask(`SKILL:${skill.toUpperCase()}:${level}`); }
-function copyAll() {
-    const text = [...document.querySelectorAll('.stacked-task')]
-        .map(d => d.textContent).join('\n');
-    navigator.clipboard.writeText(text);
-    alert('Full stack copied');
-}
-function resetStack() {
-    document.getElementById('stacked-tasks').innerHTML = '';
-}
-function resetAccount() {
-    if(confirm("Resetting will clear all selected tasks.")) {
-        resetStack();
-        document.getElementById('rsn-input').value = '';
-    }
-}
-
-// ===== Filter Tasks =====
-function filterTasks() {
-    const search = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('#left-panel ul li').forEach(li => {
-        li.style.display = li.textContent.toLowerCase().includes(search) ? '' : 'none';
-    });
-}
-
-// ===== WikiSync Integration =====
-async function importWikiSync(username) {
-    if(!username) return;
-    try {
-        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
-        if(!res.ok) throw new Error('Failed fetch');
-        const data = await res.json();
-        populateSkills(data.levels || {});
-        populateQuests(data.quests || []);
-    } catch(err) { console.error(err); }
-}
-
-// ===== Populate Skills Grid =====
-const skillIcons = {
-    ATTACK:'icons/attack.png', STRENGTH:'icons/strength.png', DEFENSE:'icons/defense.png',
-    RANGED:'icons/ranged.png', MAGIC:'icons/magic.png', PRAYER:'icons/prayer.png',
-    HITPOINTS:'icons/hitpoints.png', COOKING:'icons/cooking.png', WOODCUTTING:'icons/woodcutting.png',
-    FLETCHING:'icons/fletching.png', FISHING:'icons/fishing.png', FIREMAKING:'icons/firemaking.png',
-    CRAFTING:'icons/crafting.png', SMITHING:'icons/smithing.png', MINING:'icons/mining.png',
-    HERBLORE:'icons/herblore.png', AGILITY:'icons/agility.png', THIEVING:'icons/thieving.png',
-    SLAYER:'icons/slayer.png', FARMING:'icons/farming.png', RUNECRAFTING:'icons/runecrafting.png',
-    HUNTER:'icons/hunter.png', CONSTRUCTION:'icons/construction.png', SAILING:'icons/sailing.png'
-};
-
-function populateSkills(levels) {
-    const container = document.getElementById('skills');
-    container.innerHTML = '';
-    for(const [skill, icon] of Object.entries(skillIcons)) {
-        const div = document.createElement('div');
-        div.className = 'skill-block';
-        const level = levels[skill] || 1;
-        div.innerHTML = `<img src="${icon}" alt="${skill}"><div>${skill}</div><div class="skill-level">${level}</div>`;
-        div.onclick = ()=> {
-            const newLevel = parseInt(div.querySelector('.skill-level').textContent) + 1;
-            div.querySelector('.skill-level').textContent = newLevel;
-            addSkillSafe(skill,newLevel);
-        };
-        container.appendChild(div);
-    }
-}
-
-// ===== Populate Quests =====
-function populateQuests(completed) {
-    document.querySelectorAll('#quests li').forEach(li => {
-        if(completed.includes(li.dataset.id)) {
-            li.classList.add('completed');
-            li.classList.remove('incomplete');
-        } else {
-            li.classList.add('incomplete');
-            li.classList.remove('completed');
-        }
-        li.onclick = ()=> addTaskSafe('QUEST:'+li.dataset.id);
-    });
-}
-
-// ===== Example automatic import =====
-document.getElementById('rsn-input').addEventListener('change', e=>{
-    const name = e.target.value.trim();
-    if(name) importWikiSync(name);
-});
 </script>
+
 </body>
 </html>
