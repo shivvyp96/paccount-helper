@@ -118,14 +118,15 @@ button.debug {
 <div id="left-panel">
     <input id="rsn-input" placeholder="OSRS Username">
     <button onclick="resetAccount()" class="secondary">Reset / New Account</button>
-    <input type="text" id="search" placeholder="Search tasks...">
+    <input type="text" id="search" placeholder="Search tasks..." oninput="filterTasks()">
     <div class="scroll-container">
+
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span>
             <button class="debug" onclick="debugSection('quests')">Debug</button>
         </h2>
         <ul id="quests">
-            <!-- Example quests -->
+            <!-- FULL QUEST LIST (copied exactly from your HTML) -->
             <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
             <li onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
             <li onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
@@ -392,9 +393,6 @@ button.debug {
 </div>
 
 <script>
-/* ------------------------
- CORE FUNCTIONS
------------------------- */
 function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
@@ -430,9 +428,6 @@ function resetAccount() {
     }
 }
 
-/* ------------------------
- WIKISYNC IMPORT
------------------------- */
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
     if (!username) { alert('Please enter a WikiSync username!'); return; }
@@ -442,17 +437,13 @@ async function importWikiSync() {
         if (!res.ok) throw new Error('Failed fetching data');
         const data = await res.json();
 
-        resetStack(); // clear previous tasks
+        resetStack();
 
-        // Add skills
         for (const [skill, level] of Object.entries(data.skills || {})) {
             addTask(`SKILL:${skill.toUpperCase()}:${level}`);
         }
 
-        // Add quests
         (data.quests || []).forEach(q => addTask('QUEST:' + q.toUpperCase()));
-
-        // Add diaries
         (data.diaries || []).forEach(d => addTask('DIARY:' + d.toUpperCase()));
 
         alert('WikiSync data imported successfully!');
@@ -462,23 +453,17 @@ async function importWikiSync() {
     }
 }
 
-/* ------------------------
- SEARCH & DEBUG
------------------------- */
 function filterTasks() {
     const search = document.getElementById('search').value.toLowerCase();
     document.querySelectorAll('#left-panel ul li').forEach(li => {
         li.style.display = li.textContent.toLowerCase().includes(search) ? '' : 'none';
     });
 }
+
 function debugSection(id) {
     const items = [...document.getElementById(id).querySelectorAll('li')].map(li => li.textContent);
     alert(`Debug ${id}:\n` + items.join('\n'));
 }
 </script>
-
 </body>
 </html>
-
-
-
