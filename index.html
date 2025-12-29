@@ -112,6 +112,55 @@ button.debug {
     border-radius: 5px;
     background: #1e293b;
 }
+    /* === SKILLS GRID === */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 8px;
+}
+
+.skill-tile {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.skill-tile:hover {
+    border-color: #3b82f6;
+    background: #1e293b;
+}
+
+.skill-tile img {
+    width: 32px;
+    height: 32px;
+}
+
+.skill-name {
+    font-size: 11px;
+    margin-top: 4px;
+    color: #cbd5f5;
+}
+
+.skill-level {
+    font-size: 12px;
+    margin-top: 2px;
+    color: #94a3b8;
+}
+
+.skill-locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.skill-locked:hover {
+    border-color: #334155;
+    background: #0f172a;
+}
 </style>
 </head>
 <body>
@@ -273,32 +322,9 @@ button.debug {
         <!-- Skills -->
         <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span>
         </h2>
-        <ul id="skills">
-            <li>Attack <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('ATTACK', this.value)"></li>
-            <li>Strength <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('STRENGTH', this.value)"></li>
-            <li>Defense <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('DEFENSE', this.value)"></li>
-            <li>Ranged <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('RANGED', this.value)"></li>
-            <li>Magic <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('MAGIC', this.value)"></li>
-            <li>Prayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('PRAYER', this.value)"></li>
-            <li>Hitpoints <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HITPOINTS', this.value)"></li>
-            <li>Cooking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('COOKING', this.value)"></li>
-            <li>Woodcutting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('WOODCUTTING', this.value)"></li>
-            <li>Fletching <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FLETCHING', this.value)"></li>
-            <li>Fishing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FISHING', this.value)"></li>
-            <li>Firemaking <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FIREMAKING', this.value)"></li>
-            <li>Crafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('CRAFTING', this.value)"></li>
-            <li>Smithing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SMITHING', this.value)"></li>
-            <li>Mining <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('MINING', this.value)"></li>
-            <li>Herblore <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HERBLORE', this.value)"></li>
-            <li>Agility <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('AGILITY', this.value)"></li>
-            <li>Thieving <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('THIEVING', this.value)"></li>
-            <li>Slayer <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SLAYER', this.value)"></li>
-            <li>Farming <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('FARMING', this.value)"></li>
-            <li>Runecrafting <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('RUNECRAFTING', this.value)"></li>
-            <li>Hunter <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('HUNTER', this.value)"></li>
-            <li>Construction <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('CONSTRUCTION', this.value)"></li>
-            <li>Sailing <input type="number" min="1" max="99" placeholder="Level" onchange="addSkillSafe('SAILING', this.value)"></li>
-        </ul>
+       <ul id="skills">
+    <div class="skills-grid" id="skills-grid"></div>
+</ul>
 
         <!-- Diaries -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span>
@@ -449,15 +475,9 @@ async function importWikiSync() {
         const importedDiv = document.getElementById('imported-tasks');
         importedDiv.innerHTML = ''; // clear previous import
 
-        // Add skills
-        if (data.levels) {
-            for (const [skill, level] of Object.entries(data.levels)) {
-                const div = document.createElement('div');
-                div.className = 'stacked-task';
-                div.textContent = `SKILL:${skill.toUpperCase()}:${level}`;
-                importedDiv.appendChild(div);
-            }
-        }
+       // Store WikiSync skills for reference only
+wikiSkills = data.levels || {};
+renderSkillsGrid();
 
         // Add quests
         if (data.quests) {
@@ -488,9 +508,45 @@ async function importWikiSync() {
         alert('Failed to import WikiSync data. Make sure the username is correct.');
     }
 }
+const ALL_SKILLS = [
+    "attack","strength","defence","ranged","prayer","magic","hitpoints",
+    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
+    "smithing","mining","herblore","agility","thieving","slayer","farming",
+    "runecrafting","hunter","construction"
+];
 
+let wikiSkills = {}; // populated by WikiSync
+
+function renderSkillsGrid() {
+    const grid = document.getElementById("skills-grid");
+    grid.innerHTML = "";
+
+    ALL_SKILLS.forEach(skill => {
+        const level = wikiSkills[skill.toUpperCase()] || 1;
+        const locked = wikiSkills[skill.toUpperCase()] !== undefined;
+
+        const tile = document.createElement("div");
+        tile.className = "skill-tile" + (locked ? " skill-locked" : "");
+        tile.onclick = () => {
+            if (locked) return;
+            const target = prompt(`Target level for ${skill}?`, level);
+            if (!target) return;
+            addTask(`SKILL:${skill.toUpperCase()}:${target}`);
+        };
+
+        tile.innerHTML = `
+            <img src="icons/skills/${skill}.png" alt="${skill}">
+            <div class="skill-name">${skill.toUpperCase()}</div>
+            <div class="skill-level">Lvl ${level}</div>
+        `;
+
+        grid.appendChild(tile);
+    });
+}
+    renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
