@@ -116,12 +116,6 @@ button.debug {
 </head>
 <body>
 
-<div id="left-panel">
-    <input id="rsn-input" placeholder="OSRS Username">
-    <button onclick="resetAccount()" class="secondary">Reset / New Account</button>
-    <input type="text" id="search" placeholder="Search tasks..." oninput="filterTasks()">
-    <div class="scroll-container">
-
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span>
             <button class="debug" onclick="debugSection('quests')">Debug</button>
@@ -481,5 +475,6 @@ function debugSection(id) {
 
 </body>
 </html>
+
 
 
