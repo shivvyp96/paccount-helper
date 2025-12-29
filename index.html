@@ -505,19 +505,27 @@ const DIARY_NAME_MAP = {
 function updateQuestsAndDiaries(data) {
     // Quests
     if (data.quests) {
-        Object.values(document.querySelectorAll('#quests li')).forEach(el => {
+        document.querySelectorAll('#quests li').forEach(el => {
             const questId = QUEST_NAME_MAP[el.textContent] || el.id.replace("QUEST:", "");
-            const completed = !!data.quests[questId];
-            el.className = completed ? 'completed' : 'incomplete';
+            if (questId in data.quests) {
+                const completed = !!data.quests[questId];
+                el.className = completed ? 'completed' : 'incomplete';
+            } else {
+                el.className = ''; // keep white if not present in WikiSync
+            }
         });
     }
 
     // Diaries
     if (data.diaries) {
-        Object.values(document.querySelectorAll('#diaries li')).forEach(el => {
+        document.querySelectorAll('#diaries li').forEach(el => {
             const diaryId = DIARY_NAME_MAP[el.textContent] || el.id.replace("DIARY:", "");
-            const completed = !!data.diaries[diaryId];
-            el.className = completed ? 'completed' : 'incomplete';
+            if (diaryId in data.diaries) {
+                const completed = !!data.diaries[diaryId];
+                el.className = completed ? 'completed' : 'incomplete';
+            } else {
+                el.className = ''; // keep white if not present in WikiSync
+            }
         });
     }
 }
@@ -570,6 +578,7 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
