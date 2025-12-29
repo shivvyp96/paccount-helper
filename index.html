@@ -269,6 +269,12 @@ button.secondary { background: #475569; }
 </div>
 
 <script>
+    const SKILL_ALIASES = {
+    runecrafting: "runecraft",
+    hitpoints: "hitpoints", // WikiSync uses hitpoints, not hp
+    sailing: "sailing"
+};
+
 // --- Utility Functions ---
 function toggleSection(id){
     const el = document.getElementById(id);
@@ -333,27 +339,67 @@ async function importWikiSync(){
         if(!res.ok) throw new Error('Fetch failed');
         const data = await res.json();
         wikiSkills = {};
-        if(data.levels){
-            Object.keys(data.levels).forEach(k=>{
-                wikiSkills[normalizeSkill(k)] = data.levels[k];
-            });
+        wikiSkills = {};
+        if (data.levels) {
+    Object.entries(data.levels).forEach(([key, value]) => {
+        const normalized = normalizeSkill(key);
+
+        // Map aliases correctly
+        for (const localKey in SKILL_ALIASES) {
+            if (SKILL_ALIASES[localKey] === normalized) {
+                wikiSkills[localKey] = value;
+            }
         }
+
+        // Default case
+        wikiSkills[normalized] = value;
+    });
+}
+
         renderSkillsGrid();
 
         // Update quest coloring
         if(data.quests){
-            document.querySelectorAll('#quests li').forEach(li=>{
-                const key = li.textContent.toUpperCase().replace(/ /g,'_').replace(/'/g,'');
-                li.className = (data.quests[key]===2)?'completed':'incomplete';
-            });
+            document.querySelectorAll('#quests li').forEach(li => {
+    const onclick = li.getAttribute("onclick");
+    if (!onclick) return;
+
+    // Extract QUEST:XXXX from onclick
+    const match = onclick.match(/QUEST:([A-Z0-9_]+)/);
+    if (!match) return;
+
+    const questKey = match[1];
+
+    if (data.quests && questKey in data.quests) {
+        li.className = data.quests[questKey] === 2 ? "completed" : "incomplete";
+    } else {
+        li.className = "incomplete";
+    }
+});
+
         }
 
         // Update diaries coloring
         if(data.achievement_diaries){
-            document.querySelectorAll('#diaries li').forEach(li=>{
-                const key = li.textContent.toUpperCase().replace(/ /g,'_');
-                if(data.achievement_diaries[key]) li.className='completed';
-            });
+           document.querySelectorAll('#diaries li').forEach(li => {
+    const onclick = li.getAttribute("onclick");
+    if (!onclick) return;
+
+    // Extract DIARY:XXXX from onclick
+    const match = onclick.match(/DIARY:([A-Z0-9_]+)/);
+    if (!match) return;
+
+    const diaryKey = match[1];
+
+    if (data.diaries && diaryKey in data.diaries) {
+        // WikiSync: 2 = completed
+        li.className = data.diaries[diaryKey] === 2
+            ? "completed"
+            : "incomplete";
+    } else {
+        li.className = "incomplete";
+    }
+});
         }
 
         alert('WikiSync data applied!');
@@ -368,4 +414,5 @@ renderSkillsGrid();
 
 </body>
 </html>
+
 
