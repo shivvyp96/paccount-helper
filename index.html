@@ -450,16 +450,37 @@ async function importWikiSync() {
         const res = await fetch(
             `https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`
         );
-        if (!res.ok) throw new Error();
+        if (!res.ok) throw new Error("Fetch failed");
 
         const data = await res.json();
-        wikiSkills = data.levels || {};
+
+        // Clear previous
+        wikiSkills = {};
+
+        // Attempt to find the skill-level data
+        // Most WikiSync responses include a "levels" object
+        if (data.levels && typeof data.levels === 'object') {
+            // Lowercase all keys to make matching easy
+            Object.entries(data.levels).forEach(([key, value]) => {
+                wikiSkills[key.toLowerCase()] = value;
+            });
+        }
+
+        // If no "levels" object found, try alternative nesting (very rare)
+        else if (data.skills && typeof data.skills === 'object') {
+            Object.entries(data.skills).forEach(([key, value]) => {
+                wikiSkills[key.toLowerCase()] = value;
+            });
+        }
+
+        // Now re‑render the grid
         renderSkillsGrid();
 
-        alert('WikiSync applied — red = incomplete, green = complete');
+        alert('WikiSync applied — skills updated');
 
-    } catch {
-        alert('Failed to fetch WikiSync');
+    } catch (err) {
+        console.error(err);
+        alert('Failed to fetch WikiSync data.');
     }
 }
 
@@ -468,3 +489,4 @@ renderSkillsGrid();
 
 </body>
 </html>
+
