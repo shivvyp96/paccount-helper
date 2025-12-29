@@ -461,23 +461,32 @@ function renderSkillsGrid() {
     });
 }
 
-/* ===== NORMALIZE FUNCTION ===== */
 function normalizeName(name) {
     return name.toLowerCase()
-        .replace(/[^\w\s]/g, '')   // remove all punctuation
-        .replace(/\s+/g, '_')      // replace spaces with underscores
-        .replace(/_i$/, '_1')      // roman numeral I → 1
-        .replace(/_ii$/, '_2')     // II → 2
-        .replace(/_iii$/, '_3');   // III → 3 (optional, extend if needed)
+        .replace(/&/g, 'and')             // convert & → and
+        .replace(/[^\w\s]/g, '')          // remove other punctuation
+        .replace(/\s+/g, '_')             // spaces → _
+        .replace(/_i$/, '_1')             // roman numerals
+        .replace(/_ii$/, '_2')
+        .replace(/_iii$/, '_3')
+        .replace(/_part_\d+$/, '')        // strip trailing part numbers
+        .replace(/_growing_pains$/, '')   // strip Fairy Tale growing pains
+        .trim();
 }
 
-/* ===== AUTO-COLOUR QUESTS AND DIARIES ===== */
 function updateQuestsAndDiaries(data) {
     // === QUESTS ===
     if (data.quests) {
         document.querySelectorAll('#quests li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.quests).find(k => normalizeName(k) === htmlNorm);
+            let htmlNorm = normalizeName(el.textContent);
+            let matchedKey = Object.keys(data.quests).find(k => {
+                let wikiNorm = normalizeName(k);
+                // Special handling for RFD quests: match prefix
+                if (htmlNorm.startsWith('rfd') && wikiNorm.startsWith('recipe_for_disaster')) {
+                    return true;
+                }
+                return htmlNorm === wikiNorm;
+            });
             if (matchedKey) {
                 el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
             } else {
@@ -499,9 +508,6 @@ function updateQuestsAndDiaries(data) {
         });
     }
 }
-
-
-
 
 /* ===== WIKISYNC ===== */
 async function importWikiSync() {
@@ -551,6 +557,7 @@ updateQuestsAndDiaries(data);
 </script>
 </body>
 </html>
+
 
 
 
