@@ -24,7 +24,7 @@ body {
 #left-panel input, #left-panel button {
     margin: 6px 10px;
 }
-#search, #wiki-username {
+#wiki-username {
     padding: 6px;
     border-radius: 5px;
     border: 1px solid #3b82f6;
@@ -62,6 +62,7 @@ li {
 }
 li:hover { color: #3b82f6; }
 li.completed { color: #22c55e; text-decoration: line-through; }
+li.incomplete { color: #f87171; }
 .stacked-task {
     background: #1e293b;
     margin-bottom: 5px;
@@ -95,6 +96,21 @@ button {
 button.secondary {
     background: #475569;
 }
+button.debug {
+    background: #facc15;
+    color: #000;
+    margin-left: 5px;
+}
+#stacked-tasks {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #3b82f6;
+    padding: 5px;
+    border-radius: 5px;
+    background: #1e293b;
+}
+/* === SKILLS GRID === */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -141,14 +157,13 @@ button.secondary {
 <body>
 <div id="left-panel">
     <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
-    <button onclick="importWikiSync()" class="secondary">Import</button>
+    <button onclick="importWikiSync()">Import WikiSync</button>
     <input type="text" id="search" placeholder="Search tasks..." oninput="filterTasks()">
     <div class="scroll-container">
 
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
         <ul id="quests">
-            <!-- FULL QUEST LIST COPIED -->
             <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
             <li onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
             <li onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
@@ -262,8 +277,8 @@ button.secondary {
             <li onclick="addTaskSafe('QUEST:TWILIGHTS_PROMISE')">Twilights Promise</li>
             <li onclick="addTaskSafe('QUEST:REGICIDE')">Regicide</li>
             <li onclick="addTaskSafe('QUEST:ROVING_ELVES')">Roving Elves</li>
-            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_I')">Mourning's End Part I</li>
-            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_II')">Mourning's End Part II</li>
+            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_I')">Mournings End Part I</li>
+            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_II')">Mournings End Part II</li>
             <li onclick="addTaskSafe('QUEST:ETHICALLY_ACQUIRED_ANTIQUITIES')">Ethically Acquired Antiquities</li>
             <li onclick="addTaskSafe('QUEST:DADDYS_HOME')">Daddy's Home</li>
             <li onclick="addTaskSafe('QUEST:LUNAR_DIPLOMACY')">Lunar Diplomacy</li>
@@ -364,7 +379,6 @@ button.secondary {
         <ul id="ironstarter">
             <li onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
         </ul>
-
     </div>
 </div>
 
@@ -376,16 +390,6 @@ button.secondary {
 </div>
 
 <script>
-const ALL_SKILLS = [
-    "attack","strength","defence","ranged","prayer","magic","hitpoints",
-    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
-    "smithing","mining","herblore","agility","thieving","slayer","farming",
-    "runecrafting","hunter","construction","sailing"
-];
-
-let wikiSkills = {}; // populated by WikiSync
-let skillClickCounter = {}; // tracks clicks to increment levels
-
 function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
@@ -401,7 +405,7 @@ function addTask(task) {
 }
 
 function addTaskSafe(task) { addTask(task); }
-function addSkillSafe(skill, level) { addTask(`SKILL:${skill.toUpperCase()}:${level}`); }
+function addSkillSafe(skill, level) { if(level) addTask(`SKILL:${skill.toUpperCase()}:${level}`); }
 
 function copyAll() {
     const text = [...document.querySelectorAll('.stacked-task')]
@@ -414,26 +418,40 @@ function resetStack() {
     document.getElementById('stacked-tasks').innerHTML = '';
 }
 
+const ALL_SKILLS = [
+    "attack","strength","defence","ranged","prayer","magic","hitpoints",
+    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
+    "smithing","mining","herblore","agility","thieving","slayer","farming",
+    "runecrafting","hunter","construction","sailing"
+];
+
+let wikiSkills = {}; // populated by WikiSync
+let skillClicks = {}; // counter for clicks per skill
+
 function renderSkillsGrid() {
     const grid = document.getElementById("skills-grid");
     grid.innerHTML = "";
 
     ALL_SKILLS.forEach(skill => {
-        const baseLevel = wikiSkills[skill.toUpperCase()] || 1;
-        skillClickCounter[skill] = skillClickCounter[skill] || baseLevel;
+        const level = wikiSkills[skill.toUpperCase()] || 1;
+        const completed = wikiSkills[skill.toUpperCase()] !== undefined;
 
         const tile = document.createElement("div");
-        tile.className = "skill-tile" + (wikiSkills[skill.toUpperCase()] ? " skill-locked" : "");
+        tile.className = "skill-tile";
+        if(completed) tile.classList.add("skill-completed");
         tile.onclick = () => {
-            skillClickCounter[skill]++;
-            addSkillSafe(skill, skillClickCounter[skill]);
+            skillClicks[skill] = skillClicks[skill] || level;
+            skillClicks[skill]++;
+            addTask(`SKILL:${skill.toUpperCase()}:${skillClicks[skill]}`);
         };
 
         tile.innerHTML = `
             <img src="icons/skills/${skill}.png" alt="${skill}">
             <div class="skill-name">${skill.toUpperCase()}</div>
-            <div class="skill-level">Lvl ${skillClickCounter[skill]}</div>
+            <div class="skill-level">Lvl ${level}</div>
         `;
+        if(!completed) tile.style.borderColor="#f87171"; // red border if missing
+        else tile.style.borderColor="#22c55e"; // green if completed
 
         grid.appendChild(tile);
     });
@@ -441,40 +459,36 @@ function renderSkillsGrid() {
 
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
-    if (!username) { alert('Enter a WikiSync username!'); return; }
+    if (!username) { alert('Enter WikiSync username'); return; }
     try {
         const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
-        if (!res.ok) throw new Error('Failed fetching data');
+        if (!res.ok) throw new Error('Fetch failed');
         const data = await res.json();
-        wikiSkills = {};
-        Object.keys(data.levels || {}).forEach(k => wikiSkills[k.toUpperCase()] = data.levels[k]);
-        skillClickCounter = {}; // reset click counters
+        wikiSkills = data.levels || {};
         renderSkillsGrid();
 
-        // Mark completed quests in Selected Tasks
-        if (data.quests) {
+        // Update quest and diary colors
+        if(data.quests){
             Object.keys(data.quests).forEach(q => {
-                if (data.quests[q] === 2) addTask(`QUEST:${q.toUpperCase().replace(/ /g,'_')}`);
+                const el = document.querySelector(`#quests li[onclick*="${q.toUpperCase().replace(/ /g,'_')}"]`);
+                if(el) el.className = (data.quests[q]===2)?"completed":"incomplete";
             });
         }
-
-        // Diaries
-        if (data.achievement_diaries) {
+        if(data.achievement_diaries){
             Object.keys(data.achievement_diaries).forEach(diary => {
-                addTask(`DIARY:${diary.toUpperCase().replace(/ & /g,'_AND_').replace(/ /g,'_')}`);
+                const el = document.querySelector(`#diaries li[onclick*="${diary.toUpperCase().replace(/ & /g,'_AND_').replace(/ /g,'_')}"]`);
+                if(el) el.className = "completed";
             });
         }
 
-        alert('WikiSync data imported successfully!');
-    } catch (err) {
+        alert('WikiSync data applied! Click red items to add tasks.');
+    } catch(err){
         console.error(err);
-        alert('Failed to import WikiSync data. Check username.');
+        alert('Failed to fetch WikiSync data.');
     }
 }
 
-// Initialize grid for manual usage without WikiSync
 renderSkillsGrid();
 </script>
 </body>
 </html>
-
