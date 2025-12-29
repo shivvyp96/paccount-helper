@@ -14,7 +14,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
 #left-panel {
     width: 360px;
     background: #1e293b;
@@ -22,26 +21,21 @@ body {
     display: flex;
     flex-direction: column;
 }
-
 #left-panel input, #left-panel button {
     margin: 6px 10px;
 }
-
-#search, #rsn-input, #wiki-username {
+#search, #rsn-input {
     padding: 6px;
     border-radius: 5px;
     border: 1px solid #3b82f6;
     background: #0f172a;
     color: #e2e8f0;
-    width: calc(100% - 24px);
 }
-
 .scroll-container {
     overflow-y: auto;
     flex-grow: 1;
     padding: 10px;
 }
-
 h2 {
     color: #3b82f6;
     margin: 0;
@@ -54,28 +48,22 @@ h2 {
     top: 0;
     border-bottom: 1px solid #3b82f6;
 }
-
 .arrow { transition: transform 0.2s; }
-
 ul {
     list-style: none;
     padding-left: 10px;
     margin: 0 0 15px 0;
     display: none;
 }
-
 li {
     padding: 5px 0;
     cursor: pointer;
 }
-
 li:hover { color: #3b82f6; }
-
 li.completed {
     color: #22c55e;
     text-decoration: line-through;
 }
-
 .stacked-task {
     background: #1e293b;
     margin-bottom: 5px;
@@ -83,7 +71,6 @@ li.completed {
     border-radius: 5px;
     font-family: monospace;
 }
-
 input[type=number] {
     width: 60px;
     padding: 3px;
@@ -93,13 +80,11 @@ input[type=number] {
     background: #0f172a;
     color: #e2e8f0;
 }
-
 #right-panel {
     flex-grow: 1;
     padding: 15px;
     overflow-y: auto;
 }
-
 button {
     padding: 8px;
     border-radius: 5px;
@@ -108,23 +93,17 @@ button {
     color: #fff;
     cursor: pointer;
 }
-
 button.secondary {
     background: #475569;
 }
 </style>
 </head>
+
 <body>
-
 <div id="left-panel">
-
-    <!-- WikiSync / RSN Inputs -->
     <input id="rsn-input" placeholder="OSRS Username">
-    <button onclick="importWikiSync()">Import Account (WikiSync)</button>
-    <button class="secondary" onclick="resetStack()">Reset / New Account</button>
-    
+    <button onclick="resetAccount()" class="secondary">Reset / New Account</button>
     <input type="text" id="search" placeholder="Search tasks...">
-
     <div class="scroll-container">
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
@@ -364,13 +343,18 @@ button.secondary {
     <h2>Selected Tasks</h2>
     <div id="stacked-tasks"></div>
     <button onclick="copyAll()">Copy Full Stack</button>
+
+    <!-- WikiSync Input (static) -->
+    <h2>WikiSync Import</h2>
+    <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username" style="padding:5px; width:200px; margin-right:5px;">
+    <button onclick="importWikiSync()">Import</button>
+    <button onclick="resetStack()">Reset Stack</button>
 </div>
 
 <script>
-/* ========== CORE FUNCTIONS ========== */
-
-const addedTasks = new Set();
-
+/* ------------------------
+ CORE FUNCTIONS
+------------------------ */
 function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
@@ -378,68 +362,58 @@ function toggleSection(id) {
     arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
 
-function addTaskSafe(task) {
-    if (!addedTasks.has(task)) {
-        addedTasks.add(task);
-        const div = document.createElement('div');
-        div.className = 'stacked-task';
-        div.textContent = task;
-        document.getElementById('stacked-tasks').appendChild(div);
-        console.log('Added task:', task);
-    }
+function addTask(task) {
+    const div = document.createElement('div');
+    div.className = 'stacked-task';
+    div.textContent = task;
+    document.getElementById('stacked-tasks').appendChild(div);
 }
 
-function addSkillSafe(skill, level) {
+function addSkill(skill, level) {
     if (!level) return;
-    addTaskSafe(`SKILL:${skill}:${level}`);
-}
-
-function resetStack() {
-    document.getElementById('stacked-tasks').innerHTML = '';
-    addedTasks.clear();
-    console.log('Stack reset');
+    const div = document.createElement('div');
+    div.className = 'stacked-task';
+    div.textContent = `SKILL:${skill}:${level}`;
+    document.getElementById('stacked-tasks').appendChild(div);
 }
 
 function copyAll() {
-    const text = [...document.querySelectorAll('.stacked-task')].map(d => d.textContent).join('\n');
+    const text = [...document.querySelectorAll('.stacked-task')]
+        .map(d => d.textContent).join('\n');
     navigator.clipboard.writeText(text);
     alert('Full stack copied');
 }
 
-/* ========== WikiSync IMPORT ========== */
+function resetStack() {
+    document.getElementById('stacked-tasks').innerHTML = '';
+}
+
+/* ------------------------
+ WIKISYNC IMPORT
+------------------------ */
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
-    if (!username) {
-        alert('Please enter a WikiSync username!');
-        return;
-    }
+    if (!username) { alert('Please enter a WikiSync username!'); return; }
 
     try {
-        const res = await fetch(`http://localhost:3000/wikisync?username=${encodeURIComponent(username)}`);
-        if (!res.ok) throw new Error('Failed to fetch data from backend');
-
+        const res = await fetch(`http://localhost:3000/wikisync/${encodeURIComponent(username)}`);
+        if (!res.ok) throw new Error('Failed fetching data');
         const data = await res.json();
 
-        // Clear previous tasks
-        resetStack();
+        resetStack(); // clear previous tasks
 
         // Add skills
-        for (const skill of data.skills) {
-            addTaskSafe(`SKILL:${skill.name}:${skill.level}`);
+        for (const [skill, level] of Object.entries(data.skills || {})) {
+            addTask(`SKILL:${skill.toUpperCase()}:${level}`);
         }
 
         // Add quests
-        for (const quest of data.quests) {
-            addTaskSafe(`QUEST:${quest}`);
-        }
+        (data.quests || []).forEach(q => addTask('QUEST:' + q.toUpperCase()));
 
         // Add diaries
-        for (const diary of data.diaries) {
-            addTaskSafe(`DIARY:${diary}`);
-        }
+        (data.diaries || []).forEach(d => addTask('DIARY:' + d.toUpperCase()));
 
         alert('WikiSync data imported successfully!');
-
     } catch (err) {
         console.error(err);
         alert('Failed to import WikiSync data. Ensure the username is correct and the account has WikiSync pushed data.');
@@ -448,4 +422,3 @@ async function importWikiSync() {
 </script>
 </body>
 </html>
-
