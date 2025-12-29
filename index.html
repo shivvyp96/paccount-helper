@@ -461,26 +461,67 @@ function renderSkillsGrid() {
     });
 }
 
+/* ===== QUEST & DIARY NAME MAPS ===== */
+const QUEST_NAME_MAP = {
+    "Doric's Quest": "DORICS_QUEST",
+    "Gertrude's Cat": "GERTRUDES_CAT",
+    "King's Ransom": "KINGS_RANSOM",
+    "Icthlarin's Little Helper": "ICTHLARINS_LITTLE_HELPER",
+    "Pirate's Treasure": "PIRATES_TREASURE",
+    "Wanted!": "WANTED",
+    "Mage Arena I": "MA1",
+    "Mage Arena II": "MA2",
+    "RFD Lumbridge Guide": "RFD_GUIDE",
+    "RFD Sir Amik Varze": "RFD_AMIK_VARZE",
+    "RFD Ogre": "RFD_OGRE",
+    "RFD Evil Dave": "RFD_EVIL_DAVE",
+    "RFD Pirate": "RFD_PIRATE",
+    "RFD Cook": "RFD_COOK",
+    "RFD Dwarf": "RFD_DWARF",
+    "RFD Goblins": "RFD_GOBLINS",
+    "RFD Culinaromancer": "RFD_CULINAROMANCER",
+    "Alfred Grimhands Barcrawl": "BARCRAWL",
+    "The Knight's Sword": "THE_KNIGHTS_SWORD",
+    "Monk's Friend": "MONKS_FRIEND",
+    "Merlins Crystal": "MERLINS_CRYSTAL",
+    "Fairy Tale I": "FAIRYTALE_I",
+    "Heroes Quest": "HEROES_QUEST",
+    "Eadgars Ruse": "EADGARS_RUSE",
+    "A Soul's Bane": "A_SOULS_BANE"
+};
+
+const DIARY_NAME_MAP = {
+    "Varrock Easy": "VARROCK_EASY",
+    "Varrock Medium": "VARROCK_MEDIUM",
+    "Ardougne Easy": "ARDOUGNE_EASY",
+    "Ardougne Medium": "ARDOUGNE_MEDIUM",
+    "Lumbridge Easy": "LUMBRIDGE_EASY",
+    "Lumbridge Medium": "LUMBRIDGE_MEDIUM",
+    "Karamja Easy": "KARAMJA_EASY",
+    "Kourend Easy": "KOUREND_EASY"
+};
+
 /* ===== AUTO-COLOUR QUESTS/DIARIES ===== */
-function normalizeId(id) {
-    return id.toUpperCase().replace(/[^A-Z0-9_]/g, '_');
-}
-
 function updateQuestsAndDiaries(data) {
+    // Quests
     if (data.quests) {
-        Object.entries(data.quests).forEach(([id, completed]) => {
-            const el = document.getElementById(`QUEST:${normalizeId(id)}`);
-            if (el) el.className = completed ? 'completed' : 'incomplete';
+        Object.values(document.querySelectorAll('#quests li')).forEach(el => {
+            const questId = QUEST_NAME_MAP[el.textContent] || el.id.replace("QUEST:", "");
+            const completed = !!data.quests[questId];
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
 
+    // Diaries
     if (data.diaries) {
-        Object.entries(data.diaries).forEach(([id, completed]) => {
-            const el = document.getElementById(`DIARY:${normalizeId(id)}`);
-            if (el) el.className = completed ? 'completed' : 'incomplete';
+        Object.values(document.querySelectorAll('#diaries li')).forEach(el => {
+            const diaryId = DIARY_NAME_MAP[el.textContent] || el.id.replace("DIARY:", "");
+            const completed = !!data.diaries[diaryId];
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
 }
+
 
 /* ===== WIKISYNC ===== */
 async function importWikiSync() {
@@ -529,6 +570,7 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
