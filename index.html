@@ -14,7 +14,6 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
 /* ===== LEFT PANEL ===== */
 #left-panel {
     width: 380px;
@@ -23,11 +22,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-#left-panel input, #left-panel button {
-    margin: 6px 10px;
-}
-
+#left-panel input, #left-panel button { margin: 6px 10px; }
 #wiki-username {
     padding: 6px;
     border-radius: 5px;
@@ -36,13 +31,7 @@ body {
     color: #e2e8f0;
     width: calc(100% - 32px);
 }
-
-.scroll-container {
-    overflow-y: auto;
-    flex-grow: 1;
-    padding: 10px;
-}
-
+.scroll-container { overflow-y: auto; flex-grow: 1; padding: 10px; }
 h2 {
     color: #3b82f6;
     margin: 0;
@@ -55,33 +44,19 @@ h2 {
     top: 0;
     border-bottom: 1px solid #3b82f6;
 }
-
 .arrow { transition: transform 0.2s; }
-
-ul {
-    list-style: none;
-    padding-left: 10px;
-    margin: 0 0 15px 0;
-    display: none;
-}
-
-li {
-    padding: 5px 0;
-    cursor: pointer;
-}
+ul { list-style: none; padding-left: 10px; margin: 0 0 15px 0; display: none; }
+li { padding: 5px 0; cursor: pointer; }
 li:hover { color: #3b82f6; }
-
 /* ===== STATUS COLOURS ===== */
 li.completed { color: #22c55e; text-decoration: line-through; }
 li.incomplete { color: #f87171; }
-
 /* ===== RIGHT PANEL ===== */
 #right-panel {
     flex-grow: 1;
     padding: 15px;
     overflow-y: auto;
 }
-
 button {
     padding: 8px;
     border-radius: 5px;
@@ -91,11 +66,7 @@ button {
     cursor: pointer;
     margin: 3px 0;
 }
-
-button.secondary {
-    background: #475569;
-}
-
+button.secondary { background: #475569; }
 /* ===== STACK ===== */
 #stacked-tasks {
     max-height: 400px;
@@ -106,7 +77,6 @@ button.secondary {
     border-radius: 5px;
     background: #1e293b;
 }
-
 .stacked-task {
     background: #0f172a;
     margin-bottom: 5px;
@@ -114,7 +84,6 @@ button.secondary {
     border-radius: 5px;
     font-family: monospace;
 }
-
 /* ===== SKILLS GRID ===== */
 .skills-grid {
     display: grid;
@@ -122,7 +91,6 @@ button.secondary {
     gap: 8px;
     padding: 8px;
 }
-
 .skill-tile {
     background: #0f172a;
     border: 1px solid #334155;
@@ -133,29 +101,10 @@ button.secondary {
     transition: all 0.15s ease;
     position: relative;
 }
-
-.skill-tile:hover {
-    border-color: #3b82f6;
-    background: #1e293b;
-}
-
-.skill-tile img {
-    width: 32px;
-    height: 32px;
-}
-
-.skill-name {
-    font-size: 11px;
-    margin-top: 4px;
-    color: #cbd5f5;
-}
-
-.skill-level {
-    font-size: 12px;
-    margin-top: 2px;
-    color: #94a3b8;
-}
-
+.skill-tile:hover { border-color: #3b82f6; background: #1e293b; }
+.skill-tile img { width: 32px; height: 32px; }
+.skill-name { font-size: 11px; margin-top: 4px; color: #cbd5f5; }
+.skill-level { font-size: 12px; margin-top: 2px; color: #94a3b8; }
 /* ===== TOOLTIP ===== */
 .skill-tile .tooltip {
     visibility: hidden;
@@ -173,24 +122,18 @@ button.secondary {
     font-size: 11px;
     border: 1px solid #3b82f6;
 }
-
-.skill-tile:hover .tooltip {
-    visibility: visible;
-}
+.skill-tile:hover .tooltip { visibility: visible; }
 </style>
 </head>
 <body>
-
 <div id="left-panel">
     <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
     <button onclick="importWikiSync()">Import WikiSync</button>
-
     <div class="scroll-container">
-
         <!-- ===== QUESTS ===== -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
         <ul id="quests">
-<li id="QUEST:COOKS_ASSISTANT" onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
+            <li id="QUEST:COOKS_ASSISTANT" onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
 <li id="QUEST:DORICS_QUEST" onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
 <li id="QUEST:DRUIDIC_RITUAL" onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
 <li id="QUEST:IMP_CATCHER" onclick="addTaskSafe('QUEST:IMP_CATCHER')">Imp Catcher</li>
@@ -333,14 +276,11 @@ button.secondary {
 <li id="QUEST:MA1" onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
 <li id="QUEST:MA2" onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
         </ul>
-
         <!-- ===== SKILLS ===== -->
-<h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
-<div id="skills" style="display: none;">
-    <div class="skills-grid" id="skills-grid"></div>
-</div>
-
-
+        <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
+        <div id="skills" style="display: none;">
+            <div class="skills-grid" id="skills-grid"></div>
+        </div>
         <!-- ===== ACHIEVEMENT DIARIES ===== -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
         <ul id="diaries">
@@ -378,19 +318,14 @@ button.secondary {
         <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
         <ul id="ironstarter">
     <li id="IRON_STARTER_PART1" onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
-</ul>
-
-        
-    </div>
+    </ul>
 </div>
-
 <div id="right-panel">
     <h2>Selected Tasks</h2>
     <div id="stacked-tasks"></div>
     <button onclick="copyAll()">Copy Full Stack</button>
     <button onclick="resetStack()" class="secondary">Reset Stack</button>
 </div>
-
 <script>
 /* ===== TOGGLE ===== */
 function toggleSection(id) {
@@ -399,7 +334,6 @@ function toggleSection(id) {
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
     arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
-
 /* ===== STACK ===== */
 function addTaskSafe(task) {
     const div = document.createElement('div');
@@ -407,170 +341,132 @@ function addTaskSafe(task) {
     div.textContent = task;
     document.getElementById('stacked-tasks').appendChild(div);
 }
-
 function copyAll() {
-    const text = [...document.querySelectorAll('.stacked-task')]
-        .map(d => d.textContent).join('\n');
+    const text = [...document.querySelectorAll('.stacked-task')].map(d => d.textContent).join('\n');
     navigator.clipboard.writeText(text);
     alert('Copied!');
 }
-
-function resetStack() {
-    document.getElementById('stacked-tasks').innerHTML = '';
-}
-
+function resetStack() { document.getElementById('stacked-tasks').innerHTML = ''; }
 /* ===== SKILLS ===== */
-const ALL_SKILLS = [
-    "attack","strength","defence","ranged","prayer","magic","hitpoints",
-    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
-    "smithing","mining","herblore","agility","thieving","slayer","farming",
-    "runecrafting","hunter","construction","sailing"
-];
-
+const ALL_SKILLS = ["attack","strength","defence","ranged","prayer","magic","hitpoints",
+"cooking","woodcutting","fletching","fishing","firemaking","crafting",
+"smithing","mining","herblore","agility","thieving","slayer","farming",
+"runecrafting","hunter","construction","sailing"];
 let wikiSkills = {};
 let skillClicks = {};
-
 function renderSkillsGrid() {
     const grid = document.getElementById("skills-grid");
     grid.innerHTML = "";
-
     ALL_SKILLS.forEach(skill => {
         let wikiKey = skill === 'runecrafting' ? 'runecraft' : skill;
-        const baseLevel = wikiSkills[wikiKey] || (skill === 'sailing' ? 1 : 1);
+        const baseLevel = wikiSkills[wikiKey] || 1;
         skillClicks[skill] = baseLevel;
-
         const tile = document.createElement("div");
         tile.className = "skill-tile";
         tile.style.borderColor = baseLevel > 1 ? "#22c55e" : "#f87171";
-
         tile.onclick = () => {
             skillClicks[skill]++;
             addTaskSafe(`SKILL:${skill.toUpperCase()}:${skillClicks[skill]}`);
             tile.querySelector('.tooltip').textContent = `Current: ${baseLevel} → Target: ${skillClicks[skill]}`;
             tile.querySelector('.skill-level').textContent = `Lvl ${skillClicks[skill]}`;
         };
-
         tile.innerHTML = `
             <img src="icons/skills/${skill}.png">
             <div class="skill-name">${skill.toUpperCase()}</div>
             <div class="skill-level">Lvl ${baseLevel}</div>
             <div class="tooltip">Current: ${baseLevel} → Target: ${skillClicks[skill]}</div>
         `;
-
         grid.appendChild(tile);
     });
 }
 
+/* ===== QUEST EXCEPTIONS ===== */
+const QUEST_EXCEPTIONS = {
+    'fairy_tale_i': 'Fairytale I - Growing Pains',
+    'rfd_cook': 'RFD Cook',
+    'rfd_dwarf': 'RFD Dwarf',
+    'rfd_goblins': 'RFD Goblins',
+    'rfd_ogre': 'RFD Ogre',
+    'rfd_evil_dave': 'RFD Evil Dave',
+    'rfd_pirate': 'RFD Pirate',
+    'rfd_guide': 'RFD Lumbridge Guide',
+    'rfd_monkey': 'RFD Monkey',
+    'rfd_amik_varze': 'RFD Sir Amik Varze',
+    'rfd_culinaromancer': 'RFD Culinaromancer',
+    'romeo_and_juliet': 'Romeo & Juliet'
+};
+const DIARY_EXCEPTIONS = {};
+
+/* ===== NORMALIZE NAME ===== */
 function normalizeName(name) {
     return name.toLowerCase()
-        .replace(/&/g, 'and')             // convert & → and
-        .replace(/[^\w\s]/g, '')          // remove other punctuation
-        .replace(/\s+/g, '_')             // spaces → _
-        .replace(/_i$/, '_1')             // roman numerals
-        .replace(/_ii$/, '_2')
-        .replace(/_iii$/, '_3')
-        .replace(/_part_\d+$/, '')        // strip trailing part numbers
-        .replace(/_growing_pains$/, '')   // strip Fairy Tale growing pains
+        .replace(/&/g,'and')
+        .replace(/[^\w\s]/g,'')
+        .replace(/\s+/g,'_')
+        .replace(/_i$/,'_1')
+        .replace(/_ii$/,'_2')
+        .replace(/_iii$/,'_3')
+        .replace(/_part_\d+$/,'')
+        .replace(/_growing_pains$/,'')
         .trim();
 }
 
-/* ===== UPDATE QUESTS & DIARIES WITH NORMALIZATION ===== */
+/* ===== UPDATE QUESTS & DIARIES ===== */
 function updateQuestsAndDiaries(data) {
-
-    function normalizeName(name) {
-        return name.toLowerCase()
-            .replace(/&/g, 'and')            // convert & to "and"
-            .replace(/[^\w\s]/g, '')         // remove punctuation
-            .replace(/\s+/g, '_')            // spaces → _
-            .replace(/_growing_pains$/, '')  // strip Fairy Tale suffix
-            .replace(/_part_\d+$/, '')       // strip any trailing "part" numbers
-            .replace(/_i$/, '_1')            // roman → numeric
-            .replace(/_ii$/, '_2')
-            .replace(/_iii$/, '_3')
-            .trim();
-    }
-
-    // === QUESTS ===
+    // Quests
     if (data.quests) {
-        document.querySelectorAll('#quests li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.quests).find(k =>
-                normalizeName(k) === htmlNorm
-            );
-
-            if (matchedKey) {
-                el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = ''; // leave white if not found
-            }
+        Object.values(document.querySelectorAll('#quests li')).forEach(el => {
+            const htmlNorm = normalizeName(el.id.replace("QUEST:", ""));
+            let matchedKey = QUEST_EXCEPTIONS[htmlNorm] || 
+                             Object.keys(data.quests).find(k => normalizeName(k) === htmlNorm);
+            const completed = matchedKey ? !!data.quests[matchedKey] : false;
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
-
-    // === DIARIES ===
+    // Diaries
     if (data.diaries) {
-        document.querySelectorAll('#diaries li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.diaries).find(k =>
-                normalizeName(k) === htmlNorm
-            );
-
-            if (matchedKey) {
-                el.className = data.diaries[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = '';
-            }
+        Object.values(document.querySelectorAll('#diaries li')).forEach(el => {
+            const htmlNorm = normalizeName(el.id.replace("DIARY:", ""));
+            let matchedKey = DIARY_EXCEPTIONS[htmlNorm] || 
+                             Object.keys(data.diaries).find(k => normalizeName(k) === htmlNorm);
+            const completed = matchedKey ? !!data.diaries[matchedKey] : false;
+            el.className = completed ? 'completed' : 'incomplete';
         });
     }
 }
-
 
 /* ===== WIKISYNC ===== */
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
     if (!username) return alert('Enter WikiSync username');
-
     try {
-        const res = await fetch(
-            `https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`
-        );
+        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
         if (!res.ok) throw new Error("Fetch failed");
-
         const data = await res.json();
         wikiSkills = {};
-
-        // Map skill names from WikiSync
         if (data.levels && typeof data.levels === 'object') {
-            Object.entries(data.levels).forEach(([key, value]) => {
-                wikiSkills[key.toLowerCase()] = value;
-            });
+            Object.entries(data.levels).forEach(([key,value]) => wikiSkills[key.toLowerCase()] = value);
         } else if (data.skills && typeof data.skills === 'object') {
-            Object.entries(data.skills).forEach(([key, value]) => {
-                wikiSkills[key.toLowerCase()] = value;
-            });
+            Object.entries(data.skills).forEach(([key,value]) => wikiSkills[key.toLowerCase()] = value);
         }
-
         renderSkillsGrid();
-        updateQuestsAndDiaries(data);  // <-- correct place
-
-        // Auto-expand all sections
+        updateQuestsAndDiaries(data);
         document.querySelectorAll('ul').forEach(ul => {
             ul.style.display = 'block';
             const arrow = ul.previousElementSibling.querySelector('.arrow');
             if (arrow) arrow.style.transform = 'rotate(90deg)';
         });
-
         alert('WikiSync applied: skills, quests, diaries updated.');
-
-    } catch (err) {
+    } catch(err) {
         console.error(err);
         alert('Failed to fetch WikiSync data.');
     }
 }
-
-renderSkillsGrid();  // only this on initial load
+renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
