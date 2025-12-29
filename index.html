@@ -4,46 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>P-Account Builder Helper</title>
+
 <style>
-body { font-family: "Trebuchet MS", sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-#left-panel { width: 380px; background: #1e293b; border-right: 2px solid #3b82f6; display: flex; flex-direction: column; }
-#left-panel input, #left-panel button { margin: 6px 10px; }
-#wiki-username { padding: 6px; border-radius: 5px; border: 1px solid #3b82f6; background: #0f172a; color: #e2e8f0; width: calc(100% - 32px); }
-.scroll-container { overflow-y: auto; flex-grow: 1; padding: 10px; }
-h2 { color: #3b82f6; margin: 0; padding: 10px 5px; cursor: pointer; display: flex; justify-content: space-between; background: #1e293b; position: sticky; top: 0; border-bottom: 1px solid #3b82f6; }
+body {
+    font-family: "Trebuchet MS", sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ===== LEFT PANEL ===== */
+#left-panel {
+    width: 380px;
+    background: #1e293b;
+    border-right: 2px solid #3b82f6;
+    display: flex;
+    flex-direction: column;
+}
+
+#left-panel input, #left-panel button {
+    margin: 6px 10px;
+}
+
+#wiki-username {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #3b82f6;
+    background: #0f172a;
+    color: #e2e8f0;
+    width: calc(100% - 32px);
+}
+
+.scroll-container {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+h2 {
+    color: #3b82f6;
+    margin: 0;
+    padding: 10px 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    background: #1e293b;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #3b82f6;
+}
+
 .arrow { transition: transform 0.2s; }
-ul { list-style: none; padding-left: 10px; margin: 0 0 15px 0; display: none; }
-li { padding: 5px 0; cursor: pointer; }
+
+ul {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0 0 15px 0;
+    display: none;
+}
+
+li {
+    padding: 5px 0;
+    cursor: pointer;
+}
 li:hover { color: #3b82f6; }
+
+/* ===== STATUS COLOURS ===== */
 li.completed { color: #22c55e; text-decoration: line-through; }
 li.incomplete { color: #f87171; }
-.stacked-task { background: #1e293b; margin-bottom: 5px; padding: 5px; border-radius: 5px; font-family: monospace; }
-input[type=number] { width: 60px; padding: 3px; margin-left: 5px; border-radius: 4px; border: 1px solid #3b82f6; background: #0f172a; color: #e2e8f0; }
-#right-panel { flex-grow: 1; padding: 15px; overflow-y: auto; }
-button { padding: 8px; border-radius: 5px; border: none; background: #3b82f6; color: #fff; cursor: pointer; margin: 3px 0; }
-button.secondary { background: #475569; }
-#stacked-tasks { max-height: 400px; overflow-y: auto; margin-bottom: 10px; border: 1px solid #3b82f6; padding: 5px; border-radius: 5px; background: #1e293b; }
-.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 8px; }
-.skill-tile { background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 6px; text-align: center; cursor: pointer; transition: all 0.15s ease; }
-.skill-tile:hover { border-color: #3b82f6; background: #1e293b; }
-.skill-name { font-size: 11px; margin-top: 4px; color: #cbd5f5; }
-.skill-level { font-size: 12px; margin-top: 2px; color: #94a3b8; }
-.skill-locked { opacity: 0.45; cursor: not-allowed; }
-.skill-locked:hover { border-color: #334155; background: #0f172a; }
+
+/* ===== RIGHT PANEL ===== */
+#right-panel {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+button {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background: #3b82f6;
+    color: #fff;
+    cursor: pointer;
+    margin: 3px 0;
+}
+
+button.secondary {
+    background: #475569;
+}
+
+/* ===== STACK ===== */
+#stacked-tasks {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #3b82f6;
+    padding: 5px;
+    border-radius: 5px;
+    background: #1e293b;
+}
+
+.stacked-task {
+    background: #0f172a;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+/* ===== SKILLS GRID ===== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 8px;
+}
+
+.skill-tile {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.skill-tile:hover {
+    border-color: #3b82f6;
+    background: #1e293b;
+}
+
+.skill-tile img {
+    width: 32px;
+    height: 32px;
+}
+
+.skill-name {
+    font-size: 11px;
+    margin-top: 4px;
+    color: #cbd5f5;
+}
+
+.skill-level {
+    font-size: 12px;
+    margin-top: 2px;
+    color: #94a3b8;
+}
 </style>
 </head>
+
 <body>
 
+<!-- ================= LEFT ================= -->
 <div id="left-panel">
-<input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
-<button onclick="importWikiSync()">Import WikiSync</button>
-<input type="text" id="search" placeholder="Search tasks..." oninput="filterTasks()">
-<div class="scroll-container">
 
-<!-- Quests -->
-<h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
-<ul id="quests">
-    <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
+    <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
+    <button onclick="importWikiSync()">Import WikiSync</button>
+
+    <div class="scroll-container">
+
+        <!-- ===== QUESTS (YOU FILL) ===== -->
+        <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
+        <ul id="quests">
+            <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
             <li onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
             <li onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
             <li onclick="addTaskSafe('QUEST:IMP_CATCHER')">Imp Catcher</li>
@@ -185,17 +313,17 @@ button.secondary { background: #475569; }
             <li onclick="addTaskSafe('QUEST:CURRENT_AFFAIRS')">Current Affairs</li>
             <li onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
             <li onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
-</ul>
+        </ul>
 
-<!-- Skills -->
-<h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
-<ul id="skills">
-    <div class="skills-grid" id="skills-grid"></div>
-</ul>
+        <!-- ===== SKILLS ===== -->
+        <h2 onclick="toggleSection('skills')">Skills <span class="arrow">▶</span></h2>
+        <ul id="skills">
+            <div class="skills-grid" id="skills-grid"></div>
+        </ul>
 
-<!-- Diaries -->
-<h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
-<ul id="diaries">
+        <!-- ===== ACHIEVEMENT DIARIES (YOU FILL) ===== -->
+        <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
+        <ul id="diaries">
             <li onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
             <li onclick="addTaskSafe('DIARY:VARROCK_MEDIUM')">Varrock Medium</li>
             <li onclick="addTaskSafe('DIARY:ARDOUGNE_EASY')">Ardougne Easy</li>
@@ -204,36 +332,11 @@ button.secondary { background: #475569; }
             <li onclick="addTaskSafe('DIARY:LUMBRIDGE_MEDIUM')">Lumbridge Medium</li>
             <li onclick="addTaskSafe('DIARY:KARAMJA_EASY')">Karamja Easy</li>
             <li onclick="addTaskSafe('DIARY:KOUREND_EASY')">Kourend Easy</li>
-</ul>
+        </ul>
 
-<!-- Repeating Tasks -->
-<h2 onclick="toggleSection('repeating')">Repeating Tasks <span class="arrow">▶</span></h2>
-<ul id="repeating">
-            <li onclick="addTaskSafe('REPEATING:BIRDHOUSES:HUNTERLVL')">Birdhouse Runs</li>
-            <li onclick="addTaskSafe('REPEATING:TREE_RUNS:FARMINGLVL')">Tree Runs</li>
-            <li onclick="addTaskSafe('REPEATING:HERB_RUNS:FARMINGLVL')">Herb Runs</li>
-            <li onclick="addTaskSafe('REPEATING:SEAWEED_RUNS:FARMINGLVL')">Seaweed Runs</li>
-            <li onclick="addTaskSafe('REPEATING:HOP_RUNS:FARMINGLVL')">Hop Runs</li>
-            <li onclick="addTaskSafe('REPEATING:COMPOST_RUNS')">Compost Runs</li>
-            <li onclick="addTaskSafe('REPEATING:HESPORI')">Hespori</li>
-            <li onclick="addTaskSafe('REPEATING:KINGDOM:MAHOG:HERB')">Kingdom of Miscellania</li>
-</ul>
-
-<!-- Milestones -->
-<h2 onclick="toggleSection('milestones')">Milestones <span class="arrow">▶</span></h2>
-<ul id="milestones">
-            <li onclick="addTaskSafe('MILESTONE:DRAGON_DEFENDER')">Dragon Defender</li>
-            <li onclick="addTaskSafe('MILESTONE:RUNE_DEFENDER')">Rune Defender</li>
-            <li onclick="addTaskSafe('MILESTONE:FAIRY_RINGS')">Fairy Rings</li>
-            <li onclick="addTaskSafe('MILESTONE:UNLOCK_PIETY')">Piety / Knight Waves Training Grounds</li>
-            <li onclick="addTaskSafe('MILESTONE:ROGUES_OUTFIT')">Rogues Outfit</li>
-            <li onclick="addTaskSafe('MILESTONE:ROCK_CAKE')">Rock Cake</li>
-            <li onclick="addTaskSafe('MILESTONE:BLACK_MASK')">Black Mask</li>
-</ul>
-
-<!-- Minigames -->
-<h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
-<ul id="minigames">
+        <!-- ===== MINIGAMES (YOU FILL) ===== -->
+        <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
+        <ul id="minigames">
             <li onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
             <li onclick="addTaskSafe('MINIGAME:MTA')">Mage Training Arena</li>
             <li onclick="addTaskSafe('MINIGAME:MTA:GREENLOG')">Mage Training Arena Greenlog</li>
@@ -251,161 +354,111 @@ button.secondary { background: #475569; }
             <li onclick="addTaskSafe('MINIGAME:WINTERTODT:TARGETLVL')">Wintertodt</li>
             <li onclick="addTaskSafe('MINIGAME:MLM:TARGETLVL')">Motherlode Mine</li>
             <li onclick="addTaskSafe('MINIGAME:GF:TARGETLVL')">Giant's Foundry</li>
-</ul>
+        </ul>
 
-<!-- Ironman Starter -->
-<h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
-<ul id="ironstarter">
-    <li onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
-</ul>
-</div>
+        <!-- ===== IRONMAN STARTER ===== -->
+        <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
+        <ul id="ironstarter">
+            <li onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
+        </ul>
+
+    </div>
 </div>
 
+<!-- ================= RIGHT ================= -->
 <div id="right-panel">
-<h2>Selected Tasks</h2>
-<div id="stacked-tasks"></div>
-<button onclick="copyAll()">Copy Full Stack</button>
-<button onclick="resetStack()" class="secondary">Reset Stack</button>
+    <h2>Selected Tasks</h2>
+    <div id="stacked-tasks"></div>
+    <button onclick="copyAll()">Copy Full Stack</button>
+    <button onclick="resetStack()" class="secondary">Reset Stack</button>
 </div>
 
 <script>
-    const SKILL_ALIASES = {
-    runecrafting: "runecraft",
-    hitpoints: "hitpoints", // WikiSync uses hitpoints, not hp
-    sailing: "sailing"
-};
-
-// --- Utility Functions ---
-function toggleSection(id){
+/* ===== TOGGLE ===== */
+function toggleSection(id) {
     const el = document.getElementById(id);
     const arrow = el.previousElementSibling.querySelector('.arrow');
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
     arrow.style.transform = el.style.display === 'block' ? 'rotate(90deg)' : 'rotate(0deg)';
 }
 
-function addTask(task){
+/* ===== STACK ===== */
+function addTaskSafe(task) {
     const div = document.createElement('div');
     div.className = 'stacked-task';
     div.textContent = task;
     document.getElementById('stacked-tasks').appendChild(div);
 }
-function addTaskSafe(task){ addTask(task); }
 
-function copyAll(){
-    const text = [...document.querySelectorAll('.stacked-task')].map(d => d.textContent).join('\n');
+function copyAll() {
+    const text = [...document.querySelectorAll('.stacked-task')]
+        .map(d => d.textContent).join('\n');
     navigator.clipboard.writeText(text);
-    alert('Full stack copied');
-}
-function resetStack(){ document.getElementById('stacked-tasks').innerHTML = ''; }
-function filterTasks(){
-    const term = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('ul li').forEach(li=>{
-        li.style.display = li.textContent.toLowerCase().includes(term)?'block':'none';
-    });
+    alert('Copied!');
 }
 
-// --- Skills ---
-const ALL_SKILLS = ["attack","strength","defence","ranged","prayer","magic","hitpoints","cooking","woodcutting","fletching","fishing","firemaking","crafting","smithing","mining","herblore","agility","thieving","slayer","farming","runecrafting","hunter","construction","sailing"];
+function resetStack() {
+    document.getElementById('stacked-tasks').innerHTML = '';
+}
+
+/* ===== SKILLS ===== */
+const ALL_SKILLS = [
+    "attack","strength","defence","ranged","prayer","magic","hitpoints",
+    "cooking","woodcutting","fletching","fishing","firemaking","crafting",
+    "smithing","mining","herblore","agility","thieving","slayer","farming",
+    "runecrafting","hunter","construction","sailing"
+];
+
 let wikiSkills = {};
 let skillClicks = {};
 
-function normalizeSkill(s){ return s.toLowerCase().replace(/ /g,''); }
+function renderSkillsGrid() {
+    const grid = document.getElementById("skills-grid");
+    grid.innerHTML = "";
 
-function renderSkillsGrid(){
-    const grid = document.getElementById('skills-grid');
-    grid.innerHTML = '';
-    ALL_SKILLS.forEach(skill=>{
-        const skillName = skill.toLowerCase();
-        const wikiLevel = wikiSkills[skillName] || 1;
-        const tile = document.createElement('div');
-        tile.className = 'skill-tile';
-        tile.innerHTML = `<div class="skill-name">${skill.toUpperCase()}</div><div class="skill-level">Lvl ${wikiLevel}</div>`;
-        tile.style.borderColor = wikiSkills[skillName] ? '#22c55e' : '#f87171';
-        tile.onclick = ()=>{
-            skillClicks[skillName] = skillClicks[skillName] || wikiLevel;
-            skillClicks[skillName]++;
-            addTask(`SKILL:${skill.toUpperCase()}:${skillClicks[skillName]}`);
+    ALL_SKILLS.forEach(skill => {
+        const baseLevel = wikiSkills[skill.toUpperCase()] || 1;
+        skillClicks[skill] ??= baseLevel;
+
+        const tile = document.createElement("div");
+        tile.className = "skill-tile";
+        tile.style.borderColor = wikiSkills[skill.toUpperCase()]
+            ? "#22c55e" : "#f87171";
+
+        tile.onclick = () => {
+            skillClicks[skill]++;
+            addTaskSafe(`SKILL:${skill.toUpperCase()}:${skillClicks[skill]}`);
         };
+
+        tile.innerHTML = `
+            <img src="icons/skills/${skill}.png">
+            <div class="skill-name">${skill.toUpperCase()}</div>
+            <div class="skill-level">Lvl ${baseLevel}</div>
+        `;
+
         grid.appendChild(tile);
     });
 }
 
-// --- WikiSync Import ---
-async function importWikiSync(){
+/* ===== WIKISYNC ===== */
+async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
-    if(!username){ alert('Enter WikiSync username'); return; }
-    try{
-        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
-        if(!res.ok) throw new Error('Fetch failed');
+    if (!username) return alert('Enter WikiSync username');
+
+    try {
+        const res = await fetch(
+            `https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`
+        );
+        if (!res.ok) throw new Error();
+
         const data = await res.json();
-        wikiSkills = {};
-        wikiSkills = {};
-        if (data.levels) {
-    Object.entries(data.levels).forEach(([key, value]) => {
-        const normalized = normalizeSkill(key);
-
-        // Map aliases correctly
-        for (const localKey in SKILL_ALIASES) {
-            if (SKILL_ALIASES[localKey] === normalized) {
-                wikiSkills[localKey] = value;
-            }
-        }
-
-        // Default case
-        wikiSkills[normalized] = value;
-    });
-}
-
+        wikiSkills = data.levels || {};
         renderSkillsGrid();
 
-        // Update quest coloring
-        if(data.quests){
-            document.querySelectorAll('#quests li').forEach(li => {
-    const onclick = li.getAttribute("onclick");
-    if (!onclick) return;
+        alert('WikiSync applied — red = incomplete, green = complete');
 
-    // Extract QUEST:XXXX from onclick
-    const match = onclick.match(/QUEST:([A-Z0-9_]+)/);
-    if (!match) return;
-
-    const questKey = match[1];
-
-    if (data.quests && questKey in data.quests) {
-        li.className = data.quests[questKey] === 2 ? "completed" : "incomplete";
-    } else {
-        li.className = "incomplete";
-    }
-});
-
-        }
-
-        // Update diaries coloring
-        if(data.achievement_diaries){
-           document.querySelectorAll('#diaries li').forEach(li => {
-    const onclick = li.getAttribute("onclick");
-    if (!onclick) return;
-
-    // Extract DIARY:XXXX from onclick
-    const match = onclick.match(/DIARY:([A-Z0-9_]+)/);
-    if (!match) return;
-
-    const diaryKey = match[1];
-
-    if (data.diaries && diaryKey in data.diaries) {
-        // WikiSync: 2 = completed
-        li.className = data.diaries[diaryKey] === 2
-            ? "completed"
-            : "incomplete";
-    } else {
-        li.className = "incomplete";
-    }
-});
-        }
-
-        alert('WikiSync data applied!');
-    } catch(err){
-        console.error(err);
-        alert('Failed to fetch WikiSync data.');
+    } catch {
+        alert('Failed to fetch WikiSync');
     }
 }
 
