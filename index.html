@@ -502,33 +502,38 @@ const DIARY_NAME_MAP = {
 };
 
 /* ===== AUTO-COLOUR QUESTS/DIARIES ===== */
+function normalizeQuestName(name) {
+    return name.toLowerCase()
+        .replace(/[^\w\s]/g, '') // remove all non-alphanumeric except space
+        .replace(/\s+/g, '_');   // replace spaces with underscores
+}
+
 function updateQuestsAndDiaries(data) {
-    // Quests
     if (data.quests) {
         document.querySelectorAll('#quests li').forEach(el => {
-            const questId = QUEST_NAME_MAP[el.textContent] || el.id.replace("QUEST:", "");
-            if (questId in data.quests) {
-                const completed = !!data.quests[questId];
-                el.className = completed ? 'completed' : 'incomplete';
+            const normalizedHtml = normalizeQuestName(el.textContent);
+            const matchedKey = Object.keys(data.quests).find(k => normalizeQuestName(k) === normalizedHtml);
+            if (matchedKey) {
+                el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
             } else {
-                el.className = ''; // keep white if not present in WikiSync
+                el.className = ''; // keep white
             }
         });
     }
 
-    // Diaries
     if (data.diaries) {
         document.querySelectorAll('#diaries li').forEach(el => {
-            const diaryId = DIARY_NAME_MAP[el.textContent] || el.id.replace("DIARY:", "");
-            if (diaryId in data.diaries) {
-                const completed = !!data.diaries[diaryId];
-                el.className = completed ? 'completed' : 'incomplete';
+            const normalizedHtml = normalizeQuestName(el.textContent);
+            const matchedKey = Object.keys(data.diaries).find(k => normalizeQuestName(k) === normalizedHtml);
+            if (matchedKey) {
+                el.className = data.diaries[matchedKey] ? 'completed' : 'incomplete';
             } else {
-                el.className = ''; // keep white if not present in WikiSync
+                el.className = ''; // keep white
             }
         });
     }
 }
+
 
 
 /* ===== WIKISYNC ===== */
@@ -578,6 +583,7 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
