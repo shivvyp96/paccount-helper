@@ -169,8 +169,7 @@ button.debug {
         <!-- Quests -->
         <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
         <ul id="quests">
-            <!-- FULL QUEST LIST (copied from your previous HTML) -->
-            <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
+             <li onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
             <li onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
             <li onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
             <li onclick="addTaskSafe('QUEST:IMP_CATCHER')">Imp Catcher</li>
@@ -209,7 +208,7 @@ button.debug {
             <li onclick="addTaskSafe('QUEST:FISHING_CONTEST')">Fishing Contest</li>
             <li onclick="addTaskSafe('QUEST:A_PORCINE_OF_INTEREST')">A Porcine of Interest</li>
             <li onclick="addTaskSafe('QUEST:ANIMAL_MAGNETISM')">Animal Magnetism</li>
-            <li onclick="addTaskSafe('QUEST:MERLINS_CRYSTAL')">Merlin's Crystal</li>
+            <li onclick="addTaskSafe('QUEST:MERLINS_CRYSTAL')">Merlins Crystal</li>
             <li onclick="addTaskSafe('QUEST:HOLY_GRAIL')">Holy Grail</li>
             <li onclick="addTaskSafe('QUEST:DRAGON_SLAYER_I')">Dragon Slayer I</li>
             <li onclick="addTaskSafe('QUEST:LOST_CITY')">Lost City</li>
@@ -280,13 +279,38 @@ button.debug {
             <li onclick="addTaskSafe('QUEST:A_KINGDOM_DIVIDED')">A Kingdom Divided</li>
             <li onclick="addTaskSafe('QUEST:DEATH_ON_THE_ISLE')">Death on the Isle</li>
             <li onclick="addTaskSafe('QUEST:WANTED')">Wanted!</li>
-            <li onclick="addTaskSafe('QUEST:TWILIGHTS_PROMISE')">Twilight's Promise</li>
+            <li onclick="addTaskSafe('QUEST:TWILIGHTS_PROMISE')">Twilights Promise</li>
             <li onclick="addTaskSafe('QUEST:REGICIDE')">Regicide</li>
-            <li onclick="addTaskSafe('QUEST:RISE_OF_THE_RED_AXE')">Rise of the Red Axe</li>
-            <li onclick="addTaskSafe('QUEST:THE_DEPTHS_OF_DESPAIR')">The Depths of Despair</li>
-            <li onclick="addTaskSafe('QUEST:LEGENDS_QUEST')">Legends Quest</li>
+            <li onclick="addTaskSafe('QUEST:ROVING_ELVES')">Roving Elves</li>
+            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_I')">Mourning's End Part I</li>
+            <li onclick="addTaskSafe('QUEST:MOURNINGS_END_PART_II')">Mourning's End Part II</li>
+            <li onclick="addTaskSafe('QUEST:ETHICALLY_ACQUIRED_ANTIQUITIES')">Ethically Acquired Antiquities</li>
+            <li onclick="addTaskSafe('QUEST:DADDYS_HOME')">Daddy's Home</li>
+            <li onclick="addTaskSafe('QUEST:LUNAR_DIPLOMACY')">Lunar Diplomacy</li>
+            <li onclick="addTaskSafe('QUEST:IN_SEARCH_OF_THE_MYREQUE')">In Search of the Myreque</li>
+            <li onclick="addTaskSafe('QUEST:IN_AID_OF_THE_MYREQUE')">In Aid of the Myreque</li>
+            <li onclick="addTaskSafe('QUEST:THRONE_OF_MISCELLANIA')">Throne of Miscellania</li>
+            <li onclick="addTaskSafe('QUEST:ROYAL_TROUBLE')">Royal Trouble</li>
+            <li onclick="addTaskSafe('QUEST:THE_HAND_IN_THE_SAND')">The Hand in the Sand</li>
+            <li onclick="addTaskSafe('QUEST:ZOGRE_FLESH_EATERS')">Zogre Flesh Eaters</li>
+            <li onclick="addTaskSafe('QUEST:RUM_DEAL')">Rum Deal</li>
+            <li onclick="addTaskSafe('QUEST:CABIN_FEVER')">Cabin Fever</li>
+            <li onclick="addTaskSafe('QUEST:THE_EYES_OF_GLOUPHRIE')">The Eyes of Glouphrie</li>
+            <li onclick="addTaskSafe('QUEST:THE_SLUG_MENACE')">The Slug Menace</li>
+            <li onclick="addTaskSafe('QUEST:BELOW_ICE_MOUNTAIN')">Below Ice Mountain</li>
+            <li onclick="addTaskSafe('QUEST:EADGARS_RUSE')">Eadgars Ruse</li>
+            <li onclick="addTaskSafe('QUEST:GARDEN_OF_TRANQUILLITY')">Garden of Tranquillity</li>
+            <li onclick="addTaskSafe('QUEST:A_SOULS_BANE')">A Soul's Bane</li>
+            <li onclick="addTaskSafe('QUEST:SHADOWS_OF_CUSTODIA')">Shadows of Custodia</li>
             <li onclick="addTaskSafe('QUEST:MONKEY_MADNESS_II')">Monkey Madness II</li>
-            <!-- Add all other quests similarly -->
+            <li onclick="addTaskSafe('QUEST:TAI_BWO_WANNAI_TRIO')">Tai Bwo Wannai Trio</li>
+            <li onclick="addTaskSafe('QUEST:BARBARIAN_TRAINING')">Barbarian Training</li>
+            <li onclick="addTaskSafe('QUEST:THE_FREMENNIK_ISLES')">The Fremennik Isles</li>
+            <li onclick="addTaskSafe('QUEST:PANDEMONIUM')">Pandemonium</li>
+            <li onclick="addTaskSafe('QUEST:PRYING_TIMES')">Prying Times</li>
+            <li onclick="addTaskSafe('QUEST:CURRENT_AFFAIRS')">Current Affairs</li>
+            <li onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
+            <li onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
         </ul>
 
         <!-- Skills Section -->
@@ -295,44 +319,71 @@ button.debug {
             <div class="skills-grid" id="skills-grid"></div>
         </ul>
 
-        <!-- Achievement Diaries -->
+               <!-- Achievement Diaries -->
         <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
         <ul id="diaries">
-            <li onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:VARROCK_MEDIUM')">Varrock Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:VARROCK_HARD')">Varrock Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:VARROCK_ELITE')">Varrock Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:ARDOUGNE_EASY')">Ardougne Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:ARDOUGNE_MEDIUM')">Ardougne Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:ARDOUGNE_HARD')">Ardougne Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:ARDOUGNE_ELITE')">Ardougne Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:FALADOR_EASY')">Falador Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:FALADOR_MEDIUM')">Falador Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:FALADOR_HARD')">Falador Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:FALADOR_ELITE')">Falador Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:MORYTANIA_EASY')">Morytania Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:MORYTANIA_MEDIUM')">Morytania Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:MORYTANIA_HARD')">Morytania Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:MORYTANIA_ELITE')">Morytania Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:KANDARIN_EASY')">Kandarin Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:KANDARIN_MEDIUM')">Kandarin Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:KANDARIN_HARD')">Kandarin Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:KANDARIN_ELITE')">Kandarin Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:DESERT_EASY')">Desert Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:DESERT_MEDIUM')">Desert Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:DESERT_HARD')">Desert Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:DESERT_ELITE')">Desert Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:FREMENNIK_EASY')">Fremennik Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:FREMENNIK_MEDIUM')">Fremennik Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:FREMENNIK_HARD')">Fremennik Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:FREMENNIK_ELITE')">Fremennik Diary (Elite)</li>
-            <li onclick="addTaskSafe('DIARY:WILDERNESS_EASY')">Wilderness Diary (Easy)</li>
-            <li onclick="addTaskSafe('DIARY:WILDERNESS_MEDIUM')">Wilderness Diary (Medium)</li>
-            <li onclick="addTaskSafe('DIARY:WILDERNESS_HARD')">Wilderness Diary (Hard)</li>
-            <li onclick="addTaskSafe('DIARY:WILDERNESS_ELITE')">Wilderness Diary (Elite)</li>
+            <li onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
+            <li onclick="addTaskSafe('DIARY:VARROCK_MEDIUM')">Varrock Medium</li>
+            <li onclick="addTaskSafe('DIARY:ARDOUGNE_EASY')">Ardougne Easy</li>
+            <li onclick="addTaskSafe('DIARY:ARDOUGNE_MEDIUM')">Ardougne Medium</li>
+            <li onclick="addTaskSafe('DIARY:LUMBRIDGE_EASY')">Lumbridge Easy</li>
+            <li onclick="addTaskSafe('DIARY:LUMBRIDGE_MEDIUM')">Lumbridge Medium</li>
+            <li onclick="addTaskSafe('DIARY:KARAMJA_EASY')">Karamja Easy</li>
+            <li onclick="addTaskSafe('DIARY:KOUREND_EASY')">Kourend Easy</li>
         </ul>
 
-        <!-- Add other sections: Minigames, Milestones, Iron Starter etc. similarly -->
+        <!-- Repeating Tasks -->
+        <h2 onclick="toggleSection('repeating')">Repeating Tasks <span class="arrow">▶</span></h2>
+        <ul id="repeating">
+            <li onclick="addTaskSafe('REPEATING:BIRDHOUSES:HUNTERLVL')">Birdhouse Runs</li>
+            <li onclick="addTaskSafe('REPEATING:TREE_RUNS:FARMINGLVL')">Tree Runs</li>
+            <li onclick="addTaskSafe('REPEATING:HERB_RUNS:FARMINGLVL')">Herb Runs</li>
+            <li onclick="addTaskSafe('REPEATING:SEAWEED_RUNS:FARMINGLVL')">Seaweed Runs</li>
+            <li onclick="addTaskSafe('REPEATING:HOP_RUNS:FARMINGLVL')">Hop Runs</li>
+            <li onclick="addTaskSafe('REPEATING:COMPOST_RUNS')">Compost Runs</li>
+            <li onclick="addTaskSafe('REPEATING:HESPORI')">Hespori</li>
+            <li onclick="addTaskSafe('REPEATING:KINGDOM:MAHOG:HERB')">Kingdom of Miscellania</li>
+        </ul>
+
+        <!-- Milestones -->
+        <h2 onclick="toggleSection('milestones')">Milestones <span class="arrow">▶</span></h2>
+        <ul id="milestones">
+            <li onclick="addTaskSafe('MILESTONE:DRAGON_DEFENDER')">Dragon Defender</li>
+            <li onclick="addTaskSafe('MILESTONE:RUNE_DEFENDER')">Rune Defender</li>
+            <li onclick="addTaskSafe('MILESTONE:FAIRY_RINGS')">Fairy Rings</li>
+            <li onclick="addTaskSafe('MILESTONE:UNLOCK_PIETY')">Piety / Knight Waves Training Grounds</li>
+            <li onclick="addTaskSafe('MILESTONE:ROGUES_OUTFIT')">Rogues Outfit</li>
+            <li onclick="addTaskSafe('MILESTONE:ROCK_CAKE')">Rock Cake</li>
+            <li onclick="addTaskSafe('MILESTONE:BLACK_MASK')">Black Mask</li>
+        </ul>
+
+        <!-- Minigames -->
+        <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
+        <ul id="minigames">
+            <li onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA')">Mage Training Arena</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:GREENLOG')">Mage Training Arena Greenlog</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:EFFICIENT')">Mage Training Arena Efficient</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:ROBES')">Mage Training Arena Robes</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:B2P')">Mage Training Arena B2P</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:WAND')">Mage Training Arena Wand</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:BOOK')">Mage Training Arena Book</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:TOP')">Mage Training Arena Top</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:BOTTOM')">Mage Training Arena Bottom</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:HAT')">Mage Training Arena Hat</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:BOOTS')">Mage Training Arena Boots</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:GLOVES')">Mage Training Arena Gloves</li>
+            <li onclick="addTaskSafe('MINIGAME:MTA:POUCH')">Mage Training Arena Pouch</li>
+            <li onclick="addTaskSafe('MINIGAME:WINTERTODT:TARGETLVL')">Wintertodt</li>
+            <li onclick="addTaskSafe('MINIGAME:MLM:TARGETLVL')">Motherlode Mine</li>
+            <li onclick="addTaskSafe('MINIGAME:GF:TARGETLVL')">Giant's Foundry</li>
+        </ul>
+
+        <!-- Ironman Starter -->
+        <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
+        <ul id="ironstarter">
+            <li onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
+        </ul>
 
     </div>
 </div>
@@ -876,4 +927,5 @@ renderSkills();
 </script>
 </body>
 </html>
+
 
