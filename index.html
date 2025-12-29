@@ -447,34 +447,49 @@ function updateQuestsAndDiaries(data) {
         }
     });
 
-    // Apply colours
-    document.querySelectorAll('#quests li').forEach(li => {
-    // Use displayed quest name, not internal ID
-    let displayName = li.textContent.trim();
+    function updateQuestsAndDiaries(data) {
+    if (!data.quests) return;
 
-    let norm = normalizeName(displayName);
+    const questLookup = {};
 
-    // Special-case mappings (Mage Arena, RFD, Fairy Tale)
-    if (QUEST_UI_TO_WIKI[norm]) {
-        norm = normalizeName(QUEST_UI_TO_WIKI[norm]);
+    // Build lookup from WikiSync
+    Object.entries(data.quests).forEach(([questName, status]) => {
+        const norm = normalizeName(questName);
+        questLookup[norm] = status === "COMPLETED";
+    });
+
+    // Handle Recipe for Disaster subquests (WikiSync format)
+    if (data.quests["Recipe for Disaster"] && data.quests["Recipe for Disaster"].subquests) {
+        Object.entries(data.quests["Recipe for Disaster"].subquests).forEach(([subName, status]) => {
+            const mappedName = QUEST_UI_TO_WIKI[`rfd_${normalizeName(subName)}`] || subName;
+            questLookup[normalizeName(mappedName)] = status === "COMPLETED";
+        });
     }
 
-    const completed = questLookup[norm] === true;
+    // Apply colours using DISPLAY TEXT (correct source)
+    document.querySelectorAll('#quests li').forEach(li => {
+        let displayName = li.textContent.trim();
+        let norm = normalizeName(displayName);
 
-    li.classList.remove('completed', 'incomplete');
-    li.classList.add(completed ? 'completed' : 'incomplete');
-});
+        if (QUEST_UI_TO_WIKI[norm]) {
+            norm = normalizeName(QUEST_UI_TO_WIKI[norm]);
+        }
 
-    // Diaries
+        li.classList.remove('completed', 'incomplete');
+        li.classList.add(questLookup[norm] ? 'completed' : 'incomplete');
+    });
+
+    // Diaries (same idea)
     if (data.diaries) {
         document.querySelectorAll('#diaries li').forEach(li => {
-            const raw = li.id.replace("DIARY:", "");
-            const norm = normalizeName(raw);
-            const completed = data.diaries[norm] === true;
-            li.className = completed ? 'completed' : 'incomplete';
+            const displayName = li.textContent.trim();
+            const norm = normalizeName(displayName);
+            li.classList.remove('completed', 'incomplete');
+            li.classList.add(data.diaries[norm] ? 'completed' : 'incomplete');
         });
     }
 }
+
 
 
 /* ===== WIKISYNC ===== */
@@ -508,6 +523,7 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
 
 
