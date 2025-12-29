@@ -381,37 +381,46 @@ function renderSkillsGrid() {
     });
 }
 
-/* ===== QUEST EXCEPTIONS ===== */
-const QUEST_EXCEPTIONS = {
-    'fairy_tale_i': 'Fairytale I - Growing Pains',
-    'rfd_cook': 'RFD Cook',
-    'rfd_dwarf': 'RFD Dwarf',
-    'rfd_goblins': 'RFD Goblins',
-    'rfd_ogre': 'RFD Ogre',
-    'rfd_evil_dave': 'RFD Evil Dave',
-    'rfd_pirate': 'RFD Pirate',
-    'rfd_guide': 'RFD Lumbridge Guide',
-    'rfd_monkey': 'RFD Monkey',
-    'rfd_amik_varze': 'RFD Sir Amik Varze',
-    'rfd_culinaromancer': 'RFD Culinaromancer',
-    'romeo_and_juliet': 'Romeo & Juliet'
+const QUEST_UI_TO_WIKI = {
+    // Mage Arena
+    "ma1": "mage arena",
+    "ma2": "mage arena ii",
+
+    // Fairy Tale
+    "fairytale_i": "fairytale i - growing pains",
+
+    // Romeo
+    "romeo_and_juliet": "romeo & juliet",
+
+    // Alfred
+    "barcrawl": "alfred grimhand's barcrawl",
+
+    // RFD subquests
+    "rfd_cook": "another cook's quest",
+    "rfd_dwarf": "freeing the mountain dwarf",
+    "rfd_goblins": "freeing the goblin generals",
+    "rfd_ogre": "freeing skrach uglogwee",
+    "rfd_evil_dave": "freeing evil dave",
+    "rfd_pirate": "freeing pirate pete",
+    "rfd_guide": "freeing the lumbridge guide",
+    "rfd_monkey": "freeing king awowogei",
+    "rfd_amik_varze": "freeing sir amik varze",
+    "rfd_culinaromancer": "defeating the culinaromancer"
 };
+
 const DIARY_EXCEPTIONS = {};
 
 /* ===== NORMALIZE NAME ===== */
 function normalizeName(name) {
     return name
         .toLowerCase()
-        .replace(/&/g, 'and')
         .replace(/’/g, "'")
-        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9\s']/g, '')
         .replace(/\s+/g, '_')
-        .replace(/_i$/, '_1')
-        .replace(/_ii$/, '_2')
-        .replace(/_iii$/, '_3')
-        .replace(/_growing_pains$/, '')
         .trim();
 }
+
 
 
 /* ===== UPDATE QUESTS & DIARIES ===== */
@@ -440,12 +449,19 @@ function updateQuestsAndDiaries(data) {
 
     // Apply colours
     document.querySelectorAll('#quests li').forEach(li => {
-        const raw = li.id.replace("QUEST:", "");
-        const norm = normalizeName(raw);
+    const rawId = li.id.replace("QUEST:", "");
+    let normId = normalizeName(rawId);
 
-        const completed = questLookup[norm] === true;
-        li.className = completed ? 'completed' : 'incomplete';
-    });
+    // Map UI → WikiSync name if needed
+    if (QUEST_UI_TO_WIKI[normId]) {
+        normId = normalizeName(QUEST_UI_TO_WIKI[normId]);
+    }
+
+    const completed = questLookup[normId] === true;
+
+    li.classList.remove('completed', 'incomplete');
+    li.classList.add(completed ? 'completed' : 'incomplete');
+});
 
     // Diaries
     if (data.diaries) {
@@ -490,4 +506,5 @@ renderSkillsGrid();
 </script>
 </body>
 </html>
+
 
