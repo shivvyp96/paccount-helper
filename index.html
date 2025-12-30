@@ -434,32 +434,41 @@ function renderSkills(levels = {}) {
 
 /* ===== WIKISYNC (existing logic assumed) ===== */
 async function importWikiSync() {
-    const username = document.getElementById('wiki-username').value.trim();
+    const username = document.getElementById('username').value.trim();
     if (!username) return alert('Enter WikiSync username');
+
     try {
-        const res = await fetch(`https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`);
+        const res = await fetch(
+            `https://sync.runescape.wiki/runelite/player/${encodeURIComponent(username)}/STANDARD`
+        );
         if (!res.ok) throw new Error("Fetch failed");
+
         const data = await res.json();
 
-        // Update skills
+        // ---- SKILLS ----
         wikiSkills = {};
-        if (data.levels) Object.entries(data.levels).forEach(([k,v]) => wikiSkills[k.toLowerCase()] = v);
-        renderSkillsGrid();
+        if (data.levels) {
+            Object.entries(data.levels).forEach(([skill, level]) => {
+                wikiSkills[skill.toLowerCase()] = level;
+            });
+        }
+        renderSkills(wikiSkills);
 
-        // Update quests and diaries
-        updateQuestsAndDiaries(data);
+        // ---- QUESTS & DIARIES (your existing logic continues to work) ----
+        updateQuestsAndDiaries?.(data);
 
-        // Auto-close all dropdowns
-['quests','diaries','minigames','ironstarter'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-    const arrow = el.previousElementSibling.querySelector('.arrow');
-    if (arrow) arrow.style.transform = 'rotate(0deg)';
-});
+        // Auto-collapse sections
+        ['quests','diaries','minigames','ironstarter'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+
         alert('WikiSync applied!');
-    } catch(e) { console.error(e); alert('Failed to fetch WikiSync'); }
+    } catch (e) {
+        console.error(e);
+        alert('Failed to fetch WikiSync');
+    }
 }
 </script>
-
 </body>
 </html>
