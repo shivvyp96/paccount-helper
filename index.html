@@ -120,25 +120,31 @@ button.secondary { background: #5a3ea6; }
 /* ===== SKILLS GRID ===== */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 8px;
-    margin-top: 10px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(3, 1fr);    /* 3 rows instead of 2 */
+    gap: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 380px;
+    justify-content: center;
+    background: #3a246d;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 .skill-tile {
     background: #2c165b;
     border: 1px solid #4d2a9b;
     border-radius: 6px;
-    padding: 8px;
+    padding: 12px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
 }
 .skill-tile:hover { border-color: #b59bff; background: #3a246d; }
-.skill-tile img { width: 36px; height: 36px; }
-.skill-name { font-size: 12px; margin-top: 4px; color: #e2e8f0; }
-.skill-level { font-size: 12px; margin-top: 2px; color: #d0bfff; }
+.skill-tile img { width: 48px; height: 48px; }
+.skill-name { font-size: 14px; margin-top: 4px; color: #e2e8f0; }
+.skill-level { font-size: 13px; margin-top: 2px; color: #d0bfff; }
 /* ===== TOOLTIP ===== */
 .skill-tile .tooltip {
     visibility: hidden;
@@ -496,6 +502,13 @@ async function importWikiSync() {
         // Update quests and diaries
         updateQuestsAndDiaries(data);
 
+        // Auto-close all dropdowns
+['quests','diaries','minigames','ironstarter'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+    const arrow = el.previousElementSibling.querySelector('.arrow');
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+});
         alert('WikiSync applied!');
     } catch(e) { console.error(e); alert('Failed to fetch WikiSync'); }
 }
@@ -504,6 +517,7 @@ async function importWikiSync() {
 </script>
 </body>
 </html>
+
 
 
 
