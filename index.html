@@ -1,182 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P-Account Builder Helper</title>
+<meta charset="UTF-8" />
+<title>Iron Planner</title>
+
 <style>
+:root {
+    --bg-main: #40197D;
+    --bg-panel: #2c1157;
+    --bg-panel-dark: #220c45;
+    --accent-green: #2ecc71;
+    --accent-red: #e74c3c;
+    --accent-white: #ffffff;
+    --accent-muted: #bda8ff;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
 body {
-    font-family: "Trebuchet MS", sans-serif;
-    background: #40197D;
-    color: #e2e8f0;
     margin: 0;
+    background: var(--bg-main);
+    color: white;
+}
+
+/* ===== MAIN LAYOUT ===== */
+#app {
     display: flex;
     height: 100vh;
-    overflow: hidden;
 }
 
 /* ===== LEFT PANEL ===== */
 #left-panel {
-    width: 420px;
-    background: #2c165b;
-    border-right: 2px solid #6b4fd4;
-    display: flex;
-    flex-direction: column;
-}
-#left-panel input, #left-panel button { 
-    margin: 6px 10px; 
-}
-#wiki-username {
-    padding: 6px;
-    border-radius: 5px;
-    border: 1px solid #6b4fd4;
-    background: #2c165b;
-    color: #e2e8f0;
-    width: calc(100% - 32px);
-}
-.scroll-container { 
-    overflow-y: auto; 
-    flex-grow: 1; 
-    padding: 10px; 
+    width: 320px;
+    background: var(--bg-panel);
+    padding: 12px;
+    overflow-y: auto;
+    border-right: 2px solid #1b093a;
 }
 
-/* ===== HEADINGS ===== */
-h2 {
-    color: #d0bfff;
-    margin: 0;
-    padding: 10px 5px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    background: #2c165b;
-    position: sticky;
-    top: 0;
-    border-bottom: 1px solid #6b4fd4;
+/* ===== CENTER SKILLS PANEL ===== */
+#skills-panel {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #40197D, #2a0f55);
 }
-.arrow { transition: transform 0.2s; }
-
-/* ===== LIST ITEMS ===== */
-ul { 
-    list-style: none; 
-    padding-left: 10px; 
-    margin: 0 0 15px 0; 
-}
-li { 
-    padding: 5px 0; 
-    cursor: pointer; 
-}
-li:hover { color: #b59bff; }
-
-/* ===== STATUS COLOURS ===== */
-li.completed { color: #22c55e; text-decoration: line-through; }
-li.incomplete { color: #f87171; }
 
 /* ===== RIGHT PANEL ===== */
 #right-panel {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #3a246d;
+    width: 360px;
+    background: var(--bg-panel-dark);
+    padding: 16px;
+    border-left: 2px solid #1b093a;
     display: flex;
     flex-direction: column;
-    border-left: 2px solid #6b4fd4;
 }
-#right-panel h2 { color: #fff; margin-bottom: 10px; }
 
-/* ===== BUTTONS ===== */
-button {
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    background: #6b4fd4;
-    color: #fff;
+/* ===== HEADERS ===== */
+h2 {
+    margin: 10px 0;
     cursor: pointer;
-    margin: 5px 0;
-    transition: all 0.2s ease;
+    user-select: none;
 }
-button:hover { background: #7e60e3; }
-button.secondary { background: #5a3ea6; }
 
-/* ===== STACK ===== */
-#stacked-tasks {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    border: 1px solid #6b4fd4;
-    padding: 10px;
-    border-radius: 8px;
-    background: #2c165b;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+.arrow {
+    float: right;
 }
-.stacked-task {
-    background: #40197D;
-    margin-bottom: 5px;
-    padding: 8px;
-    border-radius: 5px;
-    font-family: monospace;
-    border-left: 4px solid #6b4fd4;
+
+/* ===== LISTS ===== */
+ul {
+    list-style: none;
+    padding-left: 10px;
 }
+
+li {
+    padding: 6px 8px;
+    margin: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.05);
+}
+
+li.green { background: var(--accent-green); color: black; }
+li.red { background: var(--accent-red); }
+li.white { background: rgba(255,255,255,0.1); }
 
 /* ===== SKILLS GRID ===== */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-template-rows: repeat(3, 1fr);    /* 3 rows instead of 2 */
-    gap: 12px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 380px;
-    justify-content: center;
-    background: #3a246d;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 14px;
 }
-.skill-tile {
-    background: #2c165b;
-    border: 1px solid #4d2a9b;
-    border-radius: 6px;
-    padding: 12px;
+
+.skill {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease;
     position: relative;
 }
-.skill-tile:hover { border-color: #b59bff; background: #3a246d; }
-.skill-tile img { width: 48px; height: 48px; }
-.skill-name { font-size: 14px; margin-top: 4px; color: #e2e8f0; }
-.skill-level { font-size: 13px; margin-top: 2px; color: #d0bfff; }
-/* ===== TOOLTIP ===== */
-.skill-tile .tooltip {
-    visibility: hidden;
-    background-color: #3a246d;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
+
+.skill img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+}
+
+.skill.green { border: 2px solid var(--accent-green); }
+.skill.red { border: 2px solid var(--accent-red); }
+
+.skill:hover::after {
+    content: attr(data-tooltip);
     position: absolute;
-    z-index: 1;
-    bottom: 110%;
+    bottom: -28px;
     left: 50%;
     transform: translateX(-50%);
+    background: black;
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 4px;
     white-space: nowrap;
-    font-size: 11px;
-    border: 1px solid #6b4fd4;
 }
-.skill-tile:hover .tooltip { visibility: visible; }
+
+/* ===== SELECTED TASKS ===== */
+#selectedTasks {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.task {
+    background: rgba(255,255,255,0.08);
+    padding: 6px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+/* ===== BUTTONS ===== */
+button {
+    padding: 8px;
+    margin-top: 6px;
+    background: #5b2bbf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 </style>
 </head>
+
 <body>
 
-<!-- LEFT PANEL -->
-<div id="left-panel">
-    <input type="text" id="wiki-username" placeholder="RuneLite WikiSync Username">
-    <button onclick="importWikiSync()">Import WikiSync</button>
-    <div class="scroll-container">
+<div id="app">
 
-        <!-- ===== QUESTS ===== -->
-        <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
-        <ul id="quests">
-            <li id="QUEST:COOKS_ASSISTANT" onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
+<!-- ================= LEFT PANEL ================= -->
+<div id="left-panel">
+
+    <!-- WikiSync -->
+    <h2>WikiSync</h2>
+    <input id="username" placeholder="RuneScape Name" />
+    <button onclick="importWikiSync()">Import</button>
+
+    <!-- QUESTS -->
+    <h2 onclick="toggleSection('quests')">Quests <span class="arrow">▶</span></h2>
+    <ul id="quests">
+        <li id="QUEST:COOKS_ASSISTANT" onclick="addTaskSafe('QUEST:COOKS_ASSISTANT')">Cooks Assistant</li>
 <li id="QUEST:DORICS_QUEST" onclick="addTaskSafe('QUEST:DORICS_QUEST')">Doric's Quest</li>
 <li id="QUEST:DRUIDIC_RITUAL" onclick="addTaskSafe('QUEST:DRUIDIC_RITUAL')">Druidic Ritual</li>
 <li id="QUEST:IMP_CATCHER" onclick="addTaskSafe('QUEST:IMP_CATCHER')">Imp Catcher</li>
@@ -318,25 +310,25 @@ button.secondary { background: #5a3ea6; }
 <li id="QUEST:CURRENT_AFFAIRS" onclick="addTaskSafe('QUEST:CURRENT_AFFAIRS')">Current Affairs</li>
 <li id="QUEST:MA1" onclick="addTaskSafe('QUEST:MA1')">Mage Arena I</li>
 <li id="QUEST:MA2" onclick="addTaskSafe('QUEST:MA2')">Mage Arena II</li>
-        </ul>
+    </ul>
 
-        <!-- ===== ACHIEVEMENT DIARIES ===== -->
-        <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
-        <ul id="diaries">
-            <li id="DIARY:VARROCK_EASY" onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
-<li id="DIARY:VARROCK_MEDIUM" onclick="addTaskSafe('DIARY:VARROCK_MEDIUM')">Varrock Medium</li>
-<li id="DIARY:ARDOUGNE_EASY" onclick="addTaskSafe('DIARY:ARDOUGNE_EASY')">Ardougne Easy</li>
-<li id="DIARY:ARDOUGNE_MEDIUM" onclick="addTaskSafe('DIARY:ARDOUGNE_MEDIUM')">Ardougne Medium</li>
-<li id="DIARY:LUMBRIDGE_EASY" onclick="addTaskSafe('DIARY:LUMBRIDGE_EASY')">Lumbridge Easy</li>
-<li id="DIARY:LUMBRIDGE_MEDIUM" onclick="addTaskSafe('DIARY:LUMBRIDGE_MEDIUM')">Lumbridge Medium</li>
-<li id="DIARY:KARAMJA_EASY" onclick="addTaskSafe('DIARY:KARAMJA_EASY')">Karamja Easy</li>
-<li id="DIARY:KOUREND_EASY" onclick="addTaskSafe('DIARY:KOUREND_EASY')">Kourend Easy</li>
-        </ul>
+    <!-- ACHIEVEMENT DIARIES -->
+    <h2 onclick="toggleSection('diaries')">Achievement Diaries <span class="arrow">▶</span></h2>
+    <ul id="diaries">
+        <li id="DIARY:VARROCK_EASY" onclick="addTaskSafe('DIARY:VARROCK_EASY')">Varrock Easy</li>
+        <li id="DIARY:VARROCK_MEDIUM" onclick="addTaskSafe('DIARY:VARROCK_MEDIUM')">Varrock Medium</li>
+        <li id="DIARY:ARDOUGNE_EASY" onclick="addTaskSafe('DIARY:ARDOUGNE_EASY')">Ardougne Easy</li>
+        <li id="DIARY:ARDOUGNE_MEDIUM" onclick="addTaskSafe('DIARY:ARDOUGNE_MEDIUM')">Ardougne Medium</li>
+        <li id="DIARY:LUMBRIDGE_EASY" onclick="addTaskSafe('DIARY:LUMBRIDGE_EASY')">Lumbridge Easy</li>
+        <li id="DIARY:LUMBRIDGE_MEDIUM" onclick="addTaskSafe('DIARY:LUMBRIDGE_MEDIUM')">Lumbridge Medium</li>
+        <li id="DIARY:KARAMJA_EASY" onclick="addTaskSafe('DIARY:KARAMJA_EASY')">Karamja Easy</li>
+        <li id="DIARY:KOUREND_EASY" onclick="addTaskSafe('DIARY:KOUREND_EASY')">Kourend Easy</li>
+    </ul>
 
-        <!-- ===== MINIGAMES ===== -->
-        <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
-        <ul id="minigames">
-            <li id="MINIGAME:VALE_TOTEMS:TARGETLVL" onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
+    <!-- MINIGAMES -->
+    <h2 onclick="toggleSection('minigames')">Minigames <span class="arrow">▶</span></h2>
+    <ul id="minigames">
+        <li id="MINIGAME:VALE_TOTEMS:TARGETLVL" onclick="addTaskSafe('MINIGAME:VALE_TOTEMS:TARGETLVL')">Vale Totems</li>
 <li id="MINIGAME:MTA" onclick="addTaskSafe('MINIGAME:MTA')">Mage Training Arena</li>
 <li id="MINIGAME:MTA:GREENLOG" onclick="addTaskSafe('MINIGAME:MTA:GREENLOG')">Mage Training Arena Greenlog</li>
 <li id="MINIGAME:MTA:EFFICIENT" onclick="addTaskSafe('MINIGAME:MTA:EFFICIENT')">Mage Training Arena Efficient</li>
@@ -353,139 +345,94 @@ button.secondary { background: #5a3ea6; }
 <li id="MINIGAME:WINTERTODT:TARGETLVL" onclick="addTaskSafe('MINIGAME:WINTERTODT:TARGETLVL')">Wintertodt</li>
 <li id="MINIGAME:MLM:TARGETLVL" onclick="addTaskSafe('MINIGAME:MLM:TARGETLVL')">Motherlode Mine</li>
 <li id="MINIGAME:GF:TARGETLVL" onclick="addTaskSafe('MINIGAME:GF:TARGETLVL')">Giant's Foundry</li>
-        </ul>
+    </ul>
 
-        <!-- ===== IRONMAN STARTER ===== -->
-        <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
-        <ul id="ironstarter">
-            <li id="IRON_STARTER_PART1" onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
-        </ul>
+    <!-- IRONMAN STARTER -->
+    <h2 onclick="toggleSection('ironstarter')">Ironman Starter <span class="arrow">▶</span></h2>
+    <ul id="ironstarter">
+        <li id="IRON_STARTER_PART1" onclick="addTaskSafe('IRON_STARTER_PART1')">Ironman Starter Part 1</li>
+    </ul>
 
-        <!-- ===== SKILLS (ALWAYS EXPOSED) ===== -->
-        <h2>Skills</h2>
-        <div class="skills-grid" id="skills-grid"></div>
-
-    </div>
 </div>
 
-<!-- RIGHT PANEL -->
+<!-- ================= CENTER SKILLS ================= -->
+<div id="skills-panel">
+    <h1>Skills</h1>
+    <div class="skills-grid" id="skillsGrid"></div>
+</div>
+
+<!-- ================= RIGHT PANEL ================= -->
 <div id="right-panel">
     <h2>Selected Tasks</h2>
-    <div id="stacked-tasks"></div>
-    <button onclick="copyAll()">Copy Full Stack</button>
-    <button onclick="resetStack()" class="secondary">Reset Stack</button>
+    <div id="selectedTasks"></div>
+    <button onclick="copyTasks()">Copy</button>
+    <button onclick="clearTasks()">Clear</button>
+</div>
+
 </div>
 
 <script>
-/* ===== TOGGLE ===== */
-function toggleSection(id) {
-    const el = document.getElementById(id);
-    const arrow = el.previousElementSibling.querySelector('.arrow');
-    if (!el.style.display || el.style.display === 'none') {
-        el.style.display = 'block';
-        if(arrow) arrow.style.transform = 'rotate(90deg)';
-    } else {
-        el.style.display = 'none';
-        if(arrow) arrow.style.transform = 'rotate(0deg)';
-    }
-}
+/* ===== CORE TASK LOGIC ===== */
+const selectedTasks = new Map();
 
-/* ===== STACK ===== */
 function addTaskSafe(task) {
-    const div = document.createElement('div');
-    div.className = 'stacked-task';
-    div.textContent = task;
-    document.getElementById('stacked-tasks').appendChild(div);
+    selectedTasks.set(task, task);
+    renderTasks();
 }
-function copyAll() {
-    const text = [...document.querySelectorAll('.stacked-task')].map(d => d.textContent).join('\n');
-    navigator.clipboard.writeText(text);
-    alert('Copied!');
-}
-function resetStack() { document.getElementById('stacked-tasks').innerHTML = ''; }
 
-/* ===== SKILLS ===== */
-const ALL_SKILLS = ["attack","strength","defence","ranged","prayer","magic","hitpoints",
-"cooking","woodcutting","fletching","fishing","firemaking","crafting",
-"smithing","mining","herblore","agility","thieving","slayer","farming",
-"runecrafting","hunter","construction","sailing"];
-let wikiSkills = {};
-let skillClicks = {};
-function renderSkillsGrid() {
-    const grid = document.getElementById("skills-grid");
-    grid.innerHTML = "";
-    ALL_SKILLS.forEach(skill => {
-        const baseLevel = wikiSkills[skill] || 1;
-        skillClicks[skill] = baseLevel;
-        const tile = document.createElement("div");
-        tile.className = "skill-tile";
-        tile.style.borderColor = baseLevel > 1 ? "#22c55e" : "#f87171";
-        tile.onclick = () => {
-            skillClicks[skill]++;
-            addTaskSafe(`SKILL:${skill.toUpperCase()}:${skillClicks[skill]}`);
-            tile.querySelector('.tooltip').textContent = `Current: ${baseLevel} → Target: ${skillClicks[skill]}`;
-            tile.querySelector('.skill-level').textContent = `Lvl ${skillClicks[skill]}`;
-        };
-        tile.innerHTML = `
-            <img src="icons/skills/${skill}.png">
-            <div class="skill-name">${skill.toUpperCase()}</div>
-            <div class="skill-level">Lvl ${baseLevel}</div>
-            <div class="tooltip">Current: ${baseLevel} → Target: ${skillClicks[skill]}</div>
-        `;
-        grid.appendChild(tile);
+function renderTasks() {
+    const box = document.getElementById('selectedTasks');
+    box.innerHTML = '';
+    [...selectedTasks.values()].forEach(t => {
+        const d = document.createElement('div');
+        d.className = 'task';
+        d.textContent = t;
+        box.appendChild(d);
     });
 }
-renderSkillsGrid();
 
-/* ===== NORMALIZE QUEST/DIARY NAMES ===== */
-function normalizeName(name) {
-    return name.toLowerCase()
-        .replace(/&/g, 'and')
-        .replace(/[^\w\s]/g, '')
-        .replace(/\s+/g, '_')
-        .replace(/_i$/, '_1')
-        .replace(/_ii$/, '_2')
-        .replace(/_iii$/, '_3')
-        .replace(/_part_\d+$/, '')
-        .replace(/_+growing_pains$/, '')
-        .replace(/fairy_tale/, 'fairytale')
-        .trim();
+function clearTasks() {
+    selectedTasks.clear();
+    renderTasks();
 }
 
-/* ===== UPDATE QUESTS AND DIARIES ===== */
-function updateQuestsAndDiaries(data) {
-    // Update quests
-    if (data.quests) {
-        document.querySelectorAll('#quests li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.quests).find(k => {
-                const wikiNorm = normalizeName(k);
-                if (htmlNorm.startsWith('rfd') && wikiNorm.startsWith('recipe_for_disaster')) return true;
-                return htmlNorm === wikiNorm;
-            });
-            if (matchedKey) {
-                el.className = data.quests[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = '';
-            }
-        });
-    }
-
-    // Update achievement diaries
-    if (data.diaries) {
-        document.querySelectorAll('#diaries li').forEach(el => {
-            const htmlNorm = normalizeName(el.textContent);
-            const matchedKey = Object.keys(data.diaries).find(k => normalizeName(k) === htmlNorm);
-            if (matchedKey) {
-                el.className = data.diaries[matchedKey] ? 'completed' : 'incomplete';
-            } else {
-                el.className = '';
-            }
-        });
-    }
+function copyTasks() {
+    navigator.clipboard.writeText([...selectedTasks.values()].join('\n'));
 }
 
-/* ===== WIKISYNC ===== */
+/* ===== UI ===== */
+function toggleSection(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+/* ===== SKILLS ===== */
+const skills = [
+ 'attack','strength','defence','hitpoints','ranged','prayer','magic',
+ 'cooking','woodcutting','fletching','fishing','firemaking','crafting',
+ 'smithing','mining','herblore','agility','thieving','slayer','farming',
+ 'runecraft','hunter','construction','sailing'
+];
+
+function renderSkills(levels = {}) {
+    const grid = document.getElementById('skillsGrid');
+    grid.innerHTML = '';
+    skills.forEach(s => {
+        const lvl = levels[s] ?? 1;
+        const div = document.createElement('div');
+        div.className = 'skill';
+        div.dataset.tooltip = `Current: ${lvl} → Click to +1`;
+        div.innerHTML = `
+            <img src="icons/${s}.png">
+            <div>${s.toUpperCase()}</div>
+            <div>${lvl}</div>
+        `;
+        div.onclick = () => addTaskSafe(`SKILL:${s.toUpperCase()}:${lvl+1}`);
+        grid.appendChild(div);
+    });
+}
+
+/* ===== WIKISYNC (existing logic assumed) ===== */
 async function importWikiSync() {
     const username = document.getElementById('wiki-username').value.trim();
     if (!username) return alert('Enter WikiSync username');
@@ -514,16 +461,5 @@ async function importWikiSync() {
 }
 </script>
 
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
